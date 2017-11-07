@@ -2,23 +2,27 @@ Projeto: Sistema de busca indexada para organizar os arquivos em um computador (
 
 PROBLEMA: Busca por conteúdo em uma base de textos.
 
-TAREFAS:
-- ​Indexação​: Conterá operações relacionadas à leitura, interpretação e armazenamento de uma base de arquivos de texto.
-    - Organizar as palavras chave em um indice que será implementado com uma arvore balanceada, a qual cada nó terá a palavra 
-    chave e o arquivo associado.
-    - Salvar esses dados e um arquivo texto (será o indice para a busca)
+TAREFAS INICIAIS:
+   - Diagrama de classes
+   - Modelagem CRC
 
-- Busca: Conterá operações relacionadas à busca de palavras na base. (arvores)
+TAREFAS DE IMPLEMENTAÇÃO:
+    - ​Indexação​: Conterá operações relacionadas à leitura, interpretação e armazenamento de uma base de arquivos de texto.
+        - Organizar as palavras chave em um indice que será implementado com uma arvore balanceada, a qual cada nó terá a palavra 
+        chave e o arquivo associado.
+        - Salvar esses dados e um arquivo texto (será o indice para a busca)
 
-- Interface gráfica: 
-    - Indexação: O módulo de indexação permitirá gerenciar quais arquivos compõem a base de arquivos e irá criar o índice 
-                de busca. 
-        - Adição e remoção de arquivos.
-        - Atualização dos indices dos arquivos da base de dados (Um conteudo do texto de um arquivo pode mudar)
-        - Visualizar os arquivos que compoem a base de dados em ordem alfabetica (nome do arquivo e qtd de palavras)
-        - Leitura de um arquivo de configuração com uma lista negra de palavrasdistância de ​ Levenshtein.
+    - Busca: Conterá operações relacionadas à busca de palavras na base. (arvores)
 
-    - Busca​: O módulo de busca irá realizar uma busca de uma ou múltiplas​ palavras​ chaves​ na​ base​ de​ busca​ utilizando​ o índice.
+    - Interface gráfica: 
+        - Indexação: O módulo de indexação permitirá gerenciar quais arquivos compõem a base de arquivos e irá criar o índice 
+                    de busca. 
+            - Adição e remoção de arquivos.
+            - Atualização dos indices dos arquivos da base de dados (Um conteudo do texto de um arquivo pode mudar)
+            - Visualizar os arquivos que compoem a base de dados em ordem alfabetica (nome do arquivo e qtd de palavras)
+            - Leitura de um arquivo de configuração com uma lista negra de palavrasdistância de ​ Levenshtein.
+
+    - Busca​: O módulo de busca irá realizar uma busca de uma ou múltiplas​ palavras​ chaves​ na​ base​ de​ busca​ utilizando​ o                             índice.
         - Modo <OR>: Retornar todas as ocorrências em que pelo menos uma das palavras-chave seja encontrada.
         - Modo <AND>: Retornar todas as ocorrências nos arquivos em que todas as palavras chaves sejam encontradas.
         - Resultado: Apresentar uma lista de arquivos, com as respectivas linhas em que a linha as palavras aparecem. 
