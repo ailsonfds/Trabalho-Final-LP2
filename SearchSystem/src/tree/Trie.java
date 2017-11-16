@@ -3,59 +3,65 @@
  */
 package tree;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * @author Valmir Correa
- * @author
- * @author
+ * @author Ailson Forte dos Santos
+ * @author Larissa Moura
  */
 public class Trie {
 
-	private Node root;
+	private ArrayList<Node> root;
+
+	public Trie() {
+		root = new ArrayList<>();
+	}
 
 	/**
 	 * Constructor
 	 */
-	public Trie() {
-		setRoot(new Node());
+	public Trie(String key, Pair<String, HashMap<Integer, Integer>> fileInfo) {
+		insert(key, fileInfo);
 	}
 
 	/**
 	 * 
 	 * 
 	 */
-	public void insert(String key) {
-		Node current = getRoot();
+	public void insert(String key, Pair<String, HashMap<Integer, Integer>> fileInfo) {
 
-		for (char ch : key.toCharArray()) {
-			// check if character is present;
-			Node node = current.getChildrens().get(ch);
+		Node current = getRoot(key);
 
-			// if not present create a new node and enter the character in the current node;
-			if (node == null) {
-				node = new Node();
-				current.getChildrens().put(ch, node);
+		if (current == null) {
+			root.add(new Node(key, fileInfo));
+		} else {
+
+			for (char ch : key.toCharArray()) {
+				// check if character is present;
+				Node node = current.getChild(ch);
+
+				// if not present create a new node and enter the character in the current node;
+				if (node == null) {
+					node = new Node(key, fileInfo);
+					current.getChildrens().put(ch, node);
+				}
+				current = node;
 			}
-			current = node;
+			current.setInfo(true);
 		}
-		current.setInfo(true);
 	}
 
 	/**
-	 * 
-	 */
-	public void sort() {
-
-	}
-
-	/**
-	 * Remove a node of the tree
+	 * TODO Remove a node of the tree
 	 */
 	public void remove(String key) {
-		Node current = getRoot();
+		Node current = getRoot(key).getChild(key.charAt(1));
 		for (char ch : key.toCharArray()) {
-			Node node = current.getChildrens().get(ch);
+			Node node = current.getChild(ch);
 
-			if (node.getInfo() == true) {
+			if (node == null) {
 				current.getChildrens().remove(ch);
 			} else {
 				current = node;
@@ -67,33 +73,32 @@ public class Trie {
 	/**
 	 * 
 	 */
-	public void rearranje() {
-
-	}
-
-	/**
-	 * 
-	 */
 	public boolean search(String key) {
-		Node current = getRoot();
-
-		for (char ch : key.toCharArray()) {
-			Node node = current.getChildrens().get(ch);
-			if (node == null)
-				return false;
-			current = node;
+		for (Node current : root) {
+			if (current.getKey() == key.charAt(0)) {
+				key = key.substring(1);
+				for (char ch : key.toCharArray()) {
+					Node node = current.getChild(ch);
+					if (node == null)
+						return false;
+					current = node;
+				}
+				if (current.getInfo() == true)
+					return true;
+			}
 		}
-		if (current.getInfo() == true)
-			return true;
-		else
-			return false;
+		return false;
 	}
 
-	public Node getRoot() {
+	public Node getRoot(String key) {
+		Node root = null;
+		for (Node current : this.root)
+			if (current.getKey() == key.charAt(0))
+				root = current;
 		return root;
 	}
 
-	public void setRoot(Node root) {
-		this.root = root;
-	}
+	// public void setRoot(Node root) {
+	// this.root = root;
+	// }
 }
