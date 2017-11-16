@@ -23,12 +23,18 @@ public class Node {
 	 * Constructor
 	 */
 	public Node(String key, Pair<String, HashMap<Integer, Integer>> values) {
-		if (!key.isEmpty() && key.length() == 1) {
-			this.key = key.charAt(0);
-			info = true;
-			value = values;
-		}
 		childrens = new HashMap<Character, Node>();
+		if (!key.isEmpty()) {
+			this.key = key.charAt(0);
+			if (key.length() > 1) {
+				childrens.put(key.charAt(0), new Node(key.substring(1), values));
+				value = null;
+			} else {
+				childrens.put(key.charAt(0), null);
+				info = true;
+				value = values;
+			}
+		}
 	}
 
 	public char getKey() {
@@ -79,10 +85,12 @@ public class Node {
 	 */
 	@Override
 	public String toString() {
-		String retorno = "" + key;
+		String retorno = "";
+		if(key != null) retorno += key;
 		for (char child : childrens.keySet())
-			retorno += child;
-		if (info)
+			if(childrens.get(child) != null)
+				retorno += childrens.get(child);
+		if (info && value != null)
 			retorno += value.toString();
 		return retorno;
 	}

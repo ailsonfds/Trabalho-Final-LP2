@@ -1,7 +1,5 @@
 package test;
 
-import java.util.Map;
-
 import tree.Node;
 import tree.Trie;
 
@@ -12,41 +10,26 @@ public class TrieTest {
 		// TODO Auto-generated constructor stub
 	}
 
-	//ARRUMAR
+	// TODO Auto-generated constructor stub
 	public static void main(String[] args) {
 		Trie w = new Trie();
-		w.insert("testes",null);
-		w.insert("larissa",null);
-		
-		if (w.search("testes") & w.search("larissa"))
-		{
-			Node node = w.getRoot();
+		w.insert("testes", null);
+		w.insert("larissa", null);
 
-			Map<Character, Node> map = node.getChildrens();
-			for (Map.Entry<Character, Node> entry : map.entrySet()) {
-				Node tNode = entry.getValue();
-				print(tNode, "");
-			}
+		if (w.search("testes") && w.search("larissa")) {
+			Node nodeTestes = w.getRoot("testes");
+			Node nodeLarissa = w.getRoot("larissa");
+
+			System.out.println(nodeTestes);
+			System.out.println(nodeLarissa);
 		}
 		w.remove("larissa");
-		w.remove("larissa");
-	}
-	
-	//ARRUMAR
-	public static void print (Node node, String t)
-	{
-        Map<Character, Node> map = node.getChildrens();
-       
-        t = t+node;
-        
-        if(node.getInfo()){
-            System.out.println(t);
-        }
-        if(map == null){
-            return;
-        }
-        for(Map.Entry<Character, Node> entry : map.entrySet()){
-        	print(entry.getValue(), t);
-        }
+		System.out.println(w.search("larissa"));
+		w.remove("testes");
+		try {
+			w.remove("ttestes");
+		}catch (NullPointerException e) {
+			System.out.println("Deu certo");
+		}
 	}
 }
