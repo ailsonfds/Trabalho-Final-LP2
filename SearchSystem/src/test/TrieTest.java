@@ -15,8 +15,8 @@ public class TrieTest {
 	//ARRUMAR
 	public static void main(String[] args) {
 		Trie w = new Trie();
-		w.insert("testes");
-		w.insert("larissa");
+		w.insert("testes",null);
+		w.insert("larissa",null);
 		
 		if (w.search("testes") & w.search("larissa"))
 		{

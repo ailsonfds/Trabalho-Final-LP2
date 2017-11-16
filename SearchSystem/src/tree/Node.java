@@ -6,9 +6,11 @@ package tree;
 import java.util.HashMap;
 
 /**
+ * Class that represent a node of the tree.
+ * 
  * @author Valmir Correa
  * @author Larissa Moura
- * @author Ailson Forte dos Santos Classs that represent a node of the tree.
+ * @author Ailson Forte dos Santos
  */
 public class Node {
 
@@ -20,7 +22,7 @@ public class Node {
 	/**
 	 * Constructor
 	 */
-	public Node(String key, Pair<String, HashMap<Integer, Integer>> values) {	
+	public Node(String key, Pair<String, HashMap<Integer, Integer>> values) {
 		if (!key.isEmpty() && key.length() == 1) {
 			this.key = key.charAt(0);
 			info = true;
@@ -46,12 +48,6 @@ public class Node {
 		this.info = info;
 	}
 
-	@Override
-	public String toString() {
-		return "" + key;
-
-	}
-
 	public HashMap<Character, Node> getChildrens() {
 		return childrens;
 	}
@@ -69,10 +65,25 @@ public class Node {
 			if (node == null) {
 				childrens.put(key.charAt(0), new Node(key.substring(1, key.length()), value));
 				return true;
-			}else {
+			} else {
 				node.setChildrens(key);
 			}
 		}
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String retorno = "" + key;
+		for (char child : childrens.keySet())
+			retorno += child;
+		if (info)
+			retorno += value.toString();
+		return retorno;
 	}
 }

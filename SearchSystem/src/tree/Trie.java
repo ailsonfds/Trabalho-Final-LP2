@@ -3,6 +3,8 @@
  */
 package tree;
 
+import java.util.HashMap;
+
 /**
  * @author Valmir Correa
  * @author
@@ -11,19 +13,23 @@ package tree;
 public class Trie {
 
 	private Node root;
+	
+	public Trie() {
+		setRoot(new Node("a",null));
+	}
 
 	/**
 	 * Constructor
 	 */
-	public Trie() {
-		setRoot(new Node());
+	public Trie(String key, Pair<String, HashMap<Integer, Integer>> fileInfo) {
+		setRoot(new Node(key,fileInfo));
 	}
 
 	/**
 	 * 
 	 * 
 	 */
-	public void insert(String key) {
+	public void insert(String key, Pair<String, HashMap<Integer, Integer>> fileInfo) {
 		Node current = getRoot();
 
 		for (char ch : key.toCharArray()) {
@@ -32,7 +38,7 @@ public class Trie {
 
 			// if not present create a new node and enter the character in the current node;
 			if (node == null) {
-				node = new Node();
+				node = new Node(key, fileInfo);
 				current.getChildrens().put(ch, node);
 			}
 			current = node;
