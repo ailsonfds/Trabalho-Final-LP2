@@ -1,6 +1,9 @@
-package tree;
+package test;
 
 import java.util.Map;
+
+import tree.Node;
+import tree.Trie;
 
 //TESTE APENAS
 public class TrieTest {
