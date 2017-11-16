@@ -11,13 +11,13 @@ import java.util.Map;
 
 /**
  * @author Valmir Correa
- * @author
- * @author
+ * @author Larissa Moura
+ * @author Ailson Santos
  * Classs that represent a node of the tree.
  */
 public class Node {
-	
-	private Map<Charset, Node> childrens;									// childrens of this node
+		    
+	private Map<Character, Node> childrens;									// childrens of this node
 	private boolean info;													// info if a node form one word
 	private HashMap <String, ArrayList<Map.Entry<Integer, Integer>>> value;	// Contains a text, amount by line and line.
 
@@ -25,9 +25,8 @@ public class Node {
 	 * Constructor 
 	 */
 	public Node() {
-		
-		childrens = new HashMap<Charset, Node>();
-		info = false;
+		setChildrens(new HashMap<Character, Node>());
+		info=false;
 		value = new HashMap<String, ArrayList<Map.Entry<Integer, Integer>>>();
 	}
 	
@@ -39,10 +38,21 @@ public class Node {
 		return info;
 	}
 	
-	@Override
-	public String toString () {
-		return null;
-		// a gente define algo aqui
+	public void setInfo(boolean info) {
+		this.info = info;
 	}
 	
+	@Override
+	public String toString () {
+		return "  " + getChildrens();
+		 
+	}
+
+	public Map<Character, Node> getChildrens() {
+		return childrens;
+	}
+
+	public void setChildrens(Map<Character, Node> childrens) {
+		this.childrens = childrens;
+	}	
 }
