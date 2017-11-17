@@ -73,21 +73,21 @@ public class Trie {
 	/**
 	 * 
 	 */
-	public boolean search(String key) {
+	public Node search(String key) {
 		for (Node current : root) {
 			if (current.getKey() == key.charAt(0)) {
 				key = key.substring(1);
 				for (char ch : key.toCharArray()) {
 					Node node = current.getChild(ch);
 					if (node == null)
-						return false;
+						return null;
 					current = node;
 				}
 				if (current.getInfo() == true)
-					return true;
+					return current;
 			}
 		}
-		return false;
+		return null;
 	}
 
 	public Node getRoot(String key) {
