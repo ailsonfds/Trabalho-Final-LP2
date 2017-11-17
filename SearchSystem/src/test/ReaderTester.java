@@ -1,3 +1,6 @@
+/**
+ * A package to make tests of package index and package search
+ */
 package test;
 
 import java.io.FileNotFoundException;
@@ -8,6 +11,7 @@ import org.junit.Test;
 import index.Reader;
 
 /**
+ * Test class to test class Reader
  * @author Ailson Forte dos Santos
  *
  */

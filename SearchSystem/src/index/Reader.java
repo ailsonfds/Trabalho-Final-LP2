@@ -1,5 +1,5 @@
 /**
- * 
+ * A package to index .txt files
  */
 package index;
 
@@ -10,12 +10,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * A class to read from files
+ * 
  * @author Ailson Forte dos Santos
  *
  */
 public class Reader extends BufferedReader {
-	private String fileName;
+	private String fileName; // The file name
 
+	/**
+	 * Constructor
+	 * 
+	 * @param fileName the file name
+	 * @throws FileNotFoundException an exception case file can''t be opened
+	 */
 	public Reader(String fileName) throws FileNotFoundException {
 		super(new FileReader(fileName));
 		this.fileName = fileName;

@@ -1,19 +1,20 @@
 /**
- * Archieve that contains class defined a tree.
+ * Package that contains all class needed to define a DAS Trie.
  */
-package tree;
+package utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * This a class that model a DAS Trie
  * @author Valmir Correa
  * @author Ailson Forte dos Santos
  * @author Larissa Moura
  */
 public class Trie {
 
-	private ArrayList<Node> root;
+	private ArrayList<TrieNode> root; // contains all sub-trees within the first value
 
 	public Trie() {
 		root = new ArrayList<>();
@@ -21,27 +22,32 @@ public class Trie {
 
 	/**
 	 * Constructor
+	 * 
+	 * @param key the word to store on this tree
+	 * @param fileInfo a pair containing the info of the word
 	 */
 	public Trie(String key, Pair<String, HashMap<Integer, Integer>> fileInfo) {
 		insert(key, fileInfo);
 	}
 
 	/**
+	 * A method to insert nodes in this tree
 	 * 
-	 * 
+	 * @param key the word to store on this tree
+	 * @param fileInfo a pair containing the info of the word
 	 */
 	public void insert(String key, Pair<String, HashMap<Integer, Integer>> fileInfo) {
 
-		Node current = getRoot(key);
+		TrieNode current = getRoot(key);
 
 		if (current == null) {
-			root.add(new Node(key, fileInfo));
+			root.add(new TrieNode(key, fileInfo));
 		} else {
 			int index = 1; // Serve to know where to begin the substring to add
 			for (char ch : key.substring(1).toCharArray()) {
 				// if ch not present create a new node and enter the character in the current node;
 				if (current.getChild(ch) == null) {
-					Node next = new Node(key.substring(index), fileInfo);
+					TrieNode next = new TrieNode(key.substring(index), fileInfo);
 					current.getChildrens().put(ch, next);
 					break;
 				}
@@ -54,12 +60,14 @@ public class Trie {
 	}
 
 	/**
-	 * TODO Remove a node of the tree
+	 * Remove a node of the tree
+	 * 
+	 * @param key the word to remove on this tree
 	 */
 	public void remove(String key) {
-		Node current = getRoot(key).getChild(key.charAt(1));
+		TrieNode current = getRoot(key).getChild(key.charAt(1));
 		for (char ch : key.toCharArray()) {
-			Node node = current.getChild(ch);
+			TrieNode node = current.getChild(ch);
 
 			if (node == null) {
 				current.getChildrens().remove(ch);
@@ -71,14 +79,17 @@ public class Trie {
 	}
 
 	/**
+	 * A method to search words in this tree
 	 * 
+	 * @param key the word to seek
+	 * @return the last node containing the last letter on the key and containing the info of the file
 	 */
-	public Node search(String key) {
-		for (Node current : root) {
+	public TrieNode search(String key) {
+		for (TrieNode current : root) {
 			if (current.getKey() == key.charAt(0)) {
 				key = key.substring(1);
 				for (char ch : key.toCharArray()) {
-					Node node = current.getChild(ch);
+					TrieNode node = current.getChild(ch);
 					if (node == null)
 						return null;
 					current = node;
@@ -90,15 +101,17 @@ public class Trie {
 		return null;
 	}
 
-	public Node getRoot(String key) {
-		Node root = null;
-		for (Node current : this.root)
+	/**
+	 * A method to get a path to the key
+	 * @param key the word to determine a path
+	 * @return a node containing the path of a (sub-)tree
+	 */
+	public TrieNode getRoot(String key) {
+		TrieNode root = null;
+		for (TrieNode current : this.root)
 			if (current.getKey() == key.charAt(0))
 				root = current;
 		return root;
 	}
 
-	// public void setRoot(Node root) {
-	// this.root = root;
-	// }
 }

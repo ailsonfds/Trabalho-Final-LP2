@@ -4,10 +4,17 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import tree.Node;
-import tree.Pair;
-import tree.Trie;
+import utils.Pair;
+import utils.Trie;
+import utils.TrieNode;
 
+/**
+ * A class that contains a test to Trie class
+ * 
+ * @author Ailson Forte dos Santos]
+ * @author Larissa Moura
+ *
+ */
 public class TrieTest {
 	@Test
 	public void trieTest() {
@@ -23,9 +30,9 @@ public class TrieTest {
 		System.out.println(w.search("testeailson").getInfo());
 		
 		if (w.search("testes") != null && w.search("larissa") != null && w.search("testeailson") != null) {
-			Node nodeTestes = w.getRoot("testes");
-			Node nodeLarissa = w.getRoot("larissa");
-			Node nodeTesteailson = w.getRoot("testeailson");
+			TrieNode nodeTestes = w.getRoot("testes");
+			TrieNode nodeLarissa = w.getRoot("larissa");
+			TrieNode nodeTesteailson = w.getRoot("testeailson");
 
 			System.out.println(nodeTestes);
 			System.out.println(nodeLarissa);

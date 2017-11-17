@@ -7,6 +7,11 @@ import org.junit.Test;
 
 import index.Writer;
 
+/**
+ * Test class to test class Writer
+ * @author Ailson Forte dos Santos
+ *
+ */
 public class TestWriter {
 	@Test
 	public void writeTest() {
@@ -19,7 +24,7 @@ public class TestWriter {
 			line.add("test");
 			line.add("to");
 			line.add("Writer!");
-			w.writeBrackedLine(line);
+			w.writeBrackedLine(line, " ");
 			w.close();
 		} catch (IOException e) {
 			e.printStackTrace();
