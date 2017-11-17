@@ -37,19 +37,19 @@ public class Trie {
 		if (current == null) {
 			root.add(new Node(key, fileInfo));
 		} else {
-
-			for (char ch : key.toCharArray()) {
-				// check if character is present;
-				Node node = current.getChild(ch);
-
-				// if not present create a new node and enter the character in the current node;
-				if (node == null) {
-					node = new Node(key, fileInfo);
-					current.getChildrens().put(ch, node);
+			int index = 1; // Serve to know where to begin the substring to add
+			for (char ch : key.substring(1).toCharArray()) {
+				// if ch not present create a new node and enter the character in the current node;
+				if (current.getChild(ch) == null) {
+					Node next = new Node(key.substring(index), fileInfo);
+					current.getChildrens().put(ch, next);
+					break;
 				}
-				current = node;
+				// check if character is present;
+				current = current.getChild(ch);
+				// increment actual index of this for
+				index++;
 			}
-			current.setInfo(true);
 		}
 	}
 
