@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 /**
@@ -21,8 +22,10 @@ public class Reader extends BufferedReader {
 	/**
 	 * Constructor
 	 * 
-	 * @param fileName the file name
-	 * @throws FileNotFoundException an exception case file can''t be opened
+	 * @param fileName
+	 *            the file name
+	 * @throws FileNotFoundException
+	 *             an exception case file can''t be opened
 	 */
 	public Reader(String fileName) throws FileNotFoundException {
 		super(new FileReader(fileName));
@@ -38,20 +41,50 @@ public class Reader extends BufferedReader {
 		ArrayList<String> retorno = new ArrayList<>();
 		String line;
 		try {
-			if ((line = super.readLine()) != null) {
+			while ((line = super.readLine()) != null) {
 				String word = "";
 				for (char c : line.toCharArray()) {
-					if(c == ' ' && !word.isEmpty()) {
+					if (c == ' ' && !word.isEmpty()) {
 						retorno.add(word);
 						word = "";
-					}else if(c != ' ')
+					} else if (c != ' ')
 						word += c;
 				}
-				retorno.add(word);// Adicionando a uĺtima palavra da linha
+				retorno.add(word); // Adicionando a ultima palavra da linha
 			}
 		} catch (IOException e) {
 			System.out.println("Unable to read file: " + fileName);
 		}
 		return retorno;
+	}
+
+	/**
+	 * Remove the special Characters of the text
+	 * 
+	 * @return a list within the words of a text
+	 */
+	public ArrayList<String> removeCharacters(ArrayList<String> text) {
+		String myRegex = "[^a-zA-Z0-9]"; // REMOVE TODOS OS CARACTERES ESPECIAIS
+		int index = 0;
+		for (String word : text) {
+			word = Normalizer.normalize(word, Normalizer.Form.NFD);
+			text.set(index, word.replaceAll("[^\\p{ASCII}]", "")); // REMOVE OS ACENTOS DA LETRAS
+			text.set(index++, word.replaceAll(myRegex,""));
+		}
+		return text;
+	}
+	
+	/**
+	 * Remove the numbers of the text
+	 * 
+	 * @return a list within the words of a text
+	 */
+	public ArrayList<String> removeNumbers(ArrayList<String> text) {
+		String myRegex = "[0123456789]"; // REMOVE TODOS OS CARACTERES ESPECIAIS
+		int index = 0;
+		for (String word : text) {
+			text.set(index++, word.replaceAll(myRegex,""));
+		}
+		return text;
 	}
 }
