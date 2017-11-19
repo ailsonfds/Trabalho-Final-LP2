@@ -41,7 +41,7 @@ public class Reader extends BufferedReader {
 		ArrayList<String> retorno = new ArrayList<>();
 		String line;
 		try {
-			while ((line = super.readLine()) != null) {
+			if ((line = super.readLine()) != null) {
 				String word = "";
 				for (char c : line.toCharArray()) {
 					if (c == ' ' && !word.isEmpty()) {
