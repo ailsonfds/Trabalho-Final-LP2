@@ -12,6 +12,7 @@ import index.Reader;
 
 /**
  * Test class to test class Reader
+ * 
  * @author Ailson Forte dos Santos
  *
  */
@@ -22,11 +23,14 @@ public class ReaderTester {
 		try {
 			reader = new Reader("test.txt");
 			ArrayList<String> line = reader.readBreackedLine();
-			for(String word : line) {
+			ArrayList<String> result = reader.removeCharacters(line);
+			ArrayList<String> result2 = reader.removeNumbers(result);
+			for (String word : result2) {
 				System.out.println(word);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+
 	}
 }
