@@ -126,4 +126,8 @@ public class Trie {
 		return root;
 	}
 
+	public void printRoots()
+	{
+		System.out.println(root);
+	}
 }

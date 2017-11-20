@@ -55,6 +55,8 @@ public class Reader extends BufferedReader {
 		} catch (IOException e) {
 			System.out.println("Unable to read file: " + fileName);
 		}
+		retorno=removeCharacters(retorno);
+		retorno=removeNumbers(retorno);
 		return retorno;
 	}
 

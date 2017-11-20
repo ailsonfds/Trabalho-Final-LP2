@@ -23,9 +23,7 @@ public class ReaderTester {
 		try {
 			reader = new Reader("test.txt");
 			ArrayList<String> line = reader.readBreackedLine();
-			ArrayList<String> result = reader.removeCharacters(line);
-			ArrayList<String> result2 = reader.removeNumbers(result);
-			for (String word : result2) {
+			for (String word : line) {
 				System.out.println(word);
 			}
 		} catch (FileNotFoundException e) {
