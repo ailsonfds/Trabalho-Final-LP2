@@ -41,7 +41,7 @@ public class Reader extends BufferedReader {
 		ArrayList<String> retorno = new ArrayList<>();
 		String line;
 		try {
-			if ((line = super.readLine()) != null) {
+			while ((line = super.readLine()) != null) {
 				String word = "";
 				for (char c : line.toCharArray()) {
 					if (c == ' ' && !word.isEmpty()) {
@@ -55,8 +55,10 @@ public class Reader extends BufferedReader {
 		} catch (IOException e) {
 			System.out.println("Unable to read file: " + fileName);
 		}
-		retorno=removeCharacters(retorno);
-		retorno=removeNumbers(retorno);
+		retorno = removeCharacters(retorno);
+		//retorno = removeNumbers(retorno);
+		retorno = removeEmpty(retorno);
+		if(retorno.isEmpty()) return null;
 		return retorno;
 	}
 
@@ -71,21 +73,36 @@ public class Reader extends BufferedReader {
 		for (String word : text) {
 			word = Normalizer.normalize(word, Normalizer.Form.NFD);
 			text.set(index, word.replaceAll("[^\\p{ASCII}]", "")); // REMOVE OS ACENTOS DA LETRAS
-			text.set(index++, word.replaceAll(myRegex,""));
+			text.set(index++, word.replaceAll(myRegex, ""));
 		}
 		return text;
 	}
-	
+
 	/**
 	 * Remove the numbers of the text
 	 * 
 	 * @return a list within the words of a text
 	 */
 	public ArrayList<String> removeNumbers(ArrayList<String> text) {
-		String myRegex = "[0123456789]"; // REMOVE TODOS OS CARACTERES ESPECIAIS
+		String myRegex = "[0123456789]"; // REMOVE TODOS OS NÚMEROS
 		int index = 0;
 		for (String word : text) {
-			text.set(index++, word.replaceAll(myRegex,""));
+			text.set(index++, word.replaceAll(myRegex, ""));
+		}
+		return text;
+	}
+
+	public ArrayList<String> removeEmpty(ArrayList<String> text) {
+		int index = 0;
+		ArrayList<Integer> list = new ArrayList<>();
+		for (String word : text) {
+			if (word.isEmpty() || word.length() == 0) {
+				list.add(index);
+			}
+			index++;
+		}
+		for(int i : list) {
+			if(text.remove(i) == null) System.out.println("Not removed " + i);;
 		}
 		return text;
 	}

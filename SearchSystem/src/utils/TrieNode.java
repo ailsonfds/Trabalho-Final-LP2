@@ -81,6 +81,12 @@ public class TrieNode {
 		return null;
 	}
 
+	public Pair<String,HashMap<Integer,Integer>> getValue(){
+		if(info)
+			return value;
+		return null;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

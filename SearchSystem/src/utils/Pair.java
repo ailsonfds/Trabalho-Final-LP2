@@ -1,6 +1,7 @@
 package utils;
 
 /**
+ * Doesn't exist a tuple class in Java...so I create one cause I needed.
  * @author Ailson Forte dos Santos
  *
  * @param <F> A type to the first element of this tuple

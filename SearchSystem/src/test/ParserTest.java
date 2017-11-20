@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import index.Parser;
 import index.Reader;
-import utils.Parser;
 import utils.Trie;
 
 public class ParserTest {
@@ -14,15 +14,19 @@ public class ParserTest {
 	@Test
 	public void paserTeste() {
 		Reader reader;
-		Parser parser = new Parser();
+		Parser parser = new Parser("test.txt");
 		Trie trie = new Trie();
 		try {
 			reader = new Reader("test.txt");
-			ArrayList<String> line = reader.readBreackedLine();
-			parser.buildTrie(line, trie);
-		} catch (FileNotFoundException e) {
+			ArrayList<String> line = reader.readBreackedLine();			
+			parser.addToTrie(line, trie, 1);
+		} catch (FileNotFoundException | NullPointerException e) {
 			e.printStackTrace();
-		}
+		} /*
+			 * catch (StringIndexOutOfBoundsException e) {
+			 * 
+			 * }
+			 */
 		trie.printRoots();
 	}
 

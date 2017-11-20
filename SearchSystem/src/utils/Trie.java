@@ -52,7 +52,6 @@ public class Trie {
 			for (char ch : key.substring(1).toCharArray()) {
 				// if ch not present create a new node and enter the character in the current
 				// node;
-				System.out.println(key);
 				if (current.getChild(ch) == null) {
 					TrieNode next = new TrieNode(key.substring(index), fileInfo);
 					current.getChildrens().put(ch, next);
