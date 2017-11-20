@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 /**
  * This a class that model a DAS Trie
+ * 
  * @author Valmir Correa
  * @author Ailson Forte dos Santos
  * @author Larissa Moura
@@ -23,8 +24,10 @@ public class Trie {
 	/**
 	 * Constructor
 	 * 
-	 * @param key the word to store on this tree
-	 * @param fileInfo a pair containing the info of the word
+	 * @param key
+	 *            the word to store on this tree
+	 * @param fileInfo
+	 *            a pair containing the info of the word
 	 */
 	public Trie(String key, Pair<String, HashMap<Integer, Integer>> fileInfo) {
 		insert(key, fileInfo);
@@ -33,8 +36,10 @@ public class Trie {
 	/**
 	 * A method to insert nodes in this tree
 	 * 
-	 * @param key the word to store on this tree
-	 * @param fileInfo a pair containing the info of the word
+	 * @param key
+	 *            the word to store on this tree
+	 * @param fileInfo
+	 *            a pair containing the info of the word
 	 */
 	public void insert(String key, Pair<String, HashMap<Integer, Integer>> fileInfo) {
 
@@ -45,7 +50,9 @@ public class Trie {
 		} else {
 			int index = 1; // Serve to know where to begin the substring to add
 			for (char ch : key.substring(1).toCharArray()) {
-				// if ch not present create a new node and enter the character in the current node;
+				// if ch not present create a new node and enter the character in the current
+				// node;
+				System.out.println(key);
 				if (current.getChild(ch) == null) {
 					TrieNode next = new TrieNode(key.substring(index), fileInfo);
 					current.getChildrens().put(ch, next);
@@ -62,7 +69,8 @@ public class Trie {
 	/**
 	 * Remove a node of the tree
 	 * 
-	 * @param key the word to remove on this tree
+	 * @param key
+	 *            the word to remove on this tree
 	 */
 	public void remove(String key) {
 		TrieNode current = getRoot(key).getChild(key.charAt(1));
@@ -81,8 +89,10 @@ public class Trie {
 	/**
 	 * A method to search words in this tree
 	 * 
-	 * @param key the word to seek
-	 * @return the last node containing the last letter on the key and containing the info of the file
+	 * @param key
+	 *            the word to seek
+	 * @return the last node containing the last letter on the key and containing
+	 *         the info of the file
 	 */
 	public TrieNode search(String key) {
 		for (TrieNode current : root) {
@@ -103,7 +113,9 @@ public class Trie {
 
 	/**
 	 * A method to get a path to the key
-	 * @param key the word to determine a path
+	 * 
+	 * @param key
+	 *            the word to determine a path
 	 * @return a node containing the path of a (sub-)tree
 	 */
 	public TrieNode getRoot(String key) {

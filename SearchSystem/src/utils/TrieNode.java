@@ -76,7 +76,7 @@ public class TrieNode {
 	 */
 	public TrieNode getChild(char key) {
 		for (Character child : children.keySet())
-			if (children.get(child).getKey() == key)
+			if (children.get(child) != null && children.get(child).getKey() == key)
 				return children.get(child);
 		return null;
 	}
