@@ -20,13 +20,9 @@ public class ParserTest {
 			reader = new Reader("test.txt");
 			ArrayList<String> line = reader.readBreackedLine();			
 			parser.addToTrie(line, trie, 1);
-		} catch (FileNotFoundException | NullPointerException e) {
+		} catch (FileNotFoundException | NullPointerException | StringIndexOutOfBoundsException e) {
 			e.printStackTrace();
-		} /*
-			 * catch (StringIndexOutOfBoundsException e) {
-			 * 
-			 * }
-			 */
+		}
 		trie.printRoots();
 	}
 

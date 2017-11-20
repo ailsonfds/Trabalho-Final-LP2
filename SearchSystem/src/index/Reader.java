@@ -42,22 +42,15 @@ public class Reader extends BufferedReader {
 		String line;
 		try {
 			while ((line = super.readLine()) != null) {
-				String word = "";
-				for (char c : line.toCharArray()) {
-					if (c == ' ' && !word.isEmpty()) {
-						retorno.add(word);
-						word = "";
-					} else if (c != ' ')
-						word += c;
-				}
-				retorno.add(word); // Adicionando a ultima palavra da linha
+				String[] words = line.split(" ");
+				for(String word : words)
+					retorno.add(word);
 			}
 		} catch (IOException e) {
 			System.out.println("Unable to read file: " + fileName);
 		}
 		retorno = removeCharacters(retorno);
-		//retorno = removeNumbers(retorno);
-		retorno = removeEmpty(retorno);
+		retorno = removeNumbers(retorno);
 		if(retorno.isEmpty()) return null;
 		return retorno;
 	}
@@ -88,21 +81,6 @@ public class Reader extends BufferedReader {
 		int index = 0;
 		for (String word : text) {
 			text.set(index++, word.replaceAll(myRegex, ""));
-		}
-		return text;
-	}
-
-	public ArrayList<String> removeEmpty(ArrayList<String> text) {
-		int index = 0;
-		ArrayList<Integer> list = new ArrayList<>();
-		for (String word : text) {
-			if (word.isEmpty() || word.length() == 0) {
-				list.add(index);
-			}
-			index++;
-		}
-		for(int i : list) {
-			if(text.remove(i) == null) System.out.println("Not removed " + i);;
 		}
 		return text;
 	}

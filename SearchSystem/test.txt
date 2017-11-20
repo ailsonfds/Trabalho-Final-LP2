@@ -1,7 +1,7 @@
 Google Inc. é uma empresa multinacional de serviços online e software dos Estados Unidos. O
 Google hospeda e desenvolve uma série de serviços e produtos baseados na internet e gera
 lucro principalmente através da publicidade pelo AdWords. A Google é a principal
-subsidiária  da  recém-criada  Alphabet  Inc.
+subsidiária da recém-criada Alphabet Inc.
 A empresa foi fundada por Larry Page e Sergey Brin, muitas vezes apelidados de "Google
 Guys", enquanto os dois estavam frequentando a Universidade Stanford como estudantes de
 doutoramento. Foi fundada como uma empresa privada em 4 de setembro de 1998 e sua oferta
@@ -11,7 +11,7 @@ seu slogan, que foi inventado pelo engenheiro Paul Buchheit, é “Don't be evil
 “Não seja mau” em português. Em 2006, a empresa mudou-se para sua atual sede, em Mountain
 View, Condado de Santa Clara no estado da Califórnia. O Google é executado através de mais
 de um milhão de servidores em data centers ao redor do mundo e processa mais de um bilhão
-de  solicitações  de  pesquisa  e   vinte  petabytes  de  dados  gerados  por  usuários  todos  os  dias.
+de solicitações de pesquisa e vinte petabytes de dados gerados por usuários todos os dias.
 O rápido crescimento do Google desde sua incorporação culminou em uma cadeia de outros
 produtos, aquisições e parcerias que vão além do núcleo inicial como motor de buscas. A
 empresa oferece softwares de produtividade online, como o software de e-mail Gmail, e

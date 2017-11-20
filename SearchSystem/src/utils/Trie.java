@@ -42,7 +42,7 @@ public class Trie {
 	 *            a pair containing the info of the word
 	 */
 	public void insert(String key, Pair<String, HashMap<Integer, Integer>> fileInfo) {
-
+		if(key.isEmpty()) return;
 		TrieNode current = getRoot(key);
 
 		if (current == null) {
@@ -95,7 +95,7 @@ public class Trie {
 	 */
 	public TrieNode search(String key) {
 		for (TrieNode current : root) {
-			if (current.getKey() == key.charAt(0)) {
+			if (!key.isEmpty() && current.getKey() == key.charAt(0)) {
 				key = key.substring(1);
 				for (char ch : key.toCharArray()) {
 					TrieNode node = current.getChild(ch);
@@ -120,7 +120,7 @@ public class Trie {
 	public TrieNode getRoot(String key) {
 		TrieNode root = null;
 		for (TrieNode current : this.root)
-			if (current.getKey() == key.charAt(0))
+			if (!key.isEmpty() && current.getKey() == key.charAt(0))
 				root = current;
 		return root;
 	}
