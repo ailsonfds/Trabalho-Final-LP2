@@ -29,7 +29,7 @@ public class Trie {
 	 * @param fileInfo
 	 *            a pair containing the info of the word
 	 */
-	public Trie(String key, Pair<String, HashMap<Integer, Integer>> fileInfo) {
+	public Trie(String key, HashMap<String, HashMap<Integer, Integer>> fileInfo) {
 		insert(key, fileInfo);
 	}
 
@@ -41,7 +41,7 @@ public class Trie {
 	 * @param fileInfo
 	 *            a pair containing the info of the word
 	 */
-	public void insert(String key, Pair<String, HashMap<Integer, Integer>> fileInfo) {
+	public void insert(String key, HashMap<String, HashMap<Integer, Integer>> fileInfo) {
 		if(key.isEmpty()) return;
 		TrieNode current = getRoot(key);
 

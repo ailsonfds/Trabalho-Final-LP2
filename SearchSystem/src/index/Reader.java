@@ -43,7 +43,7 @@ public class Reader extends BufferedReader {
 		try {
 			while ((line = super.readLine()) != null) {
 				String[] words = line.split(" ");
-				for(String word : words)
+				for (String word : words)
 					retorno.add(word);
 			}
 		} catch (IOException e) {
@@ -51,7 +51,8 @@ public class Reader extends BufferedReader {
 		}
 		retorno = removeCharacters(retorno);
 		retorno = removeNumbers(retorno);
-		if(retorno.isEmpty()) return null;
+		if (retorno.isEmpty())
+			return null;
 		return retorno;
 	}
 

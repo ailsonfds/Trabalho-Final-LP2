@@ -17,7 +17,7 @@ public class TrieNode {
 	private Character key;
 	private HashMap<Character, TrieNode> children; // children of this node
 	private boolean info; // true if a node form a word
-	private Pair<String, HashMap<Integer, Integer>> value; // Contains the file name (String), line number and the occurrence number in line.
+	private HashMap<String, HashMap<Integer, Integer>> value; // Contains the file name (String), line number and the occurrence number in line.
 
 	/**
 	 * Constructor
@@ -25,7 +25,7 @@ public class TrieNode {
 	 * @param key the string to store
 	 * @param values the info of the key
 	 */
-	public TrieNode(String key, Pair<String, HashMap<Integer, Integer>> values) {
+	public TrieNode(String key, HashMap<String, HashMap<Integer, Integer>> values) {
 		children = new HashMap<Character, TrieNode>();
 		if (!key.isEmpty()) {
 			this.key = key.charAt(0);
@@ -35,7 +35,7 @@ public class TrieNode {
 			} else {
 				children.put(key.charAt(0), null);
 				info = true;
-				value = values;
+				value = values; 
 			}
 		}
 	}
@@ -81,7 +81,7 @@ public class TrieNode {
 		return null;
 	}
 
-	public Pair<String,HashMap<Integer,Integer>> getValue(){
+	public HashMap<String,HashMap<Integer,Integer>> getValue(){
 		if(info)
 			return value;
 		return null;

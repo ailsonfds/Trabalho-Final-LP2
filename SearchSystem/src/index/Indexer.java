@@ -1,14 +1,14 @@
 /**
- * 
+ * Package to generate a Trie object containing indexed words
  */
 package index;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import utils.Pair;
 import utils.Trie;
 import utils.TrieNode;
 
@@ -23,27 +23,40 @@ public class Indexer {
 	Parser p;
 	Trie tree;
 
-	public Indexer(String fileName) {
+	public Indexer() {
 		occurences = new HashSet<String>();
-		p = new Parser(fileName);
+		p = new Parser();
 		tree = new Trie();
 	}
 	
-	public Trie addToTrie(ArrayList<String> words, Trie trie, int line) {
-		for (String word : words) {
-			TrieNode node = trie.search(word);
-			Pair<String,HashMap<Integer,Integer>> fileInfo = null;
-			if(node != null) {
-				fileInfo = node.getValue();
-				if(fileInfo != null && fileInfo.getSecond() != null)
-					if(fileInfo.getSecond().get(line) != null)
-						fileInfo.getSecond().put(line, fileInfo.getSecond().get(line) + 1);
-					else
-						fileInfo.getSecond().put(line, 1);
-				trie.insert(word, fileInfo);
-			}else
-				trie.insert(word, fileInfo);
+	public void FillTrie(String fileName) {
+		try {
+			p.open(fileName);
+		}catch (IOException e) {
+			
 		}
-		return trie;
+		ArrayList<String> words = null;
+		int line = 1;
+		do {
+			words = p.parsear(line);
+			for (String word : words) {
+				TrieNode node = tree.search(word);
+				HashMap<String, HashMap<Integer, Integer>> fileInfo = null;
+				if(node != null) {
+					fileInfo = node.getValue();
+					if(fileInfo.get(fileName) != null && fileInfo.get(fileName).get(line) != null) {
+						fileInfo.get(fileName).replace(line, fileInfo.get(fileName).get(line) + 1);
+					}else {
+						HashMap<Integer,Integer> info = new HashMap<>();
+						info.put(line, 1);
+						fileInfo.replace(fileName, info);
+					}
+					tree.insert(word, fileInfo);
+				}else {
+					tree.insert(word, fileInfo);
+				}
+			}
+			line++;
+		}while(words != null);
 	}
 }

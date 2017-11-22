@@ -2,7 +2,6 @@ package test;
 
 import java.util.HashMap;
 
-import utils.Pair;
 import utils.Trie;
 import utils.TrieNode;
 
@@ -22,7 +21,9 @@ public class TrieTest {
 		Trie w = new Trie();
 		HashMap<Integer, Integer> occurences = new HashMap<>();
 		occurences.put(1, 1);
-		w.insert("testes", (new Pair<String,HashMap<Integer, Integer>>("teste.txt", occurences)));
+		HashMap<String, HashMap<Integer, Integer>> valueTest = new HashMap<>();
+		valueTest.put("teste.txt", occurences);
+		w.insert("testes", valueTest);
 		w.insert("larissa", null);
 		w.insert("testeailson", null);
 		w.insert("e", null);
