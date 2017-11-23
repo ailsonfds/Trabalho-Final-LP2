@@ -14,7 +14,7 @@ public class TrieNodeTest {
 	
 	@Test
 	public void testNode() {
-		test = new TrieNode("Ailson",null);
+		test = new TrieNode(test,"Ailson",null);
 		System.out.println(test);
 	}
 }

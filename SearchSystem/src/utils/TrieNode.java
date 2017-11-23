@@ -19,7 +19,8 @@ public class TrieNode {
 	private boolean info; // true if a node form a word
 	private HashMap<String, HashMap<Integer, Integer>> value; // Contains the file name (String), line number and the
 																// occurrence number in line.
-
+	private TrieNode darthVader;
+	
 	/**
 	 * Constructor
 	 * 
@@ -28,12 +29,13 @@ public class TrieNode {
 	 * @param values
 	 *            the info of the key
 	 */
-	public TrieNode(String key, HashMap<String, HashMap<Integer, Integer>> values) {
+	public TrieNode(TrieNode father, String key, HashMap<String, HashMap<Integer, Integer>> values) {
 		children = new HashMap<Character, TrieNode>();
+		this.setFather(father);
 		if (!key.isEmpty()) {
 			this.key = key.charAt(0);
 			if (key.length() > 1) {
-				children.put(key.charAt(1), new TrieNode(key.substring(1), values));
+				children.put(key.charAt(1), new TrieNode(this, key.substring(1), values));
 				info = false;
 				value = null;
 			} else if (key.length() == 1) {
@@ -67,6 +69,14 @@ public class TrieNode {
 		this.info = info;
 	}
 
+	public TrieNode getFather() {
+		return darthVader;
+	}
+
+	public void setFather(TrieNode father) {
+		this.darthVader = father;
+	}	
+	
 	/**
 	 * @return the children
 	 */

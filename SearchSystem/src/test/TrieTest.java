@@ -45,11 +45,8 @@ public class TrieTest {
 		w.insert("e", null);
 		w.insert("empresa", null);
 
-		System.out.println(w.search("testes").getInfo());
-		System.out.println(w.search("larissa").getInfo());
-		System.out.println(w.search("testeailson").getInfo());
-		System.out.println(w.search("e").getInfo());
-		System.out.println(w.search("empresa").getInfo());
+		System.out.println("Deu certo? " + (w.search("testes").getInfo() && w.search("larissa").getInfo()
+				&& w.search("testeailson").getInfo() && w.search("e").getInfo() && w.search("empresa").getInfo()));
 
 		if (w.search("testes") != null && w.search("larissa") != null && w.search("testeailson") != null) {
 			TrieNode nodeTestes = w.getRoot("testes");
@@ -65,17 +62,22 @@ public class TrieTest {
 			System.out.println(nodeEmpresa);
 		}
 		w.remove("larissa");
-		System.out.println("remoção de larissa do grupo " + (w.search("larissa")==null?"funfou":"bugou"));
+		System.out.println("remoção de larissa do grupo " + (w.search("larissa") == null ? "funfou" : "bugou"));
 		w.remove("testes");
-		System.out.println("remoção de testes " + (w.search("testes")==null?"funfou":"bugou"));
+		System.out.println("remoção de testes " + (w.search("testes") == null ? "funfou" : "bugou"));
 		w.remove("empresa");
-		System.out.println("remoção de empresa " + (w.search("empresa")==null?"funfou":"bugou"));
+		System.out.println("remoção de empresa " + (w.search("empresa") == null ? "funfou" : "bugou"));
 		w.remove("e");
-		System.out.println("remoção de e " + (w.search("e")==null?"funfou":"bugou"));
+		System.out.println("remoção de e " + (w.search("e") == null ? "funfou" : "bugou"));
+		ArrayList<TrieNode> roots = w.getAllRoots();
+		for (TrieNode s : roots) {
+			System.out.println(s);
+		}
 		w.insert("e", null);
 		w.insert("empresa", null);
-		System.out.println("verificando nova inserção da palavra empresa " + (w.search("empresa")!=null?"funfou":"bugou"));
-		System.out.println("verificando nova inserção da palavra e " + (w.search("e")!=null?"funfou":"bugou"));
+		System.out.println(
+				"verificando nova inserção da palavra empresa " + (w.search("empresa") != null ? "funfou" : "bugou"));
+		System.out.println("verificando nova inserção da palavra e " + (w.search("e") != null ? "funfou" : "bugou"));
 		try {
 			w.remove("ttestes");
 		} catch (NullPointerException e) {
@@ -90,6 +92,5 @@ public class TrieTest {
 				System.out.println(s);
 			}
 		}
-		w.printRoots();
 	}
 }

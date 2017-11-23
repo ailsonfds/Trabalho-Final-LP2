@@ -42,19 +42,19 @@ public class Trie {
 	 *            a pair containing the info of the word
 	 */
 	public void insert(String key, HashMap<String, HashMap<Integer, Integer>> fileInfo) {
-		if (key.isEmpty())
+		if (key.isEmpty() || search(key) != null)
 			return;
 		TrieNode current = getRoot(key);
 
 		if (current == null) {
-			root.add(new TrieNode(key, fileInfo));
+			root.add(new TrieNode(current, key, fileInfo));
 		} else {
 			int index = 1; // Serve to know where to begin the substring to add
 			for (char ch : key.substring(1).toCharArray()) {
 				// if ch not present create a new node and enter the character in the current
 				// node;
 				if (current.getChild(ch) == null) {
-					TrieNode next = new TrieNode(key.substring(index), fileInfo);
+					TrieNode next = new TrieNode(current, key.substring(index), fileInfo);
 					current.getChildrens().put(ch, next);
 					break;
 				}
@@ -67,30 +67,47 @@ public class Trie {
 	}
 
 	/**
-	 * Remove a node of the tree
+	 * Remove a node of the tree TODO Remoção não remove
 	 * 
 	 * @param key
 	 *            the word to remove on this tree
 	 */
 	public void remove(String key) {
-		TrieNode current = getRoot(key);
-		if (current != null && key.length() > 1) {
-			current = current.getChild(key.charAt(1));
-			if (current != null) {
-				for (char ch : key.toCharArray()) {
-					TrieNode node = current.getChild(ch);
-
-					if (node == null) {
-						current.getChildrens().remove(ch);
-					} else {
-						current = node;
-					}
+		if (key.length() > 1) {
+			TrieNode current = search(key);
+			while (current != null && current.getChildrens().isEmpty()) {
+				TrieNode father = current.getFather();
+				if (father != null) {
+					father.setInfo(false);
+					father.getChildrens().remove(current.getKey());
 				}
+				current = father;
 			}
-			current.setInfo(false);
-		} else if (current != null){
-			current.setInfo(false);
+			if(current == null && getRoot(key).getChildrens().isEmpty()) {
+				root.remove(getRoot(key));
+			}
+		} else {
+			root.remove(search(key));
 		}
+
+		// TrieNode current = getRoot(key);
+		// if (current != null && key.length() > 1) {
+		// current = current.getChild(key.charAt(1));
+		// if (current != null) {
+		// for (char ch : key.toCharArray()) {
+		// TrieNode node = current.getChild(ch);
+		//
+		// if (node == null) {
+		// current.getChildrens().remove(ch);
+		// } else {
+		// current = node;
+		// }
+		// }
+		// }
+		// current.setInfo(false);
+		// } else if (current != null) {
+		// current.setInfo(false);
+		// }
 	}
 
 	/**
