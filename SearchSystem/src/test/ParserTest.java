@@ -1,29 +1,26 @@
 package test;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.Test;
 
-import index.Reader;
-import utils.Parser;
-import utils.Trie;
+import index.Parser;
 
 public class ParserTest {
 
 	@Test
 	public void paserTeste() {
-		Reader reader;
 		Parser parser = new Parser();
-		Trie trie = new Trie();
 		try {
-			reader = new Reader("test.txt");
-			ArrayList<String> line = reader.readBreackedLine();
-			parser.buildTrie(line, trie);
-		} catch (FileNotFoundException e) {
+			parser.open("test.txt");
+			ArrayList<String> line = parser.parsear(3);
+			for(String str : line) {
+				System.out.println(str);
+			}
+		} catch (IOException | NullPointerException | StringIndexOutOfBoundsException e) {
 			e.printStackTrace();
 		}
-		trie.printRoots();
 	}
 
 }
