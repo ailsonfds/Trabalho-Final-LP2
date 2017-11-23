@@ -1,1 +1,27 @@
+<<<<<<< HEAD
+Google Inc. é uma empresa multinacional de serviços online e software dos Estados Unidos. O
+Google hospeda e desenvolve uma série de serviços e produtos baseados na internet e gera
+lucro principalmente através da publicidade pelo AdWords. A Google é a principal
+subsidiária da recém-criada Alphabet Inc.
+A empresa foi fundada por Larry Page e Sergey Brin, muitas vezes apelidados de "Google
+Guys", enquanto os dois estavam frequentando a Universidade Stanford como estudantes de
+doutoramento. Foi fundada como uma empresa privada em 4 de setembro de 1998 e sua oferta
+pública inicial foi realizada em 19 de agosto de 2004. A missão declarada da empresa desde
+o início foi "organizar a informação mundial e torná-la universalmente acessível e útil" e
+seu slogan, que foi inventado pelo engenheiro Paul Buchheit, é “Don't be evil” em inglês e
+“Não seja mau” em português. Em 2006, a empresa mudou-se para sua atual sede, em Mountain
+View, Condado de Santa Clara no estado da Califórnia. O Google é executado através de mais
+de um milhão de servidores em data centers ao redor do mundo e processa mais de um bilhão
+de solicitações de pesquisa e vinte petabytes de dados gerados por usuários todos os dias.
+O rápido crescimento do Google desde sua incorporação culminou em uma cadeia de outros
+produtos, aquisições e parcerias que vão além do núcleo inicial como motor de buscas. A
+empresa oferece softwares de produtividade online, como o software de e-mail Gmail, e
+ferramentas de redes sociais, incluindo o Google+ e os descontinuados Google Buzz e Orkut.
+Os produtos do Google se estendem à área de trabalho, com aplicativos como o navegador
+Google Chrome, o programa de organização de edição de fotografias Picasa e o aplicativo de
+mensagens instantâneas Google Talk. Notavelmente, o Google também lidera o desenvolvimento
+do sistema operacional móvel para smartphones Android, usado em celulares como o Nexus 6,
+Motorola Moto X e o Samsung Galaxy S6.
+=======
 Just a test to Writer /Test� ESPECIal Car�cter� 123456789 
+>>>>>>> master

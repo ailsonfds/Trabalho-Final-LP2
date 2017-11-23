@@ -17,23 +17,28 @@ public class TrieNode {
 	private Character key;
 	private HashMap<Character, TrieNode> children; // children of this node
 	private boolean info; // true if a node form a word
-	private Pair<String, HashMap<Integer, Integer>> value; // Contains the file name (String), line number and the occurrence number in line.
-
+	private HashMap<String, HashMap<Integer, Integer>> value; // Contains the file name (String), line number and the
+																// occurrence number in line.
+	private TrieNode darthVader;
+	
 	/**
 	 * Constructor
 	 * 
-	 * @param key the string to store
-	 * @param values the info of the key
+	 * @param key
+	 *            the string to store
+	 * @param values
+	 *            the info of the key
 	 */
-	public TrieNode(String key, Pair<String, HashMap<Integer, Integer>> values) {
+	public TrieNode(TrieNode father, String key, HashMap<String, HashMap<Integer, Integer>> values) {
 		children = new HashMap<Character, TrieNode>();
+		this.setFather(father);
 		if (!key.isEmpty()) {
 			this.key = key.charAt(0);
 			if (key.length() > 1) {
-				children.put(key.charAt(0), new TrieNode(key.substring(1), values));
+				children.put(key.charAt(1), new TrieNode(this, key.substring(1), values));
+				info = false;
 				value = null;
-			} else {
-				children.put(key.charAt(0), null);
+			} else if (key.length() == 1) {
 				info = true;
 				value = values;
 			}
@@ -57,12 +62,21 @@ public class TrieNode {
 	}
 
 	/**
-	 * @param info true if a node form a word
+	 * @param info
+	 *            true if a node form a word
 	 */
 	public void setInfo(boolean info) {
 		this.info = info;
 	}
 
+	public TrieNode getFather() {
+		return darthVader;
+	}
+
+	public void setFather(TrieNode father) {
+		this.darthVader = father;
+	}	
+	
 	/**
 	 * @return the children
 	 */
@@ -71,13 +85,20 @@ public class TrieNode {
 	}
 
 	/**
-	 * @param key that specify a single child
+	 * @param key
+	 *            that specify a single child
 	 * @return a node to the child within the key
 	 */
 	public TrieNode getChild(char key) {
 		for (Character child : children.keySet())
 			if (children.get(child) != null && children.get(child).getKey() == key)
 				return children.get(child);
+		return null;
+	}
+
+	public HashMap<String, HashMap<Integer, Integer>> getValue() {
+		if (info)
+			return value;
 		return null;
 	}
 
@@ -89,9 +110,10 @@ public class TrieNode {
 	@Override
 	public String toString() {
 		String retorno = "";
-		if(key != null) retorno += key;
+		if (key != null)
+			retorno += key;
 		for (char child : children.keySet())
-			if(children.get(child) != null)
+			if (children.get(child) != null)
 				retorno += children.get(child);
 		if (info && value != null)
 			retorno += value.toString();
