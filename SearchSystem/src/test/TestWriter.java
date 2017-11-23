@@ -10,7 +10,7 @@ import index.Writer;
 /**
  * Test class to test class Writer
  * @author Ailson Forte dos Santos
- *
+ * @author Valmir Correa
  */
 public class TestWriter {
 	@Test
@@ -23,7 +23,12 @@ public class TestWriter {
 			line.add("a");
 			line.add("test");
 			line.add("to");
-			line.add("Writer!");
+			line.add("Writer");
+			line.add("And");
+			line.add("/Testê");
+			line.add("ESPECIal");
+			line.add("CarÁcterè");
+			line.add("123456789");
 			w.writeBrackedLine(line, " ");
 			w.close();
 		} catch (IOException e) {

@@ -14,7 +14,7 @@ import index.Reader;
  * Test class to test class Reader
  * 
  * @author Ailson Forte dos Santos
- *
+ *  @author Valmir Correa
  */
 public class ReaderTester {
 	@Test
