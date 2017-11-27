@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * Class to make a text insertion on file
  * 
  * @author Ailson Forte dos Santos
+ * @author Larissa Moura
  *
  */
 public class Writer extends BufferedWriter {

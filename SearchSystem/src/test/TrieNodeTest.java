@@ -3,14 +3,13 @@ package test;
 import java.util.HashMap;
 
 import org.junit.Test;
-
-import utils.Pair;
 import utils.TrieNode;
 
 /**
  * A class test to test class TrieNode
  * @author Ailson Forte dos Santos
  * @author Valmir Correa
+ * @author Larissa Moura
  */
 public class TrieNodeTest {
 	private TrieNode test;
@@ -26,7 +25,7 @@ public class TrieNodeTest {
 	public void testNode2() {
 		HashMap<Integer, Integer> occurences = new HashMap<>();
 		occurences.put(10, 10);
-		test2 = new TrieNode("Valmir.", (new Pair<String,HashMap<Integer, Integer>>("TEXTO.txt", occurences)));
+		test2 = new TrieNode(null,"Valmir.", null);
 		System.out.println(test2);			// toString ta ok
 	}
 }

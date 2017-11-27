@@ -14,6 +14,7 @@ import java.util.ArrayList;
  * A class to read from files
  * 
  * @author Ailson Forte dos Santos
+ * @author Larissa Moura
  *
  */
 public class Reader extends BufferedReader {

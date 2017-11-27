@@ -16,6 +16,7 @@ import utils.TrieNode;
  * An indexer of files
  * 
  * @author Ailson Forte dos Santos
+ * @author Larissa Moura
  *
  */
 public class Indexer {
@@ -28,12 +29,12 @@ public class Indexer {
 		p = new Parser();
 		tree = new Trie();
 	}
-	
-	public void FillTrie(String fileName) {
+
+	public void fillTrie(String fileName) {
 		try {
 			p.open(fileName);
-		}catch (IOException e) {
-			
+		} catch (IOException e) {
+
 		}
 		ArrayList<String> words = null;
 		int line = 1;
@@ -42,21 +43,21 @@ public class Indexer {
 			for (String word : words) {
 				TrieNode node = tree.search(word);
 				HashMap<String, HashMap<Integer, Integer>> fileInfo = null;
-				if(node != null) {
+				if (node != null) {
 					fileInfo = node.getValue();
-					if(fileInfo.get(fileName) != null && fileInfo.get(fileName).get(line) != null) {
+					if (fileInfo.get(fileName) != null && fileInfo.get(fileName).get(line) != null) {
 						fileInfo.get(fileName).replace(line, fileInfo.get(fileName).get(line) + 1);
-					}else {
-						HashMap<Integer,Integer> info = new HashMap<>();
+					} else {
+						HashMap<Integer, Integer> info = new HashMap<>();
 						info.put(line, 1);
 						fileInfo.replace(fileName, info);
 					}
 					tree.insert(word, fileInfo);
-				}else {
+				} else {
 					tree.insert(word, fileInfo);
 				}
 			}
 			line++;
-		}while(words != null);
+		} while (words != null);
 	}
 }

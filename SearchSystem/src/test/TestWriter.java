@@ -11,6 +11,7 @@ import index.Writer;
  * Test class to test class Writer
  * @author Ailson Forte dos Santos
  * @author Valmir Correa
+ * @author Larissa Moura
  */
 public class TestWriter {
 	@Test
@@ -25,9 +26,9 @@ public class TestWriter {
 			line.add("to");
 			line.add("Writer");
 			line.add("And");
-			line.add("/Testê");
+			line.add("/Testï¿½");
 			line.add("ESPECIal");
-			line.add("CarÁcterè");
+			line.add("Carï¿½cterï¿½");
 			line.add("123456789");
 			w.writeBrackedLine(line, " ");
 			w.close();
