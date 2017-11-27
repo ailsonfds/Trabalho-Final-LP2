@@ -60,4 +60,15 @@ public class Indexer {
 			line++;
 		} while (words != null);
 	}
+
+	// Busca a palavra na arvore
+	public void findWord(String key) {
+		ArrayList<TrieNode> node = tree.getAllRoots();
+
+		ArrayList<String> found = new ArrayList<>();
+
+		for (int i = 0; i < key.length(); i++) {
+			if(node.)
+		}
+	}
 }
