@@ -3,61 +3,30 @@
  */
 package index;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import utils.Trie;
-import utils.TrieNode;
-
 /**
- * An indexer of files
+ * An indexer of files.
+ * 
+ * It is a boundary class
+ * {@link https://www.ibm.com/support/knowledgecenter/en/SS6RBX_11.4.2/com.ibm.sa.oomethod.doc/topics/c_Boundary_Class.html}
+ * 
  * 
  * @author Ailson Forte dos Santos
  * @author Larissa Moura
- *
+ */
+/*
+ * (non-Javadoc)
+ * Essa classe é apenas uma classe de interface com outras classes, ou seja, ela é classe de fronteira(Ela não é <interface> apenas interage com outras classes)
  */
 public class Indexer {
 	Set<String> occurences;
 	Parser p;
-	Trie tree;
 
 	public Indexer() {
 		occurences = new HashSet<String>();
 		p = new Parser();
-		tree = new Trie();
 	}
 
-	public void fillTrie(String fileName) {
-		try {
-			p.open(fileName);
-		} catch (IOException e) {
-
-		}
-		ArrayList<String> words = null;
-		int line = 1;
-		do {
-			words = p.parsear(line);
-			for (String word : words) {
-				TrieNode node = tree.search(word);
-				HashMap<String, HashMap<Integer, Integer>> fileInfo = null;
-				if (node != null) {
-					fileInfo = node.getValue();
-					if (fileInfo.get(fileName) != null && fileInfo.get(fileName).get(line) != null) {
-						fileInfo.get(fileName).replace(line, fileInfo.get(fileName).get(line) + 1);
-					} else {
-						HashMap<Integer, Integer> info = new HashMap<>();
-						info.put(line, 1);
-						fileInfo.replace(fileName, info);
-					}
-					tree.insert(word, fileInfo);
-				} else {
-					tree.insert(word, fileInfo);
-				}
-			}
-			line++;
-		} while (words != null);
-	}
 }

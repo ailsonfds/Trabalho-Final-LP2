@@ -22,18 +22,6 @@ public class Trie {
 	}
 
 	/**
-	 * Constructor
-	 * 
-	 * @param key
-	 *            the word to store on this tree
-	 * @param fileInfo
-	 *            a pair containing the info of the word
-	 */
-	public Trie(String key, HashMap<String, HashMap<Integer, Integer>> fileInfo) {
-		insert(key, fileInfo);
-	}
-
-	/**
 	 * A method to insert nodes in this tree
 	 * 
 	 * @param key
@@ -41,14 +29,19 @@ public class Trie {
 	 * @param fileInfo
 	 *            a pair containing the info of the word
 	 */
-	public void insert(String key, HashMap<String, HashMap<Integer, Integer>> fileInfo) {
+	public void insert(String key, String fileName, Integer pageNumber, Integer occurences) {
 		if (key.isEmpty() || search(key) != null)
 			return;
 		TrieNode current = getRoot(key);
+		HashMap<Integer,Integer> occurence = new HashMap<>();
+		HashMap<String,HashMap<Integer,Integer>> fileInfo = new HashMap<>();
+		occurence.put(pageNumber, occurences);
+		fileInfo.putIfAbsent(fileName, occurence);
 
 		if (current == null) {
 			root.add(new TrieNode(current, key, fileInfo));
 		} else {
+			boolean inserted = false;
 			int index = 1; // Serve to know where to begin the substring to add
 			for (char ch : key.substring(1).toCharArray()) {
 				// if ch not present create a new node and enter the character in the current
@@ -56,6 +49,7 @@ public class Trie {
 				if (current.getChild(ch) == null) {
 					TrieNode next = new TrieNode(current, key.substring(index), fileInfo);
 					current.getChildrens().put(ch, next);
+					inserted = true;
 					break;
 				}
 				// check if character is present;
@@ -63,11 +57,15 @@ public class Trie {
 				// increment actual index of this for
 				index++;
 			}
+			if(!inserted) {
+				current.setInfo(true);
+				if(current.getValue() != null && current.getValue().putIfAbsent(fileName, occurence) != null) System.out.println("Errou...");
+			}
 		}
 	}
 
 	/**
-	 * Remove a node of the tree TODO Remoção não remove
+	 * Remove a node of the tree
 	 * 
 	 * @param key
 	 *            the word to remove on this tree
@@ -89,25 +87,6 @@ public class Trie {
 		} else {
 			root.remove(search(key));
 		}
-
-		// TrieNode current = getRoot(key);
-		// if (current != null && key.length() > 1) {
-		// current = current.getChild(key.charAt(1));
-		// if (current != null) {
-		// for (char ch : key.toCharArray()) {
-		// TrieNode node = current.getChild(ch);
-		//
-		// if (node == null) {
-		// current.getChildrens().remove(ch);
-		// } else {
-		// current = node;
-		// }
-		// }
-		// }
-		// current.setInfo(false);
-		// } else if (current != null) {
-		// current.setInfo(false);
-		// }
 	}
 
 	/**
@@ -169,11 +148,14 @@ public class Trie {
 	public ArrayList<String> getWords(String begin) {
 		ArrayList<String> words = new ArrayList<>();
 		TrieNode current = getRoot(begin);
-		if (current.getInfo())
+		if (begin.length() == 1 && current.getInfo() && current.getFather() == null) {
 			words.add(begin);
+		}
+		int index = 0;
 		for (char c : begin.toCharArray()) {
-			if (current.getChild(c) != null) {
+			if (current.getChild(c) != null && begin.length() > index) {
 				current = current.getChild(c);
+				index++;
 			}
 		}
 		HashMap<Character, TrieNode> curChildrens = current.getChildrens();
@@ -181,7 +163,7 @@ public class Trie {
 		String wordAux = begin;
 		for (TrieNode child : curChildrens.values()) {
 			c = child.getKey();
-			if (child.getInfo()) {
+			if (child.getInfo() && search(wordAux + c) != null) {
 				words.add(wordAux + c);
 			}
 			words.addAll(getWords(wordAux + c));

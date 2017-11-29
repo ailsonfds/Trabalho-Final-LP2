@@ -86,4 +86,5 @@ public class Reader extends BufferedReader {
 		}
 		return text;
 	}
+
 }

@@ -14,7 +14,7 @@ public class ParserTest {
 		Parser parser = new Parser();
 		try {
 			parser.open("test.txt");
-			ArrayList<String> line = parser.parsear(3);
+			ArrayList<String> line = parser.gotToLine(3);
 			for(String str : line) {
 				System.out.println(str);
 			}

@@ -1,7 +1,6 @@
 package test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.junit.Test;
 
@@ -35,32 +34,26 @@ public class TrieTest {
 	}
 
 	public void trieTest() {
-		HashMap<Integer, Integer> occurences = new HashMap<>();
-		occurences.put(1, 1);
+		System.out.println("\n--------------Inserção-------------\n");
 
-		HashMap<String, HashMap<Integer, Integer>> valueTest = new HashMap<>();
-		valueTest.put("teste.txt", occurences);
-		System.out.println ("\n--------------Inserção-------------\n");
-		
-		w.insert("testes", valueTest);
-		w.insert("larissa", valueTest);
-		w.insert("testeailson", valueTest);	// Por quê esta imprimindo ?
-		w.insert("e", null);
-		w.insert("empresa", null);
+		w.insert("testes", "teste.txt", 1, 1);
+		w.insert("larissa", "teste.txt", 1, 1);
+		w.insert("testeailson", "teste.txt", 1, 1); // Por quê esta imprimindo ?
+		w.insert("e", null, null, null);
+		w.insert("empresa", null, null, null);
 
 		System.out.println("Deu certo? " + (w.search("testes").getInfo() && w.search("larissa").getInfo()
 				&& w.search("testeailson").getInfo() && w.search("e").getInfo() && w.search("empresa").getInfo()));
 
-		System.out.println ("\n--------------Verifica se foi inserido-------------\n");
-		
+		System.out.println("\n--------------Verifica se foi inserido-------------\n");
+
 		System.out.println("Encontrou 'testes': " + w.search("testes").getInfo());
 		System.out.println("Encontrou 'Larissa': " + w.search("larissa").getInfo());
 		System.out.println("Encontrou 'testeailson': " + w.search("testeailson").getInfo());
 		System.out.println("Encontrou 'e': " + w.search("e").getInfo());
 		System.out.println("Encontrou 'empresa': " + w.search("empresa").getInfo());
-		
-		System.out.println ("\n--------------Imprimir cada Arvore-------------\n");
-		
+
+		System.out.println("\n--------------Imprimir cada Arvore-------------\n");
 
 		if (w.search("testes") != null && w.search("larissa") != null && w.search("testeailson") != null) {
 			TrieNode nodeTestes = w.getRoot("testes");
@@ -71,27 +64,26 @@ public class TrieTest {
 			TrieNode nodeEmpresa = w.getRoot("empresa");
 
 			System.out.println(nodeTestes);
-			
+
 			// comparar a saida com o conteúdo, não bate.
-			System.out.println(nodeTestes);		
+			System.out.println(nodeTestes);
 
 			System.out.println(nodeLarissa);
 			System.out.println(nodeTesteailson);
-			System.out.println(nodeE);		// não é imprimido, imprime "empresa" além de apenas 'e'
+			System.out.println(nodeE); // não é imprimido, imprime "empresa" além de apenas 'e'
 			System.out.println(nodeEmpresa);
 		}
-		
-		System.out.println ("\n--------------Simulação da Busca-------------\n");
-		
+
+		System.out.println("\n--------------Simulação da Busca-------------\n");
+
 		System.out.println("Encontrou o nó 'testes': " + w.search("testes"));
 		System.out.println("Encontrou 'larissa': " + w.search("larissa"));
 		System.out.println("Encontrou 'testeailson': " + w.search("testeailson"));
 		System.out.println("Encontrou 'e': " + w.search("e"));
 		System.out.println("Encontrou 'empresa': " + w.search("empresa"));
 		System.out.println("Encontrou 'NaoDeveEncontrar': " + w.search("NaoDeveEncontrar"));
-		
-		
-		System.out.println ("\n--------------Remoção de elementos-------------\n");		
+
+		System.out.println("\n--------------Remoção de elementos-------------\n");
 		w.remove("larissa");
 
 		System.out.println("remoção de larissa do grupo " + (w.search("larissa") == null ? "funfou" : "bugou"));
@@ -105,18 +97,19 @@ public class TrieTest {
 		for (TrieNode s : roots) {
 			System.out.println(s);
 		}
-		w.insert("e", null);
-		w.insert("empresa", null);
+		w.insert("empresa", null, null, null);
 		System.out.println(
 				"verificando nova inserção da palavra empresa " + (w.search("empresa") != null ? "funfou" : "bugou"));
+		w.insert("e", null, null, null);
 		System.out.println("verificando nova inserção da palavra e " + (w.search("e") != null ? "funfou" : "bugou"));
 
 		System.out.println("Encontrou 'larissa': " + w.search("larissa"));
-		
-		// removeu 'testes', mas 'testeailson' deve imprimir, mesmo tendo o mesmo caminho até o segunda letra 'e'. 
+
+		// removeu 'testes', mas 'testeailson' deve imprimir, mesmo tendo o mesmo
+		// caminho até o segunda letra 'e'.
 		System.out.println("Encontrou 'testeailson': " + w.search("testeailson")); // acabou interferindo
 		// depois, comentem a remoção do 'teste' e testem novamente.
-		
+
 		try {
 			w.remove("ttestes");
 		} catch (NullPointerException e) {
@@ -125,6 +118,10 @@ public class TrieTest {
 	}
 
 	public void testGetWords() {
+		w.insert("torah", null, null, null);
+		w.insert("tomus", null, null, null);
+		w.insert("t", null, null, null);
+		w.insert("test", null, null, null);
 		for (TrieNode n : w.getAllRoots()) {
 			ArrayList<String> words = w.getWords("" + n.getKey());
 			for (String s : words) {
