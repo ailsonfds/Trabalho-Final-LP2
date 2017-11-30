@@ -3,61 +3,81 @@
  */
 package index;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import utils.Trie;
-import utils.TrieNode;
 
 /**
- * An indexer of files
+ * An indexer of files.
+ * 
+ * It is a boundary class
+ * {@link https://www.ibm.com/support/knowledgecenter/en/SS6RBX_11.4.2/com.ibm.sa.oomethod.doc/topics/c_Boundary_Class.html}
+ * 
  * 
  * @author Ailson Forte dos Santos
  * @author Larissa Moura
- *
+ */
+/*
+ * (non-Javadoc) Essa classe é apenas uma classe de interface com outras
+ * classes, ou seja, ela é classe de fronteira(Ela não é <interface> apenas
+ * interage com outras classes)
  */
 public class Indexer {
-	Set<String> occurences;
 	Parser p;
-	Trie tree;
+	HashMap<String, HashMap<Integer, Integer>> value;
+	// ArrayList<String> files;
 
 	public Indexer() {
-		occurences = new HashSet<String>();
+		value = new HashMap<String, HashMap<Integer, Integer>>();
+		// files = new ArrayList<>();
 		p = new Parser();
-		tree = new Trie();
 	}
 
-	public void fillTrie(String fileName) {
-		try {
-			p.open(fileName);
-		} catch (IOException e) {
-
+	/**
+	 * Add a document to the database
+	 * 
+	 * @param String
+	 *            filename The Filename that will be add in the database
+	 * 
+	 */
+	public void addDocument(String filename) {
+		Trie tree = null;
+		tree = p.fillTrie(filename);
+		if (tree != null) { 
+			value.put(filename, null);
 		}
-		ArrayList<String> words = null;
-		int line = 1;
-		do {
-			words = p.parsear(line);
-			for (String word : words) {
-				TrieNode node = tree.search(word);
-				HashMap<String, HashMap<Integer, Integer>> fileInfo = null;
-				if (node != null) {
-					fileInfo = node.getValue();
-					if (fileInfo.get(fileName) != null && fileInfo.get(fileName).get(line) != null) {
-						fileInfo.get(fileName).replace(line, fileInfo.get(fileName).get(line) + 1);
-					} else {
-						HashMap<Integer, Integer> info = new HashMap<>();
-						info.put(line, 1);
-						fileInfo.replace(fileName, info);
-					}
-					tree.insert(word, fileInfo);
-				} else {
-					tree.insert(word, fileInfo);
-				}
-			}
-			line++;
-		} while (words != null);
 	}
+
+	/**
+	 * Remove a document to the database
+	 * 
+	 * @param String
+	 *            filename The Filename that will be removed in the database
+	 * 
+	 */
+	public void removeDocument() {
+
+	}
+
+	/**
+	 * Update the documents from the database
+	 */
+	public void updateDocuments() {
+
+	}
+
+	/**
+	 * Will print a list of documents that are present on database
+	 */
+	public void listDocuments() {
+
+	}
+
+	/**
+	 * Add a blacklist of words
+	 */
+	public void readBlacklist() {
+
+	}
+
 }

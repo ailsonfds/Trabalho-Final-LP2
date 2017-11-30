@@ -38,7 +38,8 @@ public class TrieNode {
 				children.put(key.charAt(1), new TrieNode(this, key.substring(1), values));
 				info = false;
 				value = null;
-			} else if (key.length() == 1) {
+			}
+			if (key.length() == 1) {
 				info = true;
 				value = values;
 			}

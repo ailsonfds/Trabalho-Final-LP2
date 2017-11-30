@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" author="true" classpath="/home/jarvis/.p2/pool/plugins/org.hamcrest.core_1.3.0.v201303031735.jar:/home/jarvis/.p2/pool/plugins/org.junit_4.12.0.v201504281640/junit.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" source="1.8" sourcefiles="src/index/Parser.java" sourcepath="src" splitindex="true" use="true" version="true">
+            <link href="http://hamcrest.org/JavaHamcrest/javadoc/1.3/"/>
+            <link href="file:/home/jarvis/java/Trabalho-Final-LP2/SearchSystem/doc/"/>
+            <link href="https://docs.oracle.com/javase/8/docs/api/"/>
+            <link href="http://junit.org/junit4/javadoc/latest/"/>
+        </javadoc>
+    </target>
+</project>
