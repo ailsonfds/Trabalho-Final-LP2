@@ -51,7 +51,7 @@ public class Reader extends BufferedReader {
 			System.out.println("Unable to read file: " + fileName);
 		}
 		retorno = removeCharacters(retorno);
-		retorno = removeNumbers(retorno);
+		//retorno = removeNumbers(retorno);
 		if (retorno.isEmpty())
 			return null;
 		return retorno;
@@ -86,4 +86,5 @@ public class Reader extends BufferedReader {
 		}
 		return text;
 	}
+
 }
