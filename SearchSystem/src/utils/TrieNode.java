@@ -102,6 +102,11 @@ public class TrieNode {
 			return value;
 		return null;
 	}
+	
+	public void setValue(HashMap<String, HashMap<Integer, Integer>> value) {
+		if (info)
+			this.value = value;
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import index.Parser;
 import utils.Trie;
+import utils.TrieNode;
 
 public class ParserTest {
 
@@ -27,12 +28,19 @@ public class ParserTest {
 		}
 		System.out.println("#### TESTA QUANTIDADE DE PALAVRAS DO TEXTO ####");
 		System.out.println(parser.contWords("test.txt"));
-		
-		System.out.println("#### TESTA CONSTRU«√O DA ¡RVORE ####");
-		trieTest=parser.fillTrie("test.txt");
+
+		System.out.println("#### TESTA CONSTRU√á√ÉO DA √ÅRVORE ####");
+		trieTest = parser.fillTrie("test.txt");
 		trieTest.printRoots();
 		System.out.println("#### TESTA PALAVRAS NA TRIE ####");
 		System.out.println(trieTest.getWords("es"));
+
+		System.out.println("#### IMPRIME √ÅRVORE ####");
+		for (TrieNode node : parser.getTree().getAllRoots()) {
+			for(String word : parser.getTree().getWords("" + node.getKey())) {
+				System.out.println(word + "-" + parser.getTree().search(word).getValue());
+			}
+		}
 	}
 
 }

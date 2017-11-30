@@ -30,8 +30,9 @@ public class Trie {
 	 *            a pair containing the info of the word
 	 */
 	public void insert(String key, String fileName, Integer pageNumber, Integer occurences) {
-		if (key.isEmpty() || search(key) != null)
+		if (key.isEmpty() || search(key) != null) {
 			return;
+		}
 		TrieNode current = getRoot(key);
 		HashMap<Integer,Integer> occurence = new HashMap<>();
 		HashMap<String,HashMap<Integer,Integer>> fileInfo = new HashMap<>();
@@ -59,7 +60,11 @@ public class Trie {
 			}
 			if(!inserted) {
 				current.setInfo(true);
-				if(current.getValue() != null && current.getValue().putIfAbsent(fileName, occurence) != null) System.out.println("Errou...");
+				if(current.getValue() != null && current.getValue().putIfAbsent(fileName, occurence) == null) {
+					System.out.println("Errou...");
+				} else {
+					current.setValue(fileInfo);
+				}
 			}
 		}
 	}
