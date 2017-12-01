@@ -26,6 +26,6 @@ public class TrieNodeTest {
 		HashMap<Integer, Integer> occurences = new HashMap<>();
 		occurences.put(10, 10);
 		test2 = new TrieNode(null,"Valmir.", null);
-		System.out.println(test2);			// toString ta ok
+		System.out.println(test2);			
 	}
 }

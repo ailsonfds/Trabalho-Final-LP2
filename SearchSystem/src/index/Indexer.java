@@ -3,9 +3,10 @@
  */
 package index;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
 
-import utils.Trie;
+import utils.TrieNode;
 
 /**
  * An indexer of files.
@@ -24,12 +25,10 @@ import utils.Trie;
  */
 public class Indexer {
 	Parser p;
-	HashMap<String, HashMap<Integer, Integer>> value;
-	// ArrayList<String> files;
+	ArrayList<String> files;
 
 	public Indexer() {
-		value = new HashMap<String, HashMap<Integer, Integer>>();
-		// files = new ArrayList<>();
+		files = new ArrayList<>();
 		p = new Parser();
 	}
 
@@ -41,10 +40,17 @@ public class Indexer {
 	 * 
 	 */
 	public void addDocument(String filename) {
-		Trie tree = null;
-		tree = p.fillTrie(filename);
-		if (tree != null) { 
-			value.put(filename, null);
+		if (filename != null) {
+			p.fillTrie(filename);
+		}
+		if (p.fillTrie(filename) != null) {
+			files.add(filename);
+		}
+		//TESTE TEMPORARIO PARA CONFERIR NOS
+		for (TrieNode node : p.getTree().getAllRoots()) {
+			for (String word : p.getTree().getWords("" + node.getKey())) {
+				System.out.println(word + "-" + p.getTree().search(word).getValue());
+			}
 		}
 	}
 
@@ -55,8 +61,9 @@ public class Indexer {
 	 *            filename The Filename that will be removed in the database
 	 * 
 	 */
-	public void removeDocument() {
-
+	public void removeDocument(String filename) {
+		files.remove(filename);
+		p.removeFromTrie(filename);
 	}
 
 	/**
@@ -70,7 +77,14 @@ public class Indexer {
 	 * Will print a list of documents that are present on database
 	 */
 	public void listDocuments() {
-
+		System.out.println("Contidos no sistema:");
+		int cont = 0;
+		int quant = 0;
+		Collections.sort(files);
+		for (String file : files) {
+			cont++;
+			System.out.println("Arquivo " + cont + ": " + file + " com: " + p.contWords(file) + " palavras. ");
+		}
 	}
 
 	/**

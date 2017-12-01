@@ -18,7 +18,7 @@ public class TestWriter {
 	public void writeTest() {
 		Writer w;
 		try {
-			w = new Writer("test.txt");
+			w = new Writer("index.txt");
 			ArrayList<String> line = new ArrayList<>();
 			line.add("Just");
 			line.add("a");
