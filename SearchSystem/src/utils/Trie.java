@@ -29,14 +29,14 @@ public class Trie {
 	 * @param fileInfo
 	 *            a pair containing the info of the word
 	 */
-	public void insert(String key, String fileName, Integer pageNumber, Integer occurences) {
+	public void insert(String key, String fileName, Integer lineNumber, Integer occurences) {
 		if (key.isEmpty() || search(key) != null) {
 			return;
 		}
 		TrieNode current = getRoot(key);
-		HashMap<Integer,Integer> occurence = new HashMap<>();
-		HashMap<String,HashMap<Integer,Integer>> fileInfo = new HashMap<>();
-		occurence.put(pageNumber, occurences);
+		HashMap<Integer, Integer> occurence = new HashMap<>();
+		HashMap<String, HashMap<Integer, Integer>> fileInfo = new HashMap<>();
+		occurence.put(lineNumber, occurences);
 		fileInfo.putIfAbsent(fileName, occurence);
 
 		if (current == null) {
@@ -58,12 +58,20 @@ public class Trie {
 				// increment actual index of this for
 				index++;
 			}
-			if(!inserted) {
+			if (!inserted) {
 				current.setInfo(true);
-				if(current.getValue() != null && current.getValue().putIfAbsent(fileName, occurence) == null) {
+				if (current.getValue() != null && current.getValue().putIfAbsent(fileName, occurence) == null) {
 					System.out.println("Errou...");
-				} else {
+				} else if (current.getValue() == null || current.getValue().isEmpty()) {
 					current.setValue(fileInfo);
+				} else if(current.getValue() != null && 
+						!current.getValue().get(fileName).isEmpty() &&
+						current.getValue().get(fileName).get(lineNumber) == null) {
+					current.getValue().get(fileName).putIfAbsent(lineNumber, 1);
+				} else if(current.getValue() != null && 
+						!current.getValue().get(fileName).isEmpty() && 
+						current.getValue().get(fileName).get(lineNumber) != null) {
+					current.getValue().get(fileName).put(lineNumber, current.getValue().get(fileName).get(lineNumber)+1);
 				}
 			}
 		}
@@ -86,7 +94,7 @@ public class Trie {
 				}
 				current = father;
 			}
-			if(current == null && getRoot(key).getChildrens().isEmpty()) {
+			if (current == null && getRoot(key).getChildrens().isEmpty()) {
 				root.remove(getRoot(key));
 			}
 		} else {
@@ -103,6 +111,19 @@ public class Trie {
 	 *         the info of the file
 	 */
 	public TrieNode search(String key) {
+		// TrieNode node = getRoot(key);
+		// char key_array[] = key.toCharArray();
+		// for(int i = 1; i < key_array.length - 1; i++) {
+		// if (node == null) {
+		// return null;
+		// }
+		// node = node.getChild(key_array[i]);
+		// }
+		// System.out.println(key_array[key_array.length-1]);
+		// if(node != null && node.getInfo()) {
+		// return node;
+		// }else
+		// return null;
 		for (TrieNode current : root) {
 			if (!key.isEmpty() && current.getKey() == key.charAt(0)) {
 				key = key.substring(1);
@@ -153,9 +174,13 @@ public class Trie {
 	public ArrayList<String> getWords(String begin) {
 		ArrayList<String> words = new ArrayList<>();
 		TrieNode current = getRoot(begin);
+		// Para o caso de ser um nó raiz
 		if (begin.length() == 1 && current.getInfo() && current.getFather() == null) {
 			words.add(begin);
+		} else if (search(begin) != null && search(begin).getInfo()) {
+			words.add(begin);
 		}
+		// Percorrer até o último caracter para ter os filhos
 		int index = 0;
 		for (char c : begin.toCharArray()) {
 			if (current.getChild(c) != null && begin.length() > index) {
@@ -168,9 +193,6 @@ public class Trie {
 		String wordAux = begin;
 		for (TrieNode child : curChildrens.values()) {
 			c = child.getKey();
-			if (child.getInfo() && search(wordAux + c) != null) {
-				words.add(wordAux + c);
-			}
 			words.addAll(getWords(wordAux + c));
 		}
 		return words;

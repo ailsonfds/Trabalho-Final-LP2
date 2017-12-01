@@ -33,7 +33,7 @@ public class ParserTest {
 		trieTest = parser.fillTrie("test.txt");
 		trieTest.printRoots();
 		System.out.println("#### TESTA PALAVRAS NA TRIE ####");
-		System.out.println(trieTest.getWords("es"));
+		System.out.println(trieTest.getWords("Google"));
 
 		System.out.println("#### IMPRIME ÁRVORE ####");
 		for (TrieNode node : parser.getTree().getAllRoots()) {
@@ -41,6 +41,9 @@ public class ParserTest {
 				System.out.println(word + "-" + parser.getTree().search(word).getValue());
 			}
 		}
+		
+		System.out.println("#### IMPRIME SEARCH ####");
+		System.out.println(parser.getTree().search("Gma"));
 	}
 
 }

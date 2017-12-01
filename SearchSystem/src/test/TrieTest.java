@@ -25,16 +25,16 @@ public class TrieTest {
 	public void mainTest() {
 		TrieTest t = new TrieTest();
 		System.out.println("####################################");
-		System.out.println("Iniciando Teste da inserÁ„o");
+		System.out.println("Iniciando Teste da inser√ß√£o");
 		t.trieTest();
 		System.out.println("####################################");
-		System.out.println("Iniciando busca por comeÁo de palvra");
+		System.out.println("Iniciando busca por come√ßo de palvra");
 		t.testGetWords();
 		System.out.println("####################################");
 	}
 
 	public void trieTest() {
-		System.out.println("\n--------------inserÁ„o-------------\n");
+		System.out.println("\n--------------inser√ß√£o-------------\n");
 
 		w.insert("testes", "teste.txt", 1, 1);
 		w.insert("larissa", "teste.txt", 1, 1);
@@ -74,9 +74,9 @@ public class TrieTest {
 			System.out.println(nodeEmpresa);
 		}
 
-		System.out.println("\n--------------SimulaÁ„o da Busca-------------\n");
+		System.out.println("\n--------------Simula√ß√£o da Busca-------------\n");
 
-		System.out.println("Encontrou o nÛ 'testes': " + w.search("testes"));
+		System.out.println("Encontrou o n√≥ 'testes': " + w.search("testes"));
 		System.out.println("Encontrou 'larissa': " + w.search("larissa"));
 		System.out.println("Encontrou 'testeailson': " + w.search("testeailson"));
 		System.out.println("Encontrou 'e': " + w.search("e"));
@@ -86,22 +86,22 @@ public class TrieTest {
 		System.out.println("\n--------------Remo√ß√£o de elementos-------------\n");
 		w.remove("larissa");
 
-		System.out.println("remoÁ„o de larissa do grupo " + (w.search("larissa") == null ? "funfou" : "bugou"));
+		System.out.println("remo√ß√£o de larissa do grupo " + (w.search("larissa") == null ? "funfou" : "bugou"));
 		w.remove("testes");
-		System.out.println("remoÁ„o de testes " + (w.search("testes") == null ? "funfou" : "bugou"));
+		System.out.println("remo√ß√£o de testes " + (w.search("testes") == null ? "funfou" : "bugou"));
 		w.remove("empresa");
-		System.out.println("remoÁ„o de empresa " + (w.search("empresa") == null ? "funfou" : "bugou"));
+		System.out.println("remo√ß√£o de empresa " + (w.search("empresa") == null ? "funfou" : "bugou"));
 		w.remove("e");
-		System.out.println("remoÁ„o de e " + (w.search("e") == null ? "funfou" : "bugou"));
+		System.out.println("remo√ß√£o de e " + (w.search("e") == null ? "funfou" : "bugou"));
 		ArrayList<TrieNode> roots = w.getAllRoots();
 		for (TrieNode s : roots) {
 			System.out.println(s);
 		}
 		w.insert("empresa", null, null, null);
 		System.out.println(
-				"verificando nova inserÁ„o da palavra empresa " + (w.search("empresa") != null ? "funfou" : "bugou"));
+				"verificando nova inser√ß√£o da palavra empresa " + (w.search("empresa") != null ? "funfou" : "bugou"));
 		w.insert("e", null, null, null);
-		System.out.println("verificando nova inserÁ„oo da palavra e " + (w.search("e") != null ? "funfou" : "bugou"));
+		System.out.println("verificando nova inser√ß√£o da palavra e " + (w.search("e") != null ? "funfou" : "bugou"));
 
 		System.out.println("Encontrou 'larissa': " + w.search("larissa"));
 
