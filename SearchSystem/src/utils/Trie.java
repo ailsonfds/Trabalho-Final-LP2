@@ -30,14 +30,15 @@ public class Trie {
 	 *            a pair containing the info of the word
 	 */
 	public void insert(String key, String fileName, Integer pageNumber, Integer occurences) {
-		if (key.isEmpty() || search(key) != null) {
+		if (key.isEmpty()) {
 			return;
 		}
 		TrieNode current = getRoot(key);
 		HashMap<Integer,Integer> occurence = new HashMap<>();
 		HashMap<String,HashMap<Integer,Integer>> fileInfo = new HashMap<>();
 		occurence.put(pageNumber, occurences);
-		fileInfo.putIfAbsent(fileName, occurence);
+		fileInfo.put(fileName, occurence);
+		if(search(key) !=null) search(key).addValue(fileInfo);
 
 		if (current == null) {
 			root.add(new TrieNode(current, key, fileInfo));
@@ -60,11 +61,6 @@ public class Trie {
 			}
 			if(!inserted) {
 				current.setInfo(true);
-				if(current.getValue() != null && current.getValue().putIfAbsent(fileName, occurence) == null) {
-					System.out.println("Errou...");
-				} else {
-					current.setValue(fileInfo);
-				}
 			}
 		}
 	}
@@ -155,6 +151,8 @@ public class Trie {
 		TrieNode current = getRoot(begin);
 		if (begin.length() == 1 && current.getInfo() && current.getFather() == null) {
 			words.add(begin);
+		} else if (current != null & search(begin) != null) {
+			words.add(begin);
 		}
 		int index = 0;
 		for (char c : begin.toCharArray()) {
@@ -168,9 +166,6 @@ public class Trie {
 		String wordAux = begin;
 		for (TrieNode child : curChildrens.values()) {
 			c = child.getKey();
-			if (child.getInfo() && search(wordAux + c) != null) {
-				words.add(wordAux + c);
-			}
 			words.addAll(getWords(wordAux + c));
 		}
 		return words;

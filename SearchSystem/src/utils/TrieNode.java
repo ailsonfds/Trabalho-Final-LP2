@@ -103,9 +103,9 @@ public class TrieNode {
 		return null;
 	}
 	
-	public void setValue(HashMap<String, HashMap<Integer, Integer>> value) {
+	public void addValue(HashMap<String, HashMap<Integer, Integer>> value) {
 		if (info)
-			this.value = value;
+			this.value.putAll(value);
 	}
 
 	/*
@@ -121,8 +121,15 @@ public class TrieNode {
 		for (char child : children.keySet())
 			if (children.get(child) != null)
 				retorno += children.get(child);
-		if (info && value != null)
-			retorno += value.toString();
+		if (info && value != null) {
+			for(String key : value.keySet()) {
+				retorno += "{" + key;
+				for(Integer key_int : value.get(key).keySet()) {
+					retorno += "{" + key_int + "," + value.get(key).get(key_int) + "}";
+				}
+				retorno += "}";
+			}
+		}
 		return retorno;
 	}
 }
