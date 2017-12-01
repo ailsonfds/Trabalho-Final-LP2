@@ -1,0 +1,16 @@
+O Google começou em janeiro de 1996 como um projeto de pesquisa de Larry Page e Sergey Brin, quando ambos eram estudantes de doutorado na Universidade Stanford, 
+na Califórnia, Estados Unidos.
+Enquanto os motores de busca convencionais exibiam resultados classificados pela contagem de 
+quantas vezes os termos de busca apareciam na primeira página, os dois teorizaram sobre um sistema melhor que 
+analisava as relações entre os sites.[36] Eles chamaram esta nova tecnologia PageRank, onde a relevância de um 
+site era determinada pelo número de páginas, bem como pela importância dessas páginas, que ligavam de volta para o site original.
+Um pequeno motor de busca chamado "RankDex" da IDD Information Services, projetado por Robin Li, desde 1996, 
+já explorava uma estratégia semelhante para pontuação e classificação de páginas. A tecnologia do RankDex seria 
+patenteada e usada mais tarde por Li, quando fundou a Baidu na China.
+Page e Brin originalmente apelidaram de sua nova ferramenta de busca de "BackRub", porque o sistema de 
+checava backlinks para estimar a importância de um site.
+Eventualmente, eles mudaram o nome para o Google, proveniente de um erro ortográfico da palavra "googol", 
+o número um seguido por cem zeros, que foi criado para indicar a quantidade de informação que o motor de busca podia processar, o nome também reflete a missão de organizar uma quantidade aparentemente infinita de informações na web. Originalmente, o Google funcionou sob o site da Universidade Stanford, com o domínio google.stanford.edu, com os direitos de autor mencionados à universidade no final de sua página à época.
+O nome de domínio "Google" foi registrado em 15 de setembro de 1997 e a empresa foi constituída em 4 
+de setembro de 1998. No início, sua sede ficava na garagem de uma amiga (Susan Wojcicki) em Menlo Park, Califórnia. 
+Craig Silverstein, um colega de doutorado estudante em Stanford, foi contratado como o primeiro funcionário.
