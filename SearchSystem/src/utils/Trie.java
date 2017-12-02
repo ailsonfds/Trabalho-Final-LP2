@@ -30,7 +30,7 @@ public class Trie {
 	 *            a pair containing the info of the word
 	 */
 	public void insert(String key, String fileName, Integer lineNumber, Integer occurences) {
-		if (key.isEmpty()) {
+		if (key == null || key.isEmpty()) {
 			return;
 		}
 		TrieNode current = getRoot(key);
@@ -38,7 +38,7 @@ public class Trie {
 		HashMap<String,HashMap<Integer,Integer>> fileInfo = new HashMap<>();
 		occurence.put(lineNumber, occurences);
 		fileInfo.put(fileName, occurence);
-		if(search(key) !=null) search(key).addValue(fileInfo);
+		if(search(key) != null) search(key).addValue(fileInfo);
 
 		if (current == null) {
 			root.add(new TrieNode(current, key, fileInfo));
@@ -72,9 +72,10 @@ public class Trie {
 	 *            the word to remove on this tree
 	 */
 	public void remove(String key) {
+		if (key == null) return;
 		if (key.length() > 1) {
 			TrieNode current = search(key);
-			while (current != null && current.getChildrens().isEmpty()) {
+			while (current != null && current.getChildrens() != null && current.getChildrens().isEmpty()) {
 				TrieNode father = current.getFather();
 				if (father != null) {
 					father.setInfo(false);
@@ -82,10 +83,10 @@ public class Trie {
 				}
 				current = father;
 			}
-			if(current == null && getRoot(key).getChildrens().isEmpty()) {
+			if(current == null && getRoot(key) != null && getRoot(key).getChildrens() != null && getRoot(key).getChildrens().isEmpty()) {
 				root.remove(getRoot(key));
 			}
-		} else {
+		} else if (search(key) != null){
 			root.remove(search(key));
 		}
 	}

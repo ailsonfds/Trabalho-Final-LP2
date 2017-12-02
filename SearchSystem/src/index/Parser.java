@@ -34,7 +34,7 @@ public class Parser {
 	}
 
 	public ArrayList<String> gotToLine(int lineNumber, String filename) {
-		ArrayList<String> words;
+		ArrayList<String> words = null;
 		try {
 			reader.close();
 			open(filename);
@@ -66,11 +66,11 @@ public class Parser {
 							fileInfo = node.getValue();
 							if (fileInfo != null) {
 								if (fileInfo.get(filename) != null && fileInfo.get(filename).get(line) != null) {
-									fileInfo.get(filename).replace(line, fileInfo.get(filename).get(line) + 1);
+									fileInfo.get(filename).put(line, fileInfo.get(filename).get(line) + 1);
 								} else {
 									HashMap<Integer, Integer> info = new HashMap<>();
 									info.put(line, 1);
-									fileInfo.replace(filename, info);
+									fileInfo.put(filename, info);
 								}
 								tree.insert(word, filename, line, fileInfo.get(filename).get(line)+1);
 							}
@@ -89,12 +89,10 @@ public class Parser {
 		ArrayList<String> words = null;
 		int line = 0;
 		do {
-			words = gotToLine(line, filename);
+			words = gotToLine(line++, filename);
 			if (words != null) {
 				for (String word : words) {
-					if (word != null) {
-						tree.remove(word);
-					}
+					tree.remove(word);
 				}
 			}
 		} while (words != null);
