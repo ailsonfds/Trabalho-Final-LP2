@@ -16,7 +16,9 @@ public class IndexerTest {
 		index.addDocument(filename2);
 		index.addDocument(filename);
 		index.listDocuments();
-		index.removeDocument(filename3);
+		System.out.println("Remoção de arquivos");
+		index.removeDocument(filename2);
+		System.out.println("Remoção concluida");
 		index.listDocuments();
 	}
 
