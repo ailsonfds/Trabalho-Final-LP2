@@ -1,11 +1,11 @@
-O Google comeÁou em janeiro de 1996 como um projeto de pesquisa de Larry Page e Sergey Brin, quando ambos eram estudantes de doutorado na Universidade Stanford, 
-na CalifÛrnia, Estados Unidos.
+O Google come√ßou em janeiro de 1996 como um projeto de pesquisa de Larry Page e Sergey Brin, quando ambos eram estudantes de doutorado na Universidade Stanford, 
+na Calif√≥rnia, Estados Unidos.
 Enquanto os motores de busca convencionais exibiam resultados classificados pela contagem de 
-quantas vezes os termos de busca apareciam na primeira p·gina, os dois teorizaram sobre um sistema melhor que 
-analisava as relaÁıes entre os sites. Eles chamaram esta nova tecnologia PageRank, onde a relev‚ncia de um 
-site era determinada pelo n˙mero de p·ginas, bem como pela import‚ncia dessas p·ginas, que ligavam de volta para o site original.
+quantas vezes os termos de busca apareciam na primeira p√°gina, os dois teorizaram sobre um sistema melhor que 
+analisava as rela√ß√µes entre os sites. Eles chamaram esta nova tecnologia PageRank, onde a relev√¢ncia de um 
+site era determinada pelo n√∫mero de p√°ginas, bem como pela import√¢ncia dessas p√°ginas, que ligavam de volta para o site original.
 Um pequeno motor de busca chamado "RankDex" da IDD Information Services, projetado por Robin Li, desde 1996 Robin, 
-j· explorava uma estratÈgia semelhante para pontuaÁ„o e classificaÁ„o de p·ginas. A tecnologia do RankDex seria 
+j√° explorava uma estrat√©gia semelhante para pontua√ß√£o e classifica√ß√£o de p√°ginas. A tecnologia do RankDex seria 
 patenteada e usada mais tarde por Li, quando fundou a Baidu na China.
 Page e Brin originalmente apelidaram de sua nova ferramenta de busca de "BackRub", porque o sistema de 
-checava backlinks para estimar a import‚ncia de um site.
+checava backlinks para estimar a import√¢ncia de um site.

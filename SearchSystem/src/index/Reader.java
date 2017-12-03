@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.Normalizer;
-import java.text.Normalizer.Form;
 import java.util.ArrayList;
 
 /**
@@ -67,9 +66,9 @@ public class Reader extends BufferedReader {
 		String myRegex = "[^-a-zA-Z0-9]"; // REMOVE TODOS OS CARACTERES ESPECIAIS
 		int index = 0;
 		for (String word : text) {
-			word = Normalizer.normalize(word, Form.NFKD);
+			word = Normalizer.normalize(word, Normalizer.Form.NFD);
 			text.set(index, word.replaceAll("[^\\p{ASCII}]", "")); // REMOVE OS ACENTOS DA LETRAS
-			//text.set(index++, word.replaceAll(myRegex, ""));
+			text.set(index++, word.replaceAll(myRegex, ""));
 		}
 		return text;
 	}
