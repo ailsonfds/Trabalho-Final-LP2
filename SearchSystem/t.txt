@@ -4,7 +4,7 @@ Enquanto os motores de busca convencionais exibiam resultados classificados pela
 quantas vezes os termos de busca apareciam na primeira página, os dois teorizaram sobre um sistema melhor que 
 analisava as relações entre os sites. Eles chamaram esta nova tecnologia PageRank, onde a relevância de um 
 site era determinada pelo número de páginas, bem como pela importância dessas páginas, que ligavam de volta para o site original.
-Um pequeno motor de busca chamado "RankDex" da IDD Information Services, projetado por Robin Li, desde 1996, 
+Um pequeno motor de busca chamado "RankDex" da IDD Information Services, projetado por Robin Li, desde 1996 Robin, 
 já explorava uma estratégia semelhante para pontuação e classificação de páginas. A tecnologia do RankDex seria 
 patenteada e usada mais tarde por Li, quando fundou a Baidu na China.
 Page e Brin originalmente apelidaram de sua nova ferramenta de busca de "BackRub", porque o sistema de 

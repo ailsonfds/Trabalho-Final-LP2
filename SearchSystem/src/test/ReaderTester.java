@@ -22,7 +22,7 @@ public class ReaderTester {
 	public void readLineTest() {
 		Reader reader;
 		try {
-			reader = new Reader("test.txt");
+			reader = new Reader("t.txt");
 			ArrayList<String> line = reader.readBreackedLine();
 			for (String word : line) {
 				System.out.println(word);

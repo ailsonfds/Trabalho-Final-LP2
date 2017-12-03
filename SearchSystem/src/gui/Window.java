@@ -36,7 +36,7 @@ public class Window extends JFrame {
 	 */
 	public Window() {
 		
-		setBounds(500, 300, 450, 300);		// posi��o de inicio
+		setBounds(500, 300, 450, 300);		// posição de inicio
 		
 		imageIcon.setImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\valmir.correa\\Downloads\\toogle.jpg"));
 		getContentPane().setLayout(null);

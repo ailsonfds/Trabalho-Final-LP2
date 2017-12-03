@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 import utils.Trie;
 import utils.TrieNode;
 
@@ -55,25 +56,26 @@ public class Parser {
 	public Trie fillTrie(String filename) {
 		ArrayList<String> words = null;
 		int line = 0;
+		HashMap<String, HashMap<Integer, Integer>> fileInfo = null;
 		do {
 			words = gotToLine(line, filename);
 			if (words != null) {
 				for (String word : words) {
-					System.out.println("Aqui " +  word);
 					if (word != null) {
 						TrieNode node = tree.search(word);
-						HashMap<String, HashMap<Integer, Integer>> fileInfo = null;
 						if (node != null) {
 							fileInfo = node.getValue();
 							if (fileInfo != null) {
 								if (fileInfo.get(filename) != null && fileInfo.get(filename).get(line) != null) {
-									fileInfo.get(filename).put(line, fileInfo.get(filename).get(line) + 1);
+									fileInfo.get(filename).put(line, fileInfo.get(filename).get(line)+1);
+									
 								} else {
 									HashMap<Integer, Integer> info = new HashMap<>();
 									info.put(line, 1);
 									fileInfo.put(filename, info);
+				
 								}
-								tree.insert(word, filename, line, fileInfo.get(filename).get(line)+1);
+								tree.insert(word, filename, line, fileInfo.get(filename).get(line));
 							}
 						} else {
 							tree.insert(word, filename, line, 1);
@@ -83,8 +85,46 @@ public class Parser {
 				line++;
 			}
 		} while (words != null);
-		return tree;
+		return tree; 
 	}
+		
+	/*	Map<String, Integer> map;
+		map = new HashMap<String, Integer>();
+		int line = 0;
+		value = null;
+
+		HashMap<String, HashMap<Integer, Integer>> fileInfo = null;
+
+		ArrayList<String> words = gotToLine(line, filename);
+		while (words != null) {
+			for (String word : words) {
+				if (word != null) {
+					if (map.containsKey(word)){
+						TrieNode node = tree.search(word);
+						if (node != null) {
+							fileInfo = node.getValue();
+						}
+						if (fileInfo != null) {
+							if (fileInfo.get(filename) != null && fileInfo.get(filename).get(line) != null) {
+								map.put(word, map.get(word) + 1);
+								extracted(value).put(line, map.get(word));
+								fileInfo.put(filename, extracted(value));
+								tree.insert(word, filename, line, map.get(word));
+							}
+						}
+					} else {
+						map.put(word, 1);
+						value.put(line, map.get(word));
+						fileInfo.put(filename, value);
+						tree.insert(word, filename, line, 1);
+					}
+				}
+			}
+			line++;
+			words = gotToLine(line, filename);
+		}
+
+		return tree; */
 
 	public Trie removeFromTrie(String filename) {
 		ArrayList<String> words = null;
@@ -105,7 +145,7 @@ public class Parser {
 		ArrayList<String> words = null;
 		int line = 0, cont = 0;
 		do {
-			words = gotToLine(line,filename);
+			words = gotToLine(line, filename);
 			if (words != null) {
 				for (String word : words) {
 					if (word != null) {
