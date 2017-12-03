@@ -55,7 +55,7 @@ public class Parser {
 
 	public Trie fillTrie(String filename) {
 		ArrayList<String> words = null;
-		int line = 0;
+		int line = 1;
 		HashMap<String, HashMap<Integer, Integer>> fileInfo = null;
 		do {
 			words = gotToLine(line, filename);
@@ -66,16 +66,15 @@ public class Parser {
 						if (node != null) {
 							fileInfo = node.getValue();
 							if (fileInfo != null) {
-								if (fileInfo.get(filename) != null && fileInfo.get(filename).get(line) != null) {
-									fileInfo.get(filename).put(line, fileInfo.get(filename).get(line)+1);
-									
-								} else {
+								int occurrences = 1;
+								if (fileInfo.containsKey(filename) && fileInfo.get(filename).containsKey(line)) {
+									occurrences += fileInfo.get(filename).get(line);
+								} else if (!fileInfo.containsKey(filename)) {
 									HashMap<Integer, Integer> info = new HashMap<>();
 									info.put(line, 1);
 									fileInfo.put(filename, info);
-				
 								}
-								tree.insert(word, filename, line, fileInfo.get(filename).get(line));
+								tree.insert(word, filename, line, occurrences);
 							}
 						} else {
 							tree.insert(word, filename, line, 1);
