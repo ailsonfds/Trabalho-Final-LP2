@@ -79,7 +79,6 @@ public class Indexer {
 	public void listDocuments() {
 		System.out.println("Contidos no sistema:");
 		int cont = 0;
-		int quant = 0;
 		Collections.sort(files);
 		for (String file : files) {
 			cont++;
