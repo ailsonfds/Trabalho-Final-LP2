@@ -3,12 +3,12 @@
  */
 package gui;
 
+import java.awt.Toolkit;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import java.awt.BorderLayout;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.Toolkit;
 
 /**
  * The GUI elements generator
@@ -36,7 +36,7 @@ public class Window extends JFrame {
 	 */
 	public Window() {
 		
-		setBounds(500, 300, 450, 300);		// posição de inicio
+		setBounds(500, 300, 450, 300);		// posiï¿½ï¿½o de inicio
 		
 		imageIcon.setImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\valmir.correa\\Downloads\\toogle.jpg"));
 		getContentPane().setLayout(null);

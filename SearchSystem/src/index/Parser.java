@@ -59,6 +59,7 @@ public class Parser {
 			words = gotToLine(line, filename);
 			if (words != null) {
 				for (String word : words) {
+					System.out.println("Aqui " +  word);
 					if (word != null) {
 						TrieNode node = tree.search(word);
 						HashMap<String, HashMap<Integer, Integer>> fileInfo = null;

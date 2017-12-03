@@ -12,13 +12,17 @@ public class IndexerTest {
 		String filename = "test.txt";
 		String filename2 = "t.txt";
 		String filename3 = "teste.txt";
-		index.addDocument(filename3);
-		index.addDocument(filename2);
-		index.addDocument(filename);
+		String filename4 = "biblia-em-txt.txt";
+		System.out.println("#### INSERÇÃO TESTE ####");
+	//	index.addDocument(filename);
+	//	index.addDocument(filename2);
+	//	index.addDocument(filename3);
+		index.addDocument(filename4);
 		index.listDocuments();
-		System.out.println("Remoção de arquivos");
-		index.removeDocument(filename2);
-		System.out.println("Remoção concluida");
+		
+		System.out.println("#### REMOÇÃO TESTE ####");
+	//	index.removeDocument(filename3);
+	//	index.removeDocument(filename);
 		index.listDocuments();
 	}
 

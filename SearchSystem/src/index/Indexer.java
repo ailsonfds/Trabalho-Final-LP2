@@ -19,8 +19,8 @@ import utils.TrieNode;
  * @author Larissa Moura
  */
 /*
- * (non-Javadoc) Essa classe √© apenas uma classe de interface com outras
- * classes, ou seja, ela √© classe de fronteira(Ela n√£o √© <interface> apenas
+ * (non-Javadoc) Essa classe È apenas uma classe de interface com outras
+ * classes, ou seja, ela È classe de fronteira(Ela n„o È <interface> apenas
  * interage com outras classes)
  */
 public class Indexer {
@@ -79,7 +79,6 @@ public class Indexer {
 	public void listDocuments() {
 		System.out.println("Contidos no sistema:");
 		int cont = 0;
-		int quant = 0;
 		Collections.sort(files);
 		for (String file : files) {
 			cont++;

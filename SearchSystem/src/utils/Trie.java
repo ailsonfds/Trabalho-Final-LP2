@@ -78,7 +78,7 @@ public class Trie {
 			while (current != null && current.getChildrens() != null && current.getChildrens().isEmpty()) {
 				TrieNode father = current.getFather();
 				if (father != null) {
-					father.setInfo(false);
+					current.setInfo(false);
 					father.getChildrens().remove(current.getKey());
 				}
 				current = father;
@@ -88,6 +88,42 @@ public class Trie {
 			}
 		} else if (search(key) != null){
 			root.remove(search(key));
+		}
+	}
+	
+	/**
+	 * Remove a node occurrence of the tree
+	 * 
+	 * @param key
+	 *            the word to remove on this tree
+	 * @param fileName
+	 * 			  the name of the file to remove occurrence
+	 */
+	public void removeFileOccurrence(String key, String fileName) {
+		if (key == null) return;
+		if (key.length() > 1) {
+			TrieNode current = search(key);
+			if(current != null && current.getValue().containsKey(fileName)) {
+				current.getValue().remove(fileName);
+				if(current.getValue().isEmpty()) {
+					while (current != null && current.getChildrens() != null && current.getChildrens().isEmpty()) {
+						TrieNode father = current.getFather();
+						if (father != null) {
+							current.setInfo(false);
+							father.getChildrens().remove(current.getKey());
+						}
+						current = father;
+					}
+					if(current == null && getRoot(key) != null && getRoot(key).getChildrens() != null && getRoot(key).getChildrens().isEmpty()) {
+						root.remove(getRoot(key));
+					}
+				}
+			}
+		} else if (search(key) != null && search(key).getValue().containsKey(fileName)){
+			search(key).getValue().remove(fileName);
+			if(search(key).getValue().isEmpty()) {
+				root.remove(search(key));
+			}
 		}
 	}
 
@@ -100,18 +136,18 @@ public class Trie {
 	 *         the info of the file
 	 */
 	public TrieNode search(String key) {
-		for (TrieNode current : root) {
-			if (!key.isEmpty() && current.getKey() == key.charAt(0)) {
-				key = key.substring(1);
-				for (char ch : key.toCharArray()) {
-					TrieNode node = current.getChild(ch);
-					if (node == null)
-						return null;
-					current = node;
-				}
-				if (current.getInfo() == true)
-					return current;
+		if(key.isEmpty()) return null;
+		TrieNode current = getRoot(key);
+		if (current != null) {
+			key = key.substring(1);
+			for (char ch : key.toCharArray()) {
+				TrieNode node = current.getChild(ch);
+				if (node == null)
+					return null;
+				current = node;
 			}
+			if (current.getInfo() == true)
+				return current;
 		}
 		return null;
 	}
