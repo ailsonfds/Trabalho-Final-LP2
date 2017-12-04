@@ -8,9 +8,11 @@ import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ContainerListener;
 import java.io.File;
 import java.util.HashMap;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -31,6 +33,7 @@ import exceptions.EmptySearchException;
 import exceptions.EmptyWordException;
 import exceptions.FileAlreadyExistsException;
 import exceptions.FileTypeException;
+import exceptions.TrieInsertionException;
 import index.Indexer;
 import utils.TrieNode;
 
@@ -123,17 +126,31 @@ public class Window extends JFrame {
 
 	/**
 	 * Perform "AND" Search
+	 * @throws TrieInsertionException 
 	 */
 	private void buscaAnd(String arg) {
 		try {
+			DefaultListModel<String> model = new DefaultListModel<>();
 			HashMap<String, TrieNode> result = indexer.searchAND(arg);
-			Container actualPanel = getContentPane();
-			JPanel resultPanel = new JPanel();
-			JList<String> list = new JList<>();
+			for (String keySearch : result.keySet()) {
+				TrieNode node = result.get(keySearch);
+				if(node.getValue() == null) throw new TrieInsertionException("Ferrou");
+				for (String file : node.getValue().keySet()) {
+					HashMap<Integer, Integer> occr = node.getValue().get(file);
+					for (Integer line : occr.keySet()) {
+						String printout = keySearch + ": " + file + "-> " + line + " : " + occr.get(line)/2;
+						model.addElement(printout);
+					}
+				}
+			}
+			JPanel actualPanel = new JPanel();
+			JList<String> list = new JList<>(model);
 			JScrollPane scroll = new JScrollPane(list);
+			scroll.setVisible(true);
 			
 			actualPanel.add(scroll, BorderLayout.EAST);
-		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			actualPanel.setVisible(true);
+		} catch (EmptyWordException | EmptySearchException | BlackListException | TrieInsertionException e) {
 			e.printStackTrace();
 		}
 	}
@@ -142,7 +159,30 @@ public class Window extends JFrame {
 	 * Perform "OR" Search
 	 */
 	private void buscaOr(String arg) {
-
+		try {
+			DefaultListModel<String> model = new DefaultListModel<>();
+			HashMap<String, TrieNode> result = indexer.searchOR(arg);
+			for (String keySearch : result.keySet()) {
+				TrieNode node = result.get(keySearch);
+				if(node.getValue() == null) throw new TrieInsertionException("Ferrou");
+				for (String file : node.getValue().keySet()) {
+					HashMap<Integer, Integer> occr = node.getValue().get(file);
+					for (Integer line : occr.keySet()) {
+						String printout = keySearch + ": " + file + "-> " + line + " : " + occr.get(line)/2;
+						model.addElement(printout);
+					}
+				}
+			}
+			JPanel actualPanel = new JPanel();
+			JList<String> list = new JList<>(model);
+			JScrollPane scroll = new JScrollPane(list);
+			scroll.setVisible(true);
+			
+			actualPanel.add(scroll, BorderLayout.EAST);
+			actualPanel.setVisible(true);
+		} catch (EmptyWordException | EmptySearchException | BlackListException | TrieInsertionException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
