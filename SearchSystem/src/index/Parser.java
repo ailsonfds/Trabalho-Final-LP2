@@ -67,41 +67,6 @@ public class Parser {
 		return tree; 
 	}
 		
-	/*	Map<String, Integer> map;
-		map = new HashMap<String, Integer>();
-		int line = 0;
-		value = null;
-		HashMap<String, HashMap<Integer, Integer>> fileInfo = null;
-		ArrayList<String> words = gotToLine(line, filename);
-		while (words != null) {
-			for (String word : words) {
-				if (word != null) {
-					if (map.containsKey(word)){
-						TrieNode node = tree.search(word);
-						if (node != null) {
-							fileInfo = node.getValue();
-						}
-						if (fileInfo != null) {
-							if (fileInfo.get(filename) != null && fileInfo.get(filename).get(line) != null) {
-								map.put(word, map.get(word) + 1);
-								extracted(value).put(line, map.get(word));
-								fileInfo.put(filename, extracted(value));
-								tree.insert(word, filename, line, map.get(word));
-							}
-						}
-					} else {
-						map.put(word, 1);
-						value.put(line, map.get(word));
-						fileInfo.put(filename, value);
-						tree.insert(word, filename, line, 1);
-					}
-				}
-			}
-			line++;
-			words = gotToLine(line, filename);
-		}
-		return tree; */
-
 	public Trie removeFromTrie(String filename) {
 		ArrayList<String> words = null;
 		int line = 0;

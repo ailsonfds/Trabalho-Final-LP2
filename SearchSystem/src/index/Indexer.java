@@ -6,11 +6,15 @@ package index;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 
+import exceptions.EmptySearchException;
 import exceptions.EmptyWordException;
 import exceptions.FileAlreadyExistsException;
 import exceptions.FileNotFoundException;
 import exceptions.FileTypeException;
+import exceptions.TrieInsertionException;
 import utils.Trie;
 import utils.TrieNode;
 
@@ -25,19 +29,21 @@ import utils.TrieNode;
  * @author Larissa Moura
  */
 /*
- * (non-Javadoc) Essa classe � apenas uma classe de interface com outras
- * classes, ou seja, ela � classe de fronteira(Ela n�o � <interface> apenas
+ * (non-Javadoc) Essa classe eh apenas uma classe de interface com outras
+ * classes, ou seja, ela eh classe de fronteira(Ela naum eh <interface> apenas
  * interage com outras classes)
  */
 public class Indexer {
 	Parser p;
 	ArrayList<String> files;
 	String extension;
+	Trie trieBlack;
 
 	public Indexer() {
 		files = new ArrayList<>();
 		p = new Parser();
 		extension = ".txt";
+		trieBlack = new Trie();
 	}
 
 	/**
@@ -101,14 +107,16 @@ public class Indexer {
 	/**
 	 * Will print a list of documents that are present on database
 	 */
-	public void listDocuments() {
-		System.out.println("Contidos no sistema:");
+	public ArrayList<String> listDocuments() {
+		ArrayList<String> result = new ArrayList<>();
 		int cont = 0;
 		Collections.sort(files);
 		for (String file : files) {
 			cont++;
-			System.out.println("Arquivo " + cont + ": " + file + " com: " + p.contWords(file) + " palavras. ");
+			String aux = "Arquivo " + cont + ": " + file + " com: " + p.contWords(file) + " palavras. ";
+			result.add(aux);
 		}
+		return result;
 	}
 
 	public String treatWord(String word) {
@@ -117,86 +125,162 @@ public class Indexer {
 		return word;
 	}
 
-	public void searchOR(String word) throws EmptyWordException {
+	public HashMap<String, TrieNode> searchOR(String word) throws EmptyWordException, EmptySearchException {
 		if (word == null) {
 			throw new EmptyWordException("This search is empty, please insert a valid text");
 		} else {
+			HashMap<String, TrieNode> retorno = new HashMap<>();
 			Trie tree = p.getTree();
 			TrieNode node = null;
 			String[] words = word.split(" ");
 			if (words.length > 1) {
 				for (String w : words) {
 					String aux = treatWord(w);
-					node = tree.search(aux);
-					if (node != null) {
-						System.out.println(w + "-" + node.getValue());
+					if (checkOnBlacklist(aux)) {
+						System.out.println("You can't search this, it's on the blacklist.");
 					} else {
-						System.out.println("No results for: " + w);
+						node = tree.search(aux);
+						if (node != null) {
+							retorno.put(w, node);
+						} else {
+							throw new EmptySearchException("No results for: " + w);
+						}
 					}
 				}
 			} else {
 				String aux = treatWord(word);
-				node = tree.search(aux);
-				if (node != null) {
-					System.out.println(word + "-" + node.getValue());
+				if (checkOnBlacklist(aux)) {
+					System.out.println("You can't search this, it's on the blacklist.");
 				} else {
-					System.out.println("No results for: " + word);
+					node = tree.search(aux);
+					if (node != null) {
+						retorno.put(word, node);
+					} else {
+						throw new EmptySearchException("No results for: " + word);
+					}
 				}
 			}
+			if (retorno.isEmpty()) {
+				throw new EmptySearchException("No results for: " + word);
+			}
+			return retorno;
 		}
 	}
 
-	public void searchAND(String word) throws EmptyWordException {
+	public HashMap<String, TrieNode> searchAND(String word) throws EmptyWordException, EmptySearchException {
 		if (word == null) {
 			throw new EmptyWordException("This search is empty, please insert a valid text");
 		}
+		HashMap<String, TrieNode> retorno = new HashMap<>();
 		Trie tree = p.getTree();
 		TrieNode node = null;
 		String[] words = word.split(" ");
 		if (words.length > 1) {
-			ArrayList<TrieNode> nodes = new ArrayList<>();
+			ArrayList<TrieNode> nodesSearched = new ArrayList<>();
+			// Busca na árvore
 			for (String w : words) {
 				String aux = treatWord(w);
-				node = tree.search(aux);
-				if (node != null) {
-					nodes.add(node);
-				}
-			}
-			if (nodes.size() == words.length) {
-				int cont = 0;
-				for (int i = 0; i < nodes.size() - 1; i++) {
-					if (nodes.get(i).getValue().equals(nodes.get(i + 1).getValue())) { // COMPARAR SOMENTE NOME DO
-																						// ARQUIVO 
-						cont++;
-					}
-				}
-				if (cont == nodes.size()) {
-					for (TrieNode n : nodes) {
-						System.out.println(n.getValue());
-					}
+				if (checkOnBlacklist(aux)) {
+					System.out.println("You can't search this, it's on the blacklist.");
 				} else {
-					System.out.println("No results for this type of search ");
+					node = tree.search(aux);
+					if (node != null) {
+						nodesSearched.add(node);
+					}
 				}
-			} else {
-				System.out.println("No results for this type of search ");
 			}
+			HashSet<String> nodesFileName = new HashSet<>();
+			// Captura o nome dos arquivos
+			for (TrieNode n : nodesSearched) {
+				nodesFileName.addAll(n.getValue().keySet());
+			}
+			HashMap<String, ArrayList<TrieNode>> occurences = new HashMap<>();
+			// Verifica a existência dos arquivos na ocorrência das palavras
+			for (String key : nodesFileName) {
+				for (TrieNode n : nodesSearched) {
+					if (n.getValue().containsKey(key)) {
+						if (occurences.containsKey(key)) {
+							occurences.get(key).add(n);
+						} else {
+							ArrayList<TrieNode> aux = new ArrayList<>();
+							aux.add(n);
+							occurences.put(key, aux);
+						}
+					}
+				}
+			}
+			// adiciona ao retorno a busca
+			for (String w : occurences.keySet()) {
+				if (nodesSearched.size() == occurences.get(w).size()) {
+					for (String s : words) {
+						retorno.put(s, tree.search(word));
+					}
+				}
+			}
+			if (retorno.isEmpty()) {
+				throw new EmptySearchException("No results for: " + word);
+			}
+			return retorno;
 		} else {
 			String aux = treatWord(word);
+			if (checkOnBlacklist(aux)) {
+				System.out.println("You can't search this, it's on the blacklist.");
+			}
 			node = tree.search(aux);
 			if (node != null) {
-				System.out.println(word + "-" + node.getValue());
+				retorno.put(word, node);
 			} else {
-				System.out.println("No results for: " + word);
+				throw new EmptySearchException("No results for: " + word);
 			}
+			if (retorno.isEmpty()) {
+				throw new EmptySearchException("No results for: " + word);
+			}
+			return retorno;
 		}
 
 	}
 
 	/**
 	 * Add a blacklist of words
+	 * 
+	 * @throws TrieInsertionException
 	 */
-	public void readBlacklist() {
+	public boolean readBlacklist(String blacklist) throws TrieInsertionException, FileTypeException {
+		if (!(blacklist.toLowerCase().contains(extension.toLowerCase()))) {
+			throw new FileTypeException("Please, insert a file with .txt extension.");
+		} else {
+			Parser pBlack = new Parser();
+			trieBlack = pBlack.fillTrie(blacklist);
+			if (trieBlack != null) {
+				return true;
+			} else {
+				throw new TrieInsertionException("The document was not indexed in the system.");
+			}
+		}
+	}
 
+	/**
+	 * Add a blacklist of words
+	 */
+	public boolean checkOnBlacklist(String word) {
+		String[] words = word.split(" ");
+		TrieNode nodeBlack = trieBlack.search(word);
+		if (words.length > 1) {
+			for (String w : words) {
+				String aux = treatWord(w);
+				nodeBlack = trieBlack.search(aux);
+				if (nodeBlack != null) {
+					return true;
+				}
+			}
+		} else {
+			String aux = treatWord(word);
+			nodeBlack = trieBlack.search(aux);
+			if (nodeBlack != null) {
+				return true; // It's on blacklist
+			}
+		}
+		return false;
 	}
 
 }
