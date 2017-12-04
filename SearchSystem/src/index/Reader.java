@@ -33,6 +33,30 @@ public class Reader extends BufferedReader {
 		this.fileName = fileName;
 	}
 
+//	/**
+//	 * Read one line in the file and split her into space separated words
+//	 * 
+//	 * @return a list within the words of a line
+//	 */
+//	public ArrayList<String> readBreackedLine() {
+//		ArrayList<String> retorno = new ArrayList<>();
+//		String line;
+//		try {
+//			if ((line = super.readLine()) != null) {
+//				String[] words = line.split(" ");
+//				for (String word : words)
+//					retorno.add(word);
+//			}
+//		} catch (IOException e) {
+//			System.out.println("Unable to read file: " + fileName);
+//		}
+//		retorno = removeCharacters(retorno);
+//		retorno = ajustsLowerCase(retorno);
+//		if (retorno.isEmpty())
+//			return null;
+//		return retorno;
+//	}
+	
 	/**
 	 * Read one line in the file and split her into space separated words
 	 * 
@@ -44,14 +68,16 @@ public class Reader extends BufferedReader {
 		try {
 			if ((line = super.readLine()) != null) {
 				String[] words = line.split(" ");
-				for (String word : words)
-					retorno.add(word);
+				for (String word : words) {
+					word = Normalizer.normalize(word, Normalizer.Form.NFD);
+					word = word.replaceAll("[^\\p{ASCII}]", "");
+					word = word.replaceAll("[^-a-zA-Z0-9]", "");
+					retorno.add(word.toLowerCase());
+				}
 			}
 		} catch (IOException e) {
 			System.out.println("Unable to read file: " + fileName);
 		}
-		retorno = removeCharacters(retorno);
-		retorno = ajustsLowerCase(retorno);
 		if (retorno.isEmpty())
 			return null;
 		return retorno;

@@ -21,7 +21,7 @@ public class IndexerTest {
 		String filename = "test.txt";
 		String filename2 = "t.txt";
 		String filename3 = "teste.txt";
-//		String filename4 = "biblia-em-txt.txt";
+		String filename4 = "biblia-em-txt.txt";
 		String word1 = "google";
 		String word2 = "começou";
 		String word3 = "Califórnia";
@@ -44,11 +44,11 @@ public class IndexerTest {
 		} catch (FileTypeException | FileAlreadyExistsException e1) {
 			e1.printStackTrace();
 		}
-//		try {
-//			index.addDocument(filename4);
-//		} catch (FileTypeException | FileAlreadyExistsException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			index.addDocument(filename4);
+		} catch (FileTypeException | FileAlreadyExistsException e) {
+			e.printStackTrace();
+		}
 		System.out.println(index.listDocuments());
 
 		System.out.println("#### BUSCA OR e AND TESTE ####");
