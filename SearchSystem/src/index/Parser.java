@@ -2,11 +2,8 @@ package index;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 
 import utils.Trie;
-import utils.TrieNode;
 
 /**
  * This class is responsible to look into the files and make new files using the
@@ -52,33 +49,16 @@ public class Parser {
 		reader.close();
 		reader = new Reader(filename);
 	}
-
+	
 	public Trie fillTrie(String filename) {
 		ArrayList<String> words = null;
-		int line = 1;
-		HashMap<String, HashMap<Integer, Integer>> fileInfo = null;
+		int line = 0;
 		do {
 			words = gotToLine(line, filename);
 			if (words != null) {
 				for (String word : words) {
 					if (word != null) {
-						TrieNode node = tree.search(word);
-						if (node != null) {
-							fileInfo = node.getValue();
-							if (fileInfo != null) {
-								int occurrences = 1;
-								if (fileInfo.containsKey(filename) && fileInfo.get(filename).containsKey(line)) {
-									occurrences += fileInfo.get(filename).get(line);
-								} else if (!fileInfo.containsKey(filename)) {
-									HashMap<Integer, Integer> info = new HashMap<>();
-									info.put(line, 1);
-									fileInfo.put(filename, info);
-								}
-								tree.insert(word, filename, line, occurrences);
-							}
-						} else {
-							tree.insert(word, filename, line, 1);
-						}
+						tree.insert(word, filename, line);
 					}
 				}
 				line++;
@@ -132,7 +112,7 @@ public class Parser {
 			words = gotToLine(line++, filename);
 			if (words != null) {
 				for (String word : words) {
-					tree.remove(word);
+					tree.removeFileOccurrence(word,filename);
 				}
 			}
 		} while (words != null);

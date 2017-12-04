@@ -111,6 +111,10 @@ public class TrieNode {
 				}
 			}
 	}
+	
+	public void setValue(HashMap<String, HashMap<Integer, Integer>> value) {
+		this.value = value;
+	}
 
 	/*
 	 * (non-Javadoc)

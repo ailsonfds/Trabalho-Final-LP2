@@ -29,16 +29,18 @@ public class Trie {
 	 * @param fileInfo
 	 *            a pair containing the info of the word
 	 */
+	@Deprecated
 	public void insert(String key, String fileName, Integer lineNumber, Integer occurences) {
 		if (key == null || key.isEmpty()) {
 			return;
 		}
 		TrieNode current = getRoot(key);
-		HashMap<Integer,Integer> occurence = new HashMap<>();
-		HashMap<String,HashMap<Integer,Integer>> fileInfo = new HashMap<>();
+		HashMap<Integer, Integer> occurence = new HashMap<>();
+		HashMap<String, HashMap<Integer, Integer>> fileInfo = new HashMap<>();
 		occurence.put(lineNumber, occurences);
 		fileInfo.put(fileName, occurence);
-		if(search(key) != null) search(key).addValue(fileInfo);
+		if (search(key) != null)
+			search(key).addValue(fileInfo);
 
 		if (current == null) {
 			root.add(new TrieNode(current, key, fileInfo));
@@ -59,8 +61,75 @@ public class Trie {
 				// increment actual index of this for
 				index++;
 			}
-			if(!inserted) {
+			if (!inserted) {
 				current.setInfo(true);
+			}
+		}
+	}
+
+	/**
+	 * A method to insert nodes in this tree
+	 * 
+	 * @param key
+	 *            the word to store on this tree
+	 * @param fileInfo
+	 *            a pair containing the info of the word
+	 */
+	public void insert(String key, String fileName, Integer lineNumber) {
+		if (key == null || key.isEmpty()) {
+			return;
+		}
+		TrieNode current = getRoot(key);
+		HashMap<Integer, Integer> occurence = new HashMap<>();
+		HashMap<String, HashMap<Integer, Integer>> fileInfo = new HashMap<>();
+
+		occurence.put(lineNumber, 1);
+		fileInfo.put(fileName, occurence);
+
+		if (current == null) {
+			root.add(new TrieNode(current, key, fileInfo));
+		} else {
+			boolean inserted = false;
+			int index = 1; // Serve to know where to begin the substring to add
+			for (char ch : key.substring(1).toCharArray()) {
+				// if ch not present create a new node and enter the character in the current
+				// node;
+				if (current.getChild(ch) == null) {
+					TrieNode next = new TrieNode(current, key.substring(index), fileInfo);
+					current.getChildrens().put(ch, next);
+					inserted = true;
+					break;
+				}
+				// check if character is present;
+				current = current.getChild(ch);
+				// increment actual index of this for
+				index++;
+			}
+			
+			if (!inserted) {
+				current.setInfo(true);
+				if (current.getValue() == null || current.getValue().isEmpty()) {
+					occurence = new HashMap<>();
+					fileInfo = new HashMap<>();
+					occurence.put(lineNumber, 1);
+					fileInfo.put(fileName, occurence);
+					current.setValue(fileInfo);
+				} else {
+					fileInfo = current.getValue();
+					if (fileInfo.containsKey(fileName)) {
+						occurence = fileInfo.get(fileName);
+						if (occurence.containsKey(lineNumber)) {
+							occurence.put(lineNumber, occurence.get(lineNumber) + 1);
+						} else {
+							occurence.put(lineNumber, 1);
+						}
+					} else {
+						occurence = new HashMap<>();
+						occurence.put(lineNumber, 1);
+						fileInfo.put(fileName, occurence);
+					}
+					current.setValue(fileInfo);
+				}
 			}
 		}
 	}
