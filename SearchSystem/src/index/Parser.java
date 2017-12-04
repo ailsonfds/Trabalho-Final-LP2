@@ -2,11 +2,8 @@ package index;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 
 import utils.Trie;
-import utils.TrieNode;
 
 /**
  * This class is responsible to look into the files and make new files using the
@@ -52,34 +49,16 @@ public class Parser {
 		reader.close();
 		reader = new Reader(filename);
 	}
-
+	
 	public Trie fillTrie(String filename) {
 		ArrayList<String> words = null;
 		int line = 0;
-		HashMap<String, HashMap<Integer, Integer>> fileInfo = null;
 		do {
 			words = gotToLine(line, filename);
 			if (words != null) {
 				for (String word : words) {
 					if (word != null) {
-						TrieNode node = tree.search(word);
-						if (node != null) {
-							fileInfo = node.getValue();
-							if (fileInfo != null) {
-								if (fileInfo.get(filename) != null && fileInfo.get(filename).get(line) != null) {
-									fileInfo.get(filename).put(line, fileInfo.get(filename).get(line)+1);
-									
-								} else {
-									HashMap<Integer, Integer> info = new HashMap<>();
-									info.put(line, 1);
-									fileInfo.put(filename, info);
-				
-								}
-								tree.insert(word, filename, line, fileInfo.get(filename).get(line));
-							}
-						} else {
-							tree.insert(word, filename, line, 1);
-						}
+						tree.insert(word, filename, line);
 					}
 				}
 				line++;
@@ -92,9 +71,7 @@ public class Parser {
 		map = new HashMap<String, Integer>();
 		int line = 0;
 		value = null;
-
 		HashMap<String, HashMap<Integer, Integer>> fileInfo = null;
-
 		ArrayList<String> words = gotToLine(line, filename);
 		while (words != null) {
 			for (String word : words) {
@@ -123,7 +100,6 @@ public class Parser {
 			line++;
 			words = gotToLine(line, filename);
 		}
-
 		return tree; */
 
 	public Trie removeFromTrie(String filename) {
@@ -133,7 +109,7 @@ public class Parser {
 			words = gotToLine(line++, filename);
 			if (words != null) {
 				for (String word : words) {
-					tree.remove(word);
+					tree.removeFileOccurrence(word,filename);
 				}
 			}
 		} while (words != null);

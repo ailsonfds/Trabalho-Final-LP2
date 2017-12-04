@@ -3,6 +3,7 @@
  */
 package index;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -10,6 +11,7 @@ import exceptions.EmptyWordException;
 import exceptions.FileAlreadyExistsException;
 import exceptions.FileNotFoundException;
 import exceptions.FileTypeException;
+import utils.Trie;
 import utils.TrieNode;
 
 /**
@@ -23,8 +25,8 @@ import utils.TrieNode;
  * @author Larissa Moura
  */
 /*
- * (non-Javadoc) Essa classe é apenas uma classe de interface com outras
- * classes, ou seja, ela é classe de fronteira(Ela não é <interface> apenas
+ * (non-Javadoc) Essa classe ï¿½ apenas uma classe de interface com outras
+ * classes, ou seja, ela ï¿½ classe de fronteira(Ela nï¿½o ï¿½ <interface> apenas
  * interage com outras classes)
  */
 public class Indexer {
@@ -59,13 +61,6 @@ public class Indexer {
 				files.add(filename);
 			}
 		}
-
-		// TESTE TEMPORARIO PARA CONFERIR NOS
-		for (TrieNode node : p.getTree().getAllRoots()) {
-			for (String word : p.getTree().getWords("" + node.getKey())) {
-				System.out.println(word + "-" + p.getTree().search(word).getValue());
-			}
-		} // APAGAR DEPOIS
 	}
 
 	/**
@@ -116,16 +111,83 @@ public class Indexer {
 		}
 	}
 
-	public void searchOR(String word) throws EmptyWordException {
-		if (word != null || word.equals(" ")) {
-			throw new EmptyWordException("This search is empty, please insert a valid text");
-		}
+	public String treatWord(String word) {
+		word = Normalizer.normalize(word, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+		word = word.replaceAll("[^-a-zA-Z0-9]", "");
+		return word;
+	}
 
+	public void searchOR(String word) throws EmptyWordException {
+		if (word == null) {
+			throw new EmptyWordException("This search is empty, please insert a valid text");
+		} else {
+			Trie tree = p.getTree();
+			TrieNode node = null;
+			String[] words = word.split(" ");
+			if (words.length > 1) {
+				for (String w : words) {
+					String aux = treatWord(w);
+					node = tree.search(aux);
+					if (node != null) {
+						System.out.println(w + "-" + node.getValue());
+					} else {
+						System.out.println("No results for: " + w);
+					}
+				}
+			} else {
+				String aux = treatWord(word);
+				node = tree.search(aux);
+				if (node != null) {
+					System.out.println(word + "-" + node.getValue());
+				} else {
+					System.out.println("No results for: " + word);
+				}
+			}
+		}
 	}
 
 	public void searchAND(String word) throws EmptyWordException {
-		if (word != null || word.equals(" ")) {
+		if (word == null) {
 			throw new EmptyWordException("This search is empty, please insert a valid text");
+		}
+		Trie tree = p.getTree();
+		TrieNode node = null;
+		String[] words = word.split(" ");
+		if (words.length > 1) {
+			ArrayList<TrieNode> nodes = new ArrayList<>();
+			for (String w : words) {
+				String aux = treatWord(w);
+				node = tree.search(aux);
+				if (node != null) {
+					nodes.add(node);
+				}
+			}
+			if (nodes.size() == words.length) {
+				int cont = 0;
+				for (int i = 0; i < nodes.size() - 1; i++) {
+					if (nodes.get(i).getValue().equals(nodes.get(i + 1).getValue())) { // COMPARAR SOMENTE NOME DO
+																						// ARQUIVO 
+						cont++;
+					}
+				}
+				if (cont == nodes.size()) {
+					for (TrieNode n : nodes) {
+						System.out.println(n.getValue());
+					}
+				} else {
+					System.out.println("No results for this type of search ");
+				}
+			} else {
+				System.out.println("No results for this type of search ");
+			}
+		} else {
+			String aux = treatWord(word);
+			node = tree.search(aux);
+			if (node != null) {
+				System.out.println(word + "-" + node.getValue());
+			} else {
+				System.out.println("No results for: " + word);
+			}
 		}
 
 	}

@@ -29,16 +29,18 @@ public class Trie {
 	 * @param fileInfo
 	 *            a pair containing the info of the word
 	 */
+	@Deprecated
 	public void insert(String key, String fileName, Integer lineNumber, Integer occurences) {
 		if (key == null || key.isEmpty()) {
 			return;
 		}
 		TrieNode current = getRoot(key);
-		HashMap<Integer,Integer> occurence = new HashMap<>();
-		HashMap<String,HashMap<Integer,Integer>> fileInfo = new HashMap<>();
+		HashMap<Integer, Integer> occurence = new HashMap<>();
+		HashMap<String, HashMap<Integer, Integer>> fileInfo = new HashMap<>();
 		occurence.put(lineNumber, occurences);
 		fileInfo.put(fileName, occurence);
-		if(search(key) != null) search(key).addValue(fileInfo);
+		if (search(key) != null)
+			search(key).addValue(fileInfo);
 
 		if (current == null) {
 			root.add(new TrieNode(current, key, fileInfo));
@@ -59,8 +61,75 @@ public class Trie {
 				// increment actual index of this for
 				index++;
 			}
-			if(!inserted) {
+			if (!inserted) {
 				current.setInfo(true);
+			}
+		}
+	}
+
+	/**
+	 * A method to insert nodes in this tree
+	 * 
+	 * @param key
+	 *            the word to store on this tree
+	 * @param fileInfo
+	 *            a pair containing the info of the word
+	 */
+	public void insert(String key, String fileName, Integer lineNumber) {
+		if (key == null || key.isEmpty()) {
+			return;
+		}
+		TrieNode current = getRoot(key);
+		HashMap<Integer, Integer> occurence = new HashMap<>();
+		HashMap<String, HashMap<Integer, Integer>> fileInfo = new HashMap<>();
+
+		occurence.put(lineNumber, 1);
+		fileInfo.put(fileName, occurence);
+
+		if (current == null) {
+			root.add(new TrieNode(current, key, fileInfo));
+		} else {
+			boolean inserted = false;
+			int index = 1; // Serve to know where to begin the substring to add
+			for (char ch : key.substring(1).toCharArray()) {
+				// if ch not present create a new node and enter the character in the current
+				// node;
+				if (current.getChild(ch) == null) {
+					TrieNode next = new TrieNode(current, key.substring(index), fileInfo);
+					current.getChildrens().put(ch, next);
+					inserted = true;
+					break;
+				}
+				// check if character is present;
+				current = current.getChild(ch);
+				// increment actual index of this for
+				index++;
+			}
+			
+			if (!inserted) {
+				current.setInfo(true);
+				if (current.getValue() == null || current.getValue().isEmpty()) {
+					occurence = new HashMap<>();
+					fileInfo = new HashMap<>();
+					occurence.put(lineNumber, 1);
+					fileInfo.put(fileName, occurence);
+					current.setValue(fileInfo);
+				} else {
+					fileInfo = current.getValue();
+					if (fileInfo.containsKey(fileName)) {
+						occurence = fileInfo.get(fileName);
+						if (occurence.containsKey(lineNumber)) {
+							occurence.put(lineNumber, occurence.get(lineNumber) + 1);
+						} else {
+							occurence.put(lineNumber, 1);
+						}
+					} else {
+						occurence = new HashMap<>();
+						occurence.put(lineNumber, 1);
+						fileInfo.put(fileName, occurence);
+					}
+					current.setValue(fileInfo);
+				}
 			}
 		}
 	}
@@ -72,7 +141,8 @@ public class Trie {
 	 *            the word to remove on this tree
 	 */
 	public void remove(String key) {
-		if (key == null) return;
+		if (key == null)
+			return;
 		if (key.length() > 1) {
 			TrieNode current = search(key);
 			while (current != null && current.getChildrens() != null && current.getChildrens().isEmpty()) {
@@ -83,29 +153,31 @@ public class Trie {
 				}
 				current = father;
 			}
-			if(current == null && getRoot(key) != null && getRoot(key).getChildrens() != null && getRoot(key).getChildrens().isEmpty()) {
+			if (current == null && getRoot(key) != null && getRoot(key).getChildrens() != null
+					&& getRoot(key).getChildrens().isEmpty()) {
 				root.remove(getRoot(key));
 			}
-		} else if (search(key) != null){
+		} else if (search(key) != null) {
 			root.remove(search(key));
 		}
 	}
-	
+
 	/**
 	 * Remove a node occurrence of the tree
 	 * 
 	 * @param key
 	 *            the word to remove on this tree
 	 * @param fileName
-	 * 			  the name of the file to remove occurrence
+	 *            the name of the file to remove occurrence
 	 */
 	public void removeFileOccurrence(String key, String fileName) {
-		if (key == null) return;
+		if (key == null)
+			return;
 		if (key.length() > 1) {
 			TrieNode current = search(key);
-			if(current != null && current.getValue().containsKey(fileName)) {
+			if (current != null && current.getValue().containsKey(fileName)) {
 				current.getValue().remove(fileName);
-				if(current.getValue().isEmpty()) {
+				if (current.getValue().isEmpty()) {
 					while (current != null && current.getChildrens() != null && current.getChildrens().isEmpty()) {
 						TrieNode father = current.getFather();
 						if (father != null) {
@@ -114,14 +186,15 @@ public class Trie {
 						}
 						current = father;
 					}
-					if(current == null && getRoot(key) != null && getRoot(key).getChildrens() != null && getRoot(key).getChildrens().isEmpty()) {
+					if (current == null && getRoot(key) != null && getRoot(key).getChildrens() != null
+							&& getRoot(key).getChildrens().isEmpty()) {
 						root.remove(getRoot(key));
 					}
 				}
 			}
-		} else if (search(key) != null && search(key).getValue().containsKey(fileName)){
+		} else if (search(key) != null && search(key).getValue().containsKey(fileName)) {
 			search(key).getValue().remove(fileName);
-			if(search(key).getValue().isEmpty()) {
+			if (search(key).getValue().isEmpty()) {
 				root.remove(search(key));
 			}
 		}
@@ -136,7 +209,8 @@ public class Trie {
 	 *         the info of the file
 	 */
 	public TrieNode search(String key) {
-		if(key.isEmpty()) return null;
+		if (key.isEmpty())
+			return null;
 		TrieNode current = getRoot(key);
 		if (current != null) {
 			key = key.substring(1);

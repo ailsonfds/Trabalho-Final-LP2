@@ -105,7 +105,15 @@ public class TrieNode {
 	
 	public void addValue(HashMap<String, HashMap<Integer, Integer>> value) {
 		if (info)
-			this.value.putAll(value);
+			for (String fileName : value.keySet()) {
+				if (this.value.containsKey(fileName)) {
+					this.value.get(fileName).putAll(value.get(fileName));
+				}
+			}
+	}
+	
+	public void setValue(HashMap<String, HashMap<Integer, Integer>> value) {
+		this.value = value;
 	}
 
 	/*

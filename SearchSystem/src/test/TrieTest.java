@@ -33,6 +33,7 @@ public class TrieTest {
 		System.out.println("####################################");
 	}
 
+	@SuppressWarnings("deprecation")
 	public void trieTest() {
 		System.out.println("\n--------------inserção-------------\n");
 
@@ -121,6 +122,7 @@ public class TrieTest {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void testGetWords() {
 		w.insert("torah", null, null, null);
 		w.insert("tomus", null, null, null);
