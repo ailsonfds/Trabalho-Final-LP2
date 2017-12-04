@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import exceptions.BlackListException;
 import exceptions.EmptySearchException;
 import exceptions.EmptyWordException;
 import exceptions.FileAlreadyExistsException;
@@ -125,7 +126,7 @@ public class Indexer {
 		return word;
 	}
 
-	public HashMap<String, TrieNode> searchOR(String word) throws EmptyWordException, EmptySearchException {
+	public HashMap<String, TrieNode> searchOR(String word) throws EmptyWordException, EmptySearchException, BlackListException {
 		if (word == null) {
 			throw new EmptyWordException("This search is empty, please insert a valid text");
 		} else {
@@ -137,7 +138,7 @@ public class Indexer {
 				for (String w : words) {
 					String aux = treatWord(w);
 					if (checkOnBlacklist(aux)) {
-						System.out.println("You can't search this, it's on the blacklist.");
+						throw new BlackListException("You can't search this, it's on the blacklist.");
 					} else {
 						node = tree.search(aux);
 						if (node != null) {
@@ -150,7 +151,7 @@ public class Indexer {
 			} else {
 				String aux = treatWord(word);
 				if (checkOnBlacklist(aux)) {
-					System.out.println("You can't search this, it's on the blacklist.");
+					throw new BlackListException("You can't search this, it's on the blacklist.");
 				} else {
 					node = tree.search(aux);
 					if (node != null) {
@@ -167,7 +168,7 @@ public class Indexer {
 		}
 	}
 
-	public HashMap<String, TrieNode> searchAND(String word) throws EmptyWordException, EmptySearchException {
+	public HashMap<String, TrieNode> searchAND(String word) throws EmptyWordException, EmptySearchException, BlackListException {
 		if (word == null) {
 			throw new EmptyWordException("This search is empty, please insert a valid text");
 		}
@@ -181,7 +182,7 @@ public class Indexer {
 			for (String w : words) {
 				String aux = treatWord(w);
 				if (checkOnBlacklist(aux)) {
-					System.out.println("You can't search this, it's on the blacklist.");
+					throw new BlackListException("You can't search this, it's on the blacklist.");
 				} else {
 					node = tree.search(aux);
 					if (node != null) {
@@ -213,7 +214,11 @@ public class Indexer {
 			for (String w : occurences.keySet()) {
 				if (nodesSearched.size() == occurences.get(w).size()) {
 					for (String s : words) {
-						retorno.put(s, tree.search(word));
+						String aux = treatWord(s);
+						if (checkOnBlacklist(aux)) {
+							throw new BlackListException("You can't search this, it's on the blacklist.");
+						}
+						retorno.put(s, tree.search(aux));
 					}
 				}
 			}
@@ -224,7 +229,7 @@ public class Indexer {
 		} else {
 			String aux = treatWord(word);
 			if (checkOnBlacklist(aux)) {
-				System.out.println("You can't search this, it's on the blacklist.");
+				throw new BlackListException("You can't search this, it's on the blacklist.");
 			}
 			node = tree.search(aux);
 			if (node != null) {

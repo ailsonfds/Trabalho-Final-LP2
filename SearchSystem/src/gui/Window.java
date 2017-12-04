@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * The GUI elements generator
- * @author4 Valmir Correa
+ * @author Valmir Correa
  *
  */
 public class Window extends JFrame {
@@ -35,6 +35,7 @@ public class Window extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
+	private Indexer indexer;
 	/**
 	 * @wbp.nonvisual location=199,149
 	 */
@@ -49,7 +50,7 @@ public class Window extends JFrame {
 	 * 
 	 */
 	public Window() {
-		
+		indexer = new Indexer();
 		setBounds(500, 300, 450, 300);		// posi��o de inicio
 		
 		imageIcon.setImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\valmir.correa\\Downloads\\toogle.jpg"));

@@ -20,10 +20,12 @@ public class TrieNode {
 	private HashMap<String, HashMap<Integer, Integer>> value; // Contains the file name (String), line number and the
 																// occurrence number in line.
 	private TrieNode darthVader;
-	
+
 	/**
 	 * Constructor
 	 * 
+	 * @param father
+	 *            a pointer to his father
 	 * @param key
 	 *            the string to store
 	 * @param values
@@ -70,14 +72,20 @@ public class TrieNode {
 		this.info = info;
 	}
 
+	/**
+	 * @return the father
+	 */
 	public TrieNode getFather() {
 		return darthVader;
 	}
 
+	/**
+	 * @param father the father to set
+	 */
 	public void setFather(TrieNode father) {
 		this.darthVader = father;
-	}	
-	
+	}
+
 	/**
 	 * @return the children
 	 */
@@ -97,12 +105,20 @@ public class TrieNode {
 		return null;
 	}
 
+	/**
+	 * @return the value of this node
+	 */
 	public HashMap<String, HashMap<Integer, Integer>> getValue() {
 		if (info)
 			return value;
 		return null;
 	}
-	
+
+	/**
+	 * Add values to this node
+	 * 
+	 * @param value a collection to add to value using addAll metod in Collection class
+	 */
 	public void addValue(HashMap<String, HashMap<Integer, Integer>> value) {
 		if (info)
 			for (String fileName : value.keySet()) {
@@ -111,7 +127,10 @@ public class TrieNode {
 				}
 			}
 	}
-	
+
+	/**
+	 * @param value the value to set
+	 */
 	public void setValue(HashMap<String, HashMap<Integer, Integer>> value) {
 		this.value = value;
 	}
@@ -130,9 +149,9 @@ public class TrieNode {
 			if (children.get(child) != null)
 				retorno += children.get(child);
 		if (info && value != null) {
-			for(String key : value.keySet()) {
+			for (String key : value.keySet()) {
 				retorno += "{" + key;
-				for(Integer key_int : value.get(key).keySet()) {
+				for (Integer key_int : value.get(key).keySet()) {
 					retorno += "{" + key_int + "," + value.get(key).get(key_int) + "}";
 				}
 				retorno += "}";

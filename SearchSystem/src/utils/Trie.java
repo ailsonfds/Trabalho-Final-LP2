@@ -17,6 +17,9 @@ public class Trie {
 
 	private ArrayList<TrieNode> root; // contains all sub-trees within the first value
 
+	/**
+	 * Constructor of this class objects
+	 */
 	public Trie() {
 		root = new ArrayList<>();
 	}
@@ -26,8 +29,12 @@ public class Trie {
 	 * 
 	 * @param key
 	 *            the word to store on this tree
-	 * @param fileInfo
-	 *            a pair containing the info of the word
+	 * @param fileName
+	 *            a string containing the name of the file witch contains the word
+	 * @param lineNumber
+	 *            the number where occur the word in the file
+	 * @param occurences
+	 *            how much times the word occur in the line
 	 */
 	@Deprecated
 	public void insert(String key, String fileName, Integer lineNumber, Integer occurences) {
@@ -72,8 +79,10 @@ public class Trie {
 	 * 
 	 * @param key
 	 *            the word to store on this tree
-	 * @param fileInfo
-	 *            a pair containing the info of the word
+	 * @param fileName
+	 *            a string containing the name of the file witch contains the word
+	 * @param lineNumber
+	 *            the number where occur the word in the file
 	 */
 	public void insert(String key, String fileName, Integer lineNumber) {
 		if (key == null || key.isEmpty()) {
@@ -105,7 +114,8 @@ public class Trie {
 				// increment actual index of this for
 				index++;
 			}
-			
+
+			// Update occurrences in node if it already exist in Trie
 			if (!inserted) {
 				current.setInfo(true);
 				if (current.getValue() == null || current.getValue().isEmpty()) {
@@ -140,6 +150,7 @@ public class Trie {
 	 * @param key
 	 *            the word to remove on this tree
 	 */
+	@Deprecated
 	public void remove(String key) {
 		if (key == null)
 			return;
@@ -235,17 +246,28 @@ public class Trie {
 	 */
 	public TrieNode getRoot(String key) {
 		TrieNode root = null;
-		for (TrieNode current : this.root)
-			if (!key.isEmpty() && current.getKey() == key.charAt(0))
+		for (TrieNode current : this.root) {
+			if (!key.isEmpty() && current.getKey() == key.charAt(0)) {
 				root = current;
+				return root;
+			}
+		}
 		return root;
 	}
 
+	/**
+	 * Print all roots in this Trie
+	 */
 	public void printRoots() {
 		for (TrieNode node : root)
 			System.out.println(node.getKey());
 	}
 
+	/**
+	 * Get all roots
+	 * 
+	 * @return all nodes root
+	 */
 	public ArrayList<TrieNode> getAllRoots() {
 		return root;
 	}
