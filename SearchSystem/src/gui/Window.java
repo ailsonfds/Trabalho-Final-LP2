@@ -3,7 +3,6 @@
  */
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,20 +10,17 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -153,29 +149,31 @@ public class Window extends JFrame {
 	 */
 	private void buscaAnd(String arg) {
 		try {
-			DefaultListModel<String> model = new DefaultListModel<>();
+			ArrayList<String> model = new ArrayList<>();
 			HashMap<String, TrieNode> result = indexer.searchAND(arg);
 			for (String keySearch : result.keySet()) {
 				TrieNode node = result.get(keySearch);
 				if (node.getValue() == null)
-					throw new TrieInsertionException("Ferrou");
+					JOptionPane.showMessageDialog(null, new TrieInsertionException("Valor nulo inserido..."));
 				for (String file : node.getValue().keySet()) {
 					HashMap<Integer, Integer> occr = node.getValue().get(file);
 					for (Integer line : occr.keySet()) {
-						String printout = keySearch + ": " + file + "-> " + line + " : " + occr.get(line) / 2;
-						model.addElement(printout);
+						String printout = keySearch + ": " + " FILE " + file + "-> " + " LINE " + line + " : " + " OCORRÊNCIAS " + occr.get(line) / 2 ;
+						model.add(printout);
 					}
 				}
 			}
-			JPanel actualPanel = new JPanel();
-			JList<String> list = new JList<>(model);
-			JScrollPane scroll = new JScrollPane(list);
-			scroll.setVisible(true);
-
-			actualPanel.add(scroll, BorderLayout.EAST);
-			actualPanel.setVisible(true);
-		} catch (EmptyWordException | EmptySearchException | BlackListException | TrieInsertionException e) {
-			e.printStackTrace();
+			JFrame frame = new JFrame();
+			frame.setBounds(1000, 600, 700, 300);
+			frame.setVisible(true);
+			JTextArea textArea = new JTextArea();
+			for(String m : model){
+			   textArea.append(m + "\n");
+			}
+			textArea.setBounds(500, 300, 450, 300);
+			frame.getContentPane().add(textArea);
+		}  catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			JOptionPane.showMessageDialog(null, e);
 		}
 	}
 
@@ -201,13 +199,13 @@ public class Window extends JFrame {
 			JFrame frame = new JFrame();
 			frame.setBounds(1000, 600, 700, 300);
 			frame.setVisible(true);
-			 JTextArea textArea = new JTextArea();
-			 for(String m : model){
-				   textArea.append(m + "\n");
-				}
-			 textArea.setBounds(500, 300, 450, 300);
-			 frame.getContentPane().add(textArea);
-		} catch (EmptyWordException | EmptySearchException | BlackListException | TrieInsertionException e) {
+			JTextArea textArea = new JTextArea();
+			for(String m : model){
+			   textArea.append(m + "\n");
+			}
+			textArea.setBounds(500, 300, 450, 300);
+			frame.getContentPane().add(textArea);
+		} catch (EmptyWordException | TrieInsertionException e) {
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}

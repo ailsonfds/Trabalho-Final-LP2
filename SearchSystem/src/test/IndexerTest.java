@@ -21,14 +21,14 @@ public class IndexerTest {
 		String filename = "test.txt";
 		String filename2 = "t.txt";
 		String filename3 = "teste.txt";
-		// String filename4 = "biblia-em-txt.txt";
+//		String filename4 = "biblia-em-txt.txt";
 		String word1 = "google";
-		String word2 = "comeÁou";
-		String word3 = "CalifÛrnia";
-		String word4 = "N˙mero site miss„o";
+		String word2 = "come√ßou";
+		String word3 = "Calif√≥rnia";
+		String word4 = "N√∫mero site miss√£o";
 		String word5 = "e";
 		
-		System.out.println("#### INSER«√O TESTE ####");
+		System.out.println("#### INSER√á√ÉO TESTE ####");
 		try {
 			index.addDocument(filename);
 		} catch (FileTypeException | FileAlreadyExistsException e3) {
@@ -44,80 +44,79 @@ public class IndexerTest {
 		} catch (FileTypeException | FileAlreadyExistsException e1) {
 			e1.printStackTrace();
 		}
+//		try {
+//			index.addDocument(filename4);
+//		} catch (FileTypeException | FileAlreadyExistsException e) {
+//			e.printStackTrace();
+//		}
 		System.out.println(index.listDocuments());
-
-		// try {
-		// index.addDocument(filename4);
-		// } catch (FileTypeException | FileAlreadyExistsException e) {
-		// e.printStackTrace();
-		// }
 
 		System.out.println("#### BUSCA OR e AND TESTE ####");
 		try {
 			printSearchResult(index.searchOR(word1));
-		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou " + word1 + " em busca OR");
+		} catch (EmptyWordException e) {
+			System.out.println("N√£o encontrou " + word1 + " em busca OR");
 		}		
 		try {
 			printSearchResult(index.searchOR(word5));
-		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou " + word1 + " em busca OR");
+		} catch (EmptyWordException e) {
+			System.out.println("N√£o encontrou " + word1 + " em busca OR");
 		}
 		try {
 			printSearchResult(index.searchOR(word2));
-		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou " + word2 + " em busca OR");
+		} catch (EmptyWordException e) {
+			System.out.println("N√£o encontrou " + word2 + " em busca OR");
 		}
 		try {
 			printSearchResult(index.searchOR(word3));
-		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou " + word3 + " em busca OR");
+		} catch (EmptyWordException e) {
+			System.out.println("N√£o encontrou " + word3 + " em busca OR");
 		}
 		try {
 			printSearchResult(index.searchOR(word4));
-		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou " + word4 + " em busca OR");
+		} catch (EmptyWordException e) {
+			System.out.println("N√£o encontrou " + word4 + " em busca OR");
 		}
 		try {
 			printSearchResult(index.searchOR("blabla"));
-		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou blabla em busca OR");
+		} catch (EmptyWordException e) {
+			System.out.println("N√£o encontrou blabla em busca OR");
 		}
 
 		try {
 			printSearchResult(index.searchAND(word1));
 		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou " + word1 + " em busca AND");
+			System.out.println("N√£o encontrou " + word1 + " em busca AND");
 		}
 		try {
 			printSearchResult(index.searchAND(word5));
 		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou " + word1 + " em busca AND");
+			System.out.println("N√£o encontrou " + word1 + " em busca AND");
 		}
 		try {
 			printSearchResult(index.searchAND(word2));
 		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou " + word2 + " em busca AND");
+			System.out.println("N√£o encontrou " + word2 + " em busca AND");
 		}
 		try {
 			printSearchResult(index.searchAND(word3));
 		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou " + word3 + " em busca AND");
+			System.out.println("N√£o encontrou " + word3 + " em busca AND");
 		}
 		try {
 			printSearchResult(index.searchAND(word4));
 		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou " + word4 + " em busca AND");
+			System.out.println("N√£o encontrou " + word4 + " em busca AND");
 		}
 		try {
 			printSearchResult(index.searchAND("blabla"));
 		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou blabla em busca AND");
+			System.out.println("N√£o encontrou blabla em busca AND");
 		}
 		try {
 			printSearchResult(index.searchAND("lacinia"));
 		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou lacinia em busca AND");
+			System.out.println("N√£o encontrou lacinia em busca AND");
 		}
 
 		System.out.println("#### BLACKLIST TESTE ####");
@@ -128,13 +127,13 @@ public class IndexerTest {
 		}
 		try {
 			printSearchResult(index.searchOR("sex er√≥tico"));
-		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+		} catch (EmptyWordException e) {
 			System.out.println(e);
 		}
 
 		try {
 			printSearchResult(index.searchOR("sex er√≥tico Google"));
-		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+		} catch (EmptyWordException e) {
 			System.out.println(e);
 		}
 		try {
@@ -176,7 +175,7 @@ public class IndexerTest {
 		try {
 			printSearchResult(index.searchAND(word2));
 		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
-			System.out.println("N„o encontrou " + word2 + " em busca AND");
+			System.out.println("N√£o encontrou " + word2 + " em busca AND");
 		}
 	}
 

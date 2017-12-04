@@ -5,9 +5,12 @@ package index;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import javax.swing.JOptionPane;
 
 import exceptions.BlackListException;
 import exceptions.EmptySearchException;
@@ -163,43 +166,51 @@ public class Indexer {
 	 * @return A HashMap with words and your information.
 	 */
 	public HashMap<String, TrieNode> searchOR(String word)
-			throws EmptyWordException, EmptySearchException, BlackListException {
+			throws EmptyWordException {
 		if (word == null) {
 			throw new EmptyWordException("This search is empty, please insert a valid text");
 		} else {
+			boolean badWordUsed = false; 
+			ArrayList<String> emptySearch = new ArrayList<>();
 			HashMap<String, TrieNode> retorno = new HashMap<>();
 			Trie tree = p.getTree();
 			TrieNode node = null;
-			String[] words = word.split(" ");
-			if (words.length > 1) {
+			HashSet<String> words = new HashSet<>();
+			words.addAll(Arrays.asList(word.split(" ")));
+			if (words.size() > 1) {
 				for (String w : words) {
-					w = treatWord(w);
-					if (checkOnBlacklist(w)) {
-						throw new BlackListException("You can't search this, it's on the blacklist.");
+					String aux = treatWord(w);
+					if (checkOnBlacklist(aux)) {
+						badWordUsed = true;
 					} else {
-						node = tree.search(w);
+						node = tree.search(aux);
 						if (node != null) {
 							retorno.put(w, node);
 						} else {
-							throw new EmptySearchException("No results for: " + w);
+							emptySearch.add(w);
 						}
 					}
 				}
 			} else {
 				String aux = treatWord(word);
 				if (checkOnBlacklist(aux)) {
-					throw new BlackListException("You can't search this, it's on the blacklist.");
+					badWordUsed = true;
 				} else {
 					node = tree.search(aux);
 					if (node != null) {
 						retorno.put(word, node);
 					} else {
-						throw new EmptySearchException("No results for: " + word);
+						emptySearch.add(word);
 					}
 				}
 			}
-			if (retorno.isEmpty()) {
-				throw new EmptySearchException("No results for: " + word);
+			if (retorno.isEmpty() || !emptySearch.isEmpty()) {
+				JOptionPane.showMessageDialog(null, new EmptySearchException("No results for: " + emptySearch));
+				return retorno;
+			}
+			if (badWordUsed) {
+				JOptionPane.showMessageDialog(null, new BlackListException("You can't search this, it's on the blacklist."));
+				return retorno;
 			}
 			return retorno;
 		}
@@ -221,10 +232,11 @@ public class Indexer {
 		HashMap<String, TrieNode> retorno = new HashMap<>();
 		Trie tree = p.getTree();
 		TrieNode node = null;
-		String[] words = word.split(" ");
-		if (words.length > 1) {
+		HashSet<String> words = new HashSet<>();
+		words.addAll(Arrays.asList(word.split(" ")));
+		if (words.size() > 1) {
 			ArrayList<TrieNode> nodesSearched = new ArrayList<>();
-			// Busca na �rvore
+			// Busca na árvore
 			for (String w : words) {
 				w = treatWord(w);
 				if (checkOnBlacklist(w)) {
@@ -242,7 +254,7 @@ public class Indexer {
 				nodesFileName.addAll(n.getValue().keySet());
 			}
 			HashMap<String, ArrayList<TrieNode>> occurences = new HashMap<>();
-			// Verifica a existência dos arquivos na ocorr�ncia das palavras
+			// Verifica a existência dos arquivos na ocorrência das palavras
 			for (String key : nodesFileName) {
 				for (TrieNode n : nodesSearched) {
 					if (n.getValue().containsKey(key)) {
@@ -281,9 +293,6 @@ public class Indexer {
 			if (node != null) {
 				retorno.put(word, node);
 			} else {
-				throw new EmptySearchException("No results for: " + word);
-			}
-			if (retorno.isEmpty()) {
 				throw new EmptySearchException("No results for: " + word);
 			}
 			return retorno;
