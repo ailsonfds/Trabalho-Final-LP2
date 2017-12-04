@@ -193,7 +193,7 @@ public class IndexerTest {
 				HashMap<Integer, Integer> occr = node.getValue().get(file);
 				System.out.println("## " + file + ":");
 				for (Integer line : occr.keySet()) {
-					System.out.println("-> " + line + " : " + occr.get(line));
+					System.out.println("-> " + line + " : " + occr.get(line)/2);
 				}
 			}
 		}
