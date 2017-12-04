@@ -51,7 +51,7 @@ public class Reader extends BufferedReader {
 			System.out.println("Unable to read file: " + fileName);
 		}
 		retorno = removeCharacters(retorno);
-		//retorno = removeNumbers(retorno);
+		retorno = ajustsLowerCase(retorno);
 		if (retorno.isEmpty())
 			return null;
 		return retorno;
@@ -78,11 +78,10 @@ public class Reader extends BufferedReader {
 	 * 
 	 * @return a list within the words of a text
 	 */
-	public ArrayList<String> removeNumbers(ArrayList<String> text) {
-		String myRegex = "[0123456789]"; // REMOVE TODOS OS NÚMEROS
+	public ArrayList<String> ajustsLowerCase(ArrayList<String> text) {
 		int index = 0;
 		for (String word : text) {
-			text.set(index++, word.replaceAll(myRegex, ""));
+			text.set(index++, word.toLowerCase());
 		}
 		return text;
 	}

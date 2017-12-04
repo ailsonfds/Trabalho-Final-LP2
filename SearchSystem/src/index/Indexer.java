@@ -100,11 +100,10 @@ public class Indexer {
 	 *            The Filename that will be removed in the database
 	 * 
 	 * @throws FileTypeException
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 */
 	public void updateDocuments(String filename) throws FileTypeException, FileNotFoundException {
-		if (!(files.contains(filename)))
-		{
+		if (!(files.contains(filename))) {
 			throw new FileNotFoundException("This file is not in the database");
 		}
 		files.remove(filename);
@@ -151,17 +150,20 @@ public class Indexer {
 	public String treatWord(String word) {
 		word = Normalizer.normalize(word, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
 		word = word.replaceAll("[^-a-zA-Z0-9]", "");
+		word = word.toLowerCase();
 		return word;
 	}
 
 	/**
-	 * Receive a word and search on the Trie, if the results are found in a file OR another, that will be saved.
+	 * Receive a word and search on the Trie, if the results are found in a file OR
+	 * another, that will be saved.
 	 * 
 	 * @param word
 	 *            The word that will be searched.
 	 * @return A HashMap with words and your information.
 	 */
-	public HashMap<String, TrieNode> searchOR(String word) throws EmptyWordException, EmptySearchException, BlackListException {
+	public HashMap<String, TrieNode> searchOR(String word)
+			throws EmptyWordException, EmptySearchException, BlackListException {
 		if (word == null) {
 			throw new EmptyWordException("This search is empty, please insert a valid text");
 		} else {
@@ -171,11 +173,11 @@ public class Indexer {
 			String[] words = word.split(" ");
 			if (words.length > 1) {
 				for (String w : words) {
-					String aux = treatWord(w);
-					if (checkOnBlacklist(aux)) {
+					w = treatWord(w);
+					if (checkOnBlacklist(w)) {
 						throw new BlackListException("You can't search this, it's on the blacklist.");
 					} else {
-						node = tree.search(aux);
+						node = tree.search(w);
 						if (node != null) {
 							retorno.put(w, node);
 						} else {
@@ -204,13 +206,15 @@ public class Indexer {
 	}
 
 	/**
-	 * Receive a word and search on the Trie, if the results are found in a file AND another, that will be saved.
+	 * Receive a word and search on the Trie, if the results are found in a file AND
+	 * another, that will be saved.
 	 * 
 	 * @param word
 	 *            The word that will be searched.
 	 * @return A HashMap with words and your information.
 	 */
-	public HashMap<String, TrieNode> searchAND(String word) throws EmptyWordException, EmptySearchException, BlackListException {
+	public HashMap<String, TrieNode> searchAND(String word)
+			throws EmptyWordException, EmptySearchException, BlackListException {
 		if (word == null) {
 			throw new EmptyWordException("This search is empty, please insert a valid text");
 		}
@@ -220,13 +224,13 @@ public class Indexer {
 		String[] words = word.split(" ");
 		if (words.length > 1) {
 			ArrayList<TrieNode> nodesSearched = new ArrayList<>();
-			// Busca na árvore
+			// Busca na �rvore
 			for (String w : words) {
-				String aux = treatWord(w);
-				if (checkOnBlacklist(aux)) {
+				w = treatWord(w);
+				if (checkOnBlacklist(w)) {
 					throw new BlackListException("You can't search this, it's on the blacklist.");
 				} else {
-					node = tree.search(aux);
+					node = tree.search(w);
 					if (node != null) {
 						nodesSearched.add(node);
 					}
@@ -238,7 +242,7 @@ public class Indexer {
 				nodesFileName.addAll(n.getValue().keySet());
 			}
 			HashMap<String, ArrayList<TrieNode>> occurences = new HashMap<>();
-			// Verifica a existência dos arquivos na ocorrência das palavras
+			// Verifica a existência dos arquivos na ocorr�ncia das palavras
 			for (String key : nodesFileName) {
 				for (TrieNode n : nodesSearched) {
 					if (n.getValue().containsKey(key)) {

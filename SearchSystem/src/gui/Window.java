@@ -4,7 +4,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +25,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -83,7 +83,7 @@ public class Window extends JFrame {
 		btnBuscaAnd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String str = textField.getText();
-				buscaOr(str);
+				buscaAnd(str);
 			}
 		});
 		getContentPane().add(btnBuscaAnd);
@@ -182,31 +182,33 @@ public class Window extends JFrame {
 	/**
 	 * Perform "OR" Search
 	 */
-	private void buscaOr(String arg) {
+	private void buscaOr(String word) {
 		try {
-			DefaultListModel<String> model = new DefaultListModel<>();
-			HashMap<String, TrieNode> result = indexer.searchOR(arg);
+			ArrayList<String> model = new ArrayList<>();
+			HashMap<String, TrieNode> result = indexer.searchOR(word);
 			for (String keySearch : result.keySet()) {
 				TrieNode node = result.get(keySearch);
 				if (node.getValue() == null)
-					throw new TrieInsertionException("Ferrou");
+					throw new TrieInsertionException("Something went wrong!");
 				for (String file : node.getValue().keySet()) {
 					HashMap<Integer, Integer> occr = node.getValue().get(file);
 					for (Integer line : occr.keySet()) {
-						String printout = keySearch + ": " + file + "-> " + line + " : " + occr.get(line) / 2;
-						model.addElement(printout);
+						String printout = keySearch + ": " + " FILE " + file + "-> " + " LINE " + line + " : " + " OCORRÊNCIAS " + occr.get(line) / 2 ;
+						model.add(printout);
 					}
 				}
 			}
-			JPanel actualPanel = new JPanel();
-			JList<String> list = new JList<>(model);
-			JScrollPane scroll = new JScrollPane(list);
-			scroll.setVisible(true);
-
-			actualPanel.add(scroll, BorderLayout.EAST);
-			actualPanel.setVisible(true);
+			JFrame frame = new JFrame();
+			frame.setBounds(1000, 600, 700, 300);
+			frame.setVisible(true);
+			 JTextArea textArea = new JTextArea();
+			 for(String m : model){
+				   textArea.append(m + "\n");
+				}
+			 textArea.setBounds(500, 300, 450, 300);
+			 frame.getContentPane().add(textArea);
 		} catch (EmptyWordException | EmptySearchException | BlackListException | TrieInsertionException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e);
 		}
 	}
 
