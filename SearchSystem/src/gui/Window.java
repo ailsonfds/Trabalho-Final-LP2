@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -151,15 +152,38 @@ public class Window extends JFrame {
 		try {
 			ArrayList<String> model = new ArrayList<>();
 			HashMap<String, TrieNode> result = indexer.searchAND(arg);
+			HashSet<String> filesName = new HashSet<>();
+			ArrayList<TrieNode> nodes = new ArrayList<>();
+			for (String keySearch : result.keySet()) {
+				TrieNode node = result.get(keySearch);
+				if (node.getValue() == null)
+					JOptionPane.showMessageDialog(null, new TrieInsertionException("Valor nulo inserido..."));
+				nodes.add(node);
+			}
+			if (!nodes.isEmpty()) {
+				filesName.addAll(nodes.get(0).getValue().keySet());
+			}
+			for (TrieNode node : nodes) {
+				HashSet<String> filesNameAux = new HashSet<>(node.getValue().keySet());
+				HashSet<String> filesNameToRm = new HashSet<>();
+				for (String file : filesName) {
+					if (!filesNameAux.contains(file)) {
+						filesNameToRm.add(file);
+					}
+				}
+				filesName.removeAll(filesNameToRm);
+			}
 			for (String keySearch : result.keySet()) {
 				TrieNode node = result.get(keySearch);
 				if (node.getValue() == null)
 					JOptionPane.showMessageDialog(null, new TrieInsertionException("Valor nulo inserido..."));
 				for (String file : node.getValue().keySet()) {
-					HashMap<Integer, Integer> occr = node.getValue().get(file);
-					for (Integer line : occr.keySet()) {
-						String printout = keySearch + ": " + " FILE " + file + "-> " + " LINE " + line + " : " + " OCORRÊNCIAS " + occr.get(line) / 2 ;
-						model.add(printout);
+					if(filesName.contains(file)) {
+						HashMap<Integer, Integer> occr = node.getValue().get(file);
+						for (Integer line : occr.keySet()) {
+							String printout = file + ": " + occr.get(line) / 2  + " ocorrência da palavra '" + keySearch + "' na linha " + line;
+							model.add(printout);
+						}
 					}
 				}
 			}
@@ -191,7 +215,7 @@ public class Window extends JFrame {
 				for (String file : node.getValue().keySet()) {
 					HashMap<Integer, Integer> occr = node.getValue().get(file);
 					for (Integer line : occr.keySet()) {
-						String printout = keySearch + ": " + " FILE " + file + "-> " + " LINE " + line + " : " + " OCORRÊNCIAS " + occr.get(line) / 2 ;
+						String printout = file + ": " + occr.get(line) / 2  + " ocorrência da palavra '" + keySearch + "' na linha " + line;
 						model.add(printout);
 					}
 				}
