@@ -156,7 +156,7 @@ public class IndexerTest {
 		System.out.println("#### UPDATE TESTE ####");
 		try {
 			index.updateDocuments(filename3);
-		} catch (FileTypeException e) {
+		} catch (FileTypeException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
 

@@ -3,7 +3,6 @@ package exceptions;
 /**
  * This class is responsible to check if words are inserted in the Trie.
  * 
- * @author Ailson Forte dos Santos
  * @author Larissa Gilliane Melo de Moura
  *
  */
@@ -12,7 +11,7 @@ public class TrieInsertionException extends Exception {
 
 	public TrieInsertionException(String message) {
 		super(message);
-		
+
 	}
 
 }

@@ -100,8 +100,13 @@ public class Indexer {
 	 *            The Filename that will be removed in the database
 	 * 
 	 * @throws FileTypeException
+	 * @throws FileNotFoundException 
 	 */
-	public void updateDocuments(String filename) throws FileTypeException {
+	public void updateDocuments(String filename) throws FileTypeException, FileNotFoundException {
+		if (!(files.contains(filename)))
+		{
+			throw new FileNotFoundException("This file is not in the database");
+		}
 		files.remove(filename);
 		p.removeFromTrie(filename);
 		if (!(filename.toLowerCase().contains(extension.toLowerCase()))) {
@@ -114,6 +119,7 @@ public class Indexer {
 				files.add(filename);
 			}
 		}
+
 	}
 
 	/**

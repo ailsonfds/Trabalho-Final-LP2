@@ -3,7 +3,6 @@ package exceptions;
 /**
  * This class is responsible to check if the exists.
  * 
- * @author Ailson Forte dos Santos
  * @author Larissa Gilliane Melo de Moura
  *
  */
