@@ -23,8 +23,8 @@ import utils.TrieNode;
  * @author Larissa Moura
  */
 /*
- * (non-Javadoc) Essa classe é apenas uma classe de interface com outras
- * classes, ou seja, ela é classe de fronteira(Ela não é <interface> apenas
+ * (non-Javadoc) Essa classe ï¿½ apenas uma classe de interface com outras
+ * classes, ou seja, ela ï¿½ classe de fronteira(Ela nï¿½o ï¿½ <interface> apenas
  * interage com outras classes)
  */
 public class Indexer {
