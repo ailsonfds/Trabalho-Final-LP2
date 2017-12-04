@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import exceptions.BlackListException;
 import exceptions.EmptySearchException;
 import exceptions.EmptyWordException;
 import exceptions.FileAlreadyExistsException;
@@ -26,7 +27,7 @@ import utils.TrieNode;
  * 
  * 
  * @author Ailson Forte dos Santos
- * @author Larissa Moura
+ * @author Larissa Gilliane Melo de Moura
  */
 /*
  * (non-Javadoc) Essa classe eh apenas uma classe de interface com outras
@@ -39,6 +40,10 @@ public class Indexer {
 	String extension;
 	Trie trieBlack;
 
+	/**
+	 * Constructor
+	 * 
+	 */
 	public Indexer() {
 		files = new ArrayList<>();
 		p = new Parser();
@@ -52,6 +57,7 @@ public class Indexer {
 	 * @param String
 	 *            filename The Filename that will be add in the database
 	 * @throws FileTypeException
+	 * @throws FileAlreadyExistsException
 	 * 
 	 */
 	public void addDocument(String filename) throws FileTypeException, FileAlreadyExistsException {
@@ -72,9 +78,10 @@ public class Indexer {
 	/**
 	 * Remove a document to the database
 	 * 
-	 * @param String
-	 *            filename The Filename that will be removed in the database
+	 * @param filename
+	 *            The Filename that will be removed in the database
 	 * @throws FileTypeException
+	 * @throws FileAlreadyExistsException
 	 * 
 	 */
 	public void removeDocument(String filename) throws FileNotFoundException {
@@ -88,6 +95,11 @@ public class Indexer {
 
 	/**
 	 * Update the documents from the database
+	 * 
+	 * @param filename
+	 *            The Filename that will be removed in the database
+	 * 
+	 * @throws FileTypeException
 	 */
 	public void updateDocuments(String filename) throws FileTypeException {
 		files.remove(filename);
@@ -105,7 +117,10 @@ public class Indexer {
 	}
 
 	/**
-	 * Will print a list of documents that are present on database
+	 * Returns a list of documents that are present on database and the number of
+	 * words.
+	 * 
+	 * @return a list of documents
 	 */
 	public ArrayList<String> listDocuments() {
 		ArrayList<String> result = new ArrayList<>();
@@ -119,13 +134,28 @@ public class Indexer {
 		return result;
 	}
 
+	/**
+	 * Receive a word and do adjusts the special characters so that can be find on
+	 * the Trie.
+	 * 
+	 * @param word
+	 *            A word that will be treat
+	 * @return The word after the treatment
+	 */
 	public String treatWord(String word) {
 		word = Normalizer.normalize(word, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
 		word = word.replaceAll("[^-a-zA-Z0-9]", "");
 		return word;
 	}
 
-	public HashMap<String, TrieNode> searchOR(String word) throws EmptyWordException, EmptySearchException {
+	/**
+	 * Receive a word and search on the Trie, if the results are found in a file OR another, that will be saved.
+	 * 
+	 * @param word
+	 *            The word that will be searched.
+	 * @return A HashMap with words and your information.
+	 */
+	public HashMap<String, TrieNode> searchOR(String word) throws EmptyWordException, EmptySearchException, BlackListException {
 		if (word == null) {
 			throw new EmptyWordException("This search is empty, please insert a valid text");
 		} else {
@@ -137,7 +167,7 @@ public class Indexer {
 				for (String w : words) {
 					String aux = treatWord(w);
 					if (checkOnBlacklist(aux)) {
-						System.out.println("You can't search this, it's on the blacklist.");
+						throw new BlackListException("You can't search this, it's on the blacklist.");
 					} else {
 						node = tree.search(aux);
 						if (node != null) {
@@ -150,7 +180,7 @@ public class Indexer {
 			} else {
 				String aux = treatWord(word);
 				if (checkOnBlacklist(aux)) {
-					System.out.println("You can't search this, it's on the blacklist.");
+					throw new BlackListException("You can't search this, it's on the blacklist.");
 				} else {
 					node = tree.search(aux);
 					if (node != null) {
@@ -167,7 +197,14 @@ public class Indexer {
 		}
 	}
 
-	public HashMap<String, TrieNode> searchAND(String word) throws EmptyWordException, EmptySearchException {
+	/**
+	 * Receive a word and search on the Trie, if the results are found in a file AND another, that will be saved.
+	 * 
+	 * @param word
+	 *            The word that will be searched.
+	 * @return A HashMap with words and your information.
+	 */
+	public HashMap<String, TrieNode> searchAND(String word) throws EmptyWordException, EmptySearchException, BlackListException {
 		if (word == null) {
 			throw new EmptyWordException("This search is empty, please insert a valid text");
 		}
@@ -181,7 +218,7 @@ public class Indexer {
 			for (String w : words) {
 				String aux = treatWord(w);
 				if (checkOnBlacklist(aux)) {
-					System.out.println("You can't search this, it's on the blacklist.");
+					throw new BlackListException("You can't search this, it's on the blacklist.");
 				} else {
 					node = tree.search(aux);
 					if (node != null) {
@@ -213,7 +250,11 @@ public class Indexer {
 			for (String w : occurences.keySet()) {
 				if (nodesSearched.size() == occurences.get(w).size()) {
 					for (String s : words) {
-						retorno.put(s, tree.search(word));
+						String aux = treatWord(s);
+						if (checkOnBlacklist(aux)) {
+							throw new BlackListException("You can't search this, it's on the blacklist.");
+						}
+						retorno.put(s, tree.search(aux));
 					}
 				}
 			}
@@ -224,7 +265,7 @@ public class Indexer {
 		} else {
 			String aux = treatWord(word);
 			if (checkOnBlacklist(aux)) {
-				System.out.println("You can't search this, it's on the blacklist.");
+				throw new BlackListException("You can't search this, it's on the blacklist.");
 			}
 			node = tree.search(aux);
 			if (node != null) {
@@ -243,7 +284,12 @@ public class Indexer {
 	/**
 	 * Add a blacklist of words
 	 * 
+	 * @param blacklist
+	 *            A Blacklist with a list of words.
 	 * @throws TrieInsertionException
+	 * @throws FileTypeException
+	 * 
+	 * @return true if was correct add in the database.
 	 */
 	public boolean readBlacklist(String blacklist) throws TrieInsertionException, FileTypeException {
 		if (!(blacklist.toLowerCase().contains(extension.toLowerCase()))) {
@@ -260,7 +306,12 @@ public class Indexer {
 	}
 
 	/**
-	 * Add a blacklist of words
+	 * Check if a word is present in the Blacklist
+	 * 
+	 * @param word
+	 *            The word that will be checked.
+	 * 
+	 * @return true if was found.
 	 */
 	public boolean checkOnBlacklist(String word) {
 		String[] words = word.split(" ");

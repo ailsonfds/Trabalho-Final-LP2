@@ -1,5 +1,6 @@
 package index;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ import utils.Trie;
  * {@link https://www.ibm.com/support/knowledgecenter/en/SS6RBX_11.4.3/com.ibm.sa.oomethod.doc/topics/c_Control_Class.html}
  * 
  * @author Ailson Forte dos Santos
+ * @author Larissa Gilliane Melo de Moura
  *
  */
 public class Parser {
@@ -21,6 +23,12 @@ public class Parser {
 
 	Trie tree;
 
+	/**
+	 * Constructor
+	 * 
+	 * @throws FileNotFoundException
+	 *             an exception case file can''t be opened
+	 */
 	public Parser() {
 		try {
 			reader = new Reader("index.txt");
@@ -31,6 +39,16 @@ public class Parser {
 		tree = new Trie();
 	}
 
+	/**
+	 * 
+	 * Receives a line from the file and reads.
+	 * 
+	 * @param lineNumber
+	 *            the line that will be read
+	 * @param filename
+	 *            The file name
+	 * @return a list within the words of a line
+	 */
 	public ArrayList<String> gotToLine(int lineNumber, String filename) {
 		ArrayList<String> words = null;
 		try {
@@ -45,11 +63,27 @@ public class Parser {
 		return words;
 	}
 
+	/**
+	 * 
+	 * Open a document .txt
+	 * 
+	 * @param filename
+	 *            The file name
+	 */
 	public void open(String filename) throws IOException {
 		reader.close();
 		reader = new Reader(filename);
 	}
-	
+
+	/**
+	 * 
+	 * Put the words of the file into a Trie.
+	 * 
+	 * @param filename
+	 *            The file name
+	 * @return A Trie with the words from the file
+	 * 
+	 */
 	public Trie fillTrie(String filename) {
 		ArrayList<String> words = null;
 		int line = 0;
@@ -64,9 +98,18 @@ public class Parser {
 				line++;
 			}
 		} while (words != null);
-		return tree; 
+		return tree;
 	}
-		
+
+	/**
+	 * 
+	 * Remove the words of the file from the Trie.
+	 * 
+	 * @param filename
+	 *            The file name
+	 * @return A Trie with the words from the file
+	 * 
+	 */
 	public Trie removeFromTrie(String filename) {
 		ArrayList<String> words = null;
 		int line = 0;
@@ -74,7 +117,7 @@ public class Parser {
 			words = gotToLine(line++, filename);
 			if (words != null) {
 				for (String word : words) {
-					tree.removeFileOccurrence(word,filename);
+					tree.removeFileOccurrence(word, filename);
 				}
 			}
 		} while (words != null);
@@ -82,6 +125,15 @@ public class Parser {
 		return tree;
 	}
 
+	/**
+	 * 
+	 * Calculates the number of words in the file.
+	 * 
+	 * @param filename
+	 *            The file name
+	 * @return The number of words present in the file.
+	 * 
+	 */
 	public int contWords(String filename) {
 		ArrayList<String> words = null;
 		int line = 0, cont = 0;
@@ -99,6 +151,13 @@ public class Parser {
 		return cont;
 	}
 
+	/**
+	 * 
+	 * Return the Trie
+	 * 
+	 * @return The number of words present in the file.
+	 * 
+	 */
 	public Trie getTree() {
 		return tree;
 	}

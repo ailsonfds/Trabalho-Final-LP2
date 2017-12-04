@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
+import exceptions.BlackListException;
 import exceptions.EmptySearchException;
 import exceptions.EmptyWordException;
 import exceptions.FileAlreadyExistsException;
@@ -54,75 +55,68 @@ public class IndexerTest {
 		System.out.println("#### BUSCA OR e AND TESTE ####");
 		try {
 			printSearchResult(index.searchOR(word1));
-		} catch (EmptyWordException | EmptySearchException e) {
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
 			System.out.println("Não encontrou " + word1 + " em busca OR");
-		}
-		try {
-			printSearchResult(index.searchAND(word1));
-		} catch (EmptyWordException | EmptySearchException e) {
-			System.out.println("Não encontrou " + word1 + " em busca AND");
-		}
-		
+		}		
 		try {
 			printSearchResult(index.searchOR(word5));
-		} catch (EmptyWordException | EmptySearchException e) {
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
 			System.out.println("Não encontrou " + word1 + " em busca OR");
 		}
 		try {
-			printSearchResult(index.searchAND(word5));
-		} catch (EmptyWordException | EmptySearchException e) {
-			System.out.println("Não encontrou " + word1 + " em busca AND");
-		}
-
-		try {
 			printSearchResult(index.searchOR(word2));
-		} catch (EmptyWordException | EmptySearchException e) {
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
 			System.out.println("Não encontrou " + word2 + " em busca OR");
 		}
 		try {
-			printSearchResult(index.searchAND(word2));
-		} catch (EmptyWordException | EmptySearchException e) {
-			System.out.println("Não encontrou " + word2 + " em busca AND");
-		}
-
-		try {
 			printSearchResult(index.searchOR(word3));
-		} catch (EmptyWordException | EmptySearchException e) {
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
 			System.out.println("Não encontrou " + word3 + " em busca OR");
 		}
 		try {
-			printSearchResult(index.searchAND(word3));
-		} catch (EmptyWordException | EmptySearchException e) {
-			System.out.println("Não encontrou " + word3 + " em busca AND");
-		}
-
-		try {
 			printSearchResult(index.searchOR(word4));
-		} catch (EmptyWordException | EmptySearchException e) {
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
 			System.out.println("Não encontrou " + word4 + " em busca OR");
 		}
-
-		try {
-			printSearchResult(index.searchAND(word4));
-		} catch (EmptyWordException | EmptySearchException e) {
-			System.out.println("Não encontrou " + word4 + " em busca AND");
-		}
-
 		try {
 			printSearchResult(index.searchOR("blabla"));
-		} catch (EmptyWordException | EmptySearchException e) {
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
 			System.out.println("Não encontrou blabla em busca OR");
 		}
 
 		try {
+			printSearchResult(index.searchAND(word1));
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			System.out.println("Não encontrou " + word1 + " em busca AND");
+		}
+		try {
+			printSearchResult(index.searchAND(word5));
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			System.out.println("Não encontrou " + word1 + " em busca AND");
+		}
+		try {
+			printSearchResult(index.searchAND(word2));
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			System.out.println("Não encontrou " + word2 + " em busca AND");
+		}
+		try {
+			printSearchResult(index.searchAND(word3));
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			System.out.println("Não encontrou " + word3 + " em busca AND");
+		}
+		try {
+			printSearchResult(index.searchAND(word4));
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			System.out.println("Não encontrou " + word4 + " em busca AND");
+		}
+		try {
 			printSearchResult(index.searchAND("blabla"));
-		} catch (EmptyWordException | EmptySearchException e) {
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
 			System.out.println("Não encontrou blabla em busca AND");
 		}
-
 		try {
 			printSearchResult(index.searchAND("lacinia"));
-		} catch (EmptyWordException | EmptySearchException e) {
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
 			System.out.println("Não encontrou lacinia em busca AND");
 		}
 
@@ -130,40 +124,35 @@ public class IndexerTest {
 		try {
 			index.readBlacklist("blacklist.txt");
 		} catch (TrieInsertionException | FileTypeException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-		try {
-			printSearchResult(index.searchAND("porra"));
-		} catch (EmptyWordException | EmptySearchException e) {
-			System.out.println("Não encontrou lacinia em busca AND");
-		}
-
-		try {
-			printSearchResult(index.searchAND("sex erótico"));
-		} catch (EmptyWordException | EmptySearchException e) {
-			System.out.println("Não encontrou lacinia em busca AND");
-		}
-
 		try {
 			printSearchResult(index.searchOR("sex erótico"));
-		} catch (EmptyWordException | EmptySearchException e) {
-			System.out.println("Não encontrou lacinia em busca AND");
-		}
-		
-		try {
-			printSearchResult(index.searchAND("sex erótico Google"));
-		} catch (EmptyWordException | EmptySearchException e) {
-			System.out.println("Não encontrou lacinia em busca AND");
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			System.out.println(e);
 		}
 
 		try {
 			printSearchResult(index.searchOR("sex erótico Google"));
-		} catch (EmptyWordException | EmptySearchException e) {
-			System.out.println("Não encontrou lacinia em busca AND");
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			System.out.println(e);
 		}
-
+		try {
+			printSearchResult(index.searchAND("porra"));
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			System.out.println(e);
+		}
+		try {
+			printSearchResult(index.searchAND("sex erótico"));
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			System.out.println(e);
+		}
+		try {
+			printSearchResult(index.searchAND("sex erótico Google"));
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			System.out.println(e);
+		}
+		
 		System.out.println("#### UPDATE TESTE ####");
 		try {
 			index.updateDocuments(filename3);
@@ -183,12 +172,19 @@ public class IndexerTest {
 			e.printStackTrace();
 		}
 		System.out.println(index.listDocuments());
+		
+		try {
+			printSearchResult(index.searchAND(word2));
+		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
+			System.out.println("Não encontrou " + word2 + " em busca AND");
+		}
 	}
 
 	public void printSearchResult(final HashMap<String, TrieNode> result) {
 		for (String keySearch : result.keySet()) {
 			TrieNode node = result.get(keySearch);
 			System.out.println("### Ocorrencia de '" + keySearch + "' em:");
+			if(node.getValue() == null) System.out.println("Ferrou");
 			for (String file : node.getValue().keySet()) {
 				HashMap<Integer, Integer> occr = node.getValue().get(file);
 				System.out.println("## " + file + ":");
