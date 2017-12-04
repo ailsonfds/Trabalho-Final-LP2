@@ -131,23 +131,8 @@ public class Window extends JFrame {
 			JPanel resultPanel = new JPanel();
 			JList<String> list = new JList<>();
 			JScrollPane scroll = new JScrollPane(list);
-			JButton returnBtn = new JButton("Retornar a página inicial");
 			
-			returnBtn.setBounds(240, 177, 119, 23);
-			
-			resultPanel.add(scroll);
-			resultPanel.add(returnBtn, BorderLayout.SOUTH);
-			
-			returnBtn.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					remove(resultPanel);
-					add(actualPanel);
-				}
-			});
-			
-			remove(actualPanel);
-			add(resultPanel);
+			actualPanel.add(scroll, BorderLayout.EAST);
 		} catch (EmptyWordException | EmptySearchException | BlackListException e) {
 			e.printStackTrace();
 		}
@@ -175,12 +160,12 @@ public class Window extends JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 
 			file = chooser.getSelectedFile();
+			addFile(file.getName());
 			JOptionPane.showMessageDialog(null, "Arquivo incluido com sucesso!");
 
 		} else if (returnVal == JFileChooser.CANCEL_OPTION) {
 			JOptionPane.showMessageDialog(null, "Cancelado!");
 		}
-		addFile(file.getName());
 	}
 
 	/**
