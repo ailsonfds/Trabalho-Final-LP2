@@ -2,6 +2,7 @@ package test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ public class ParserTest {
 		System.out.println("#### TESTA LEITURA DE DETERMINADA LINHA ####");
 		try {
 			parser.open("test.txt");
-			ArrayList<String> line = parser.gotToLine(3, "test.txt");
+			ArrayList<String> line = new ArrayList<String>(Arrays.asList(parser.gotToLine(3, "test.txt")));
 			for (int i = 0; i < line.size(); i++) {
 				String str = line.get(i);
 				System.out.println(str);
@@ -27,22 +28,24 @@ public class ParserTest {
 			e.printStackTrace();
 		}
 		System.out.println("#### TESTA QUANTIDADE DE PALAVRAS DO TEXTO ####");
-		System.out.println(parser.contWords("test.txt"));
+		System.out.println(parser.contWords("bla.doc.txt"));
 
-		System.out.println("#### TESTA CONSTRUÇÃO DA ÁRVORE ####");
-		trieTest = parser.fillTrie("test.txt");
-		trieTest.printRoots();
+		System.out.println("#### TESTA CONSTRUï¿½ï¿½O DA ï¿½RVORE ####");
+		trieTest = parser.fillTrie("bla.doc.txt");
+		for (TrieNode node : trieTest.getAllRoots()) {
+			System.out.println(node);
+		}
 		System.out.println("#### TESTA PALAVRAS NA TRIE ####");
 		System.out.println(trieTest.getWords("Google"));
 
-		System.out.println("#### IMPRIME ÁRVORE ####");
+		System.out.println("#### IMPRIME ï¿½RVORE ####");
 		for (TrieNode node : parser.getTree().getAllRoots()) {
 			for (String word : parser.getTree().getWords("" + node.getKey())) {
 				System.out.println(word + "-" + parser.getTree().search(word).getValue());
 			}
 		}
 
-		System.out.println("#### TESTA REMOÇÃO ####");
+		System.out.println("#### TESTA REMOï¿½ï¿½O ####");
 		parser.removeFromTrie("test.txt");
 		for (TrieNode node : parser.getTree().getAllRoots()) {
 			for (String word : parser.getTree().getWords("" + node.getKey())) {

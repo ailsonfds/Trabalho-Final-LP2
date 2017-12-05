@@ -70,10 +70,9 @@ public class Indexer {
 			throw new FileAlreadyExistsException("This file already exists in the system.");
 		} else {
 			if (filename != null) {
-				p.fillTrie(filename);
-			}
-			if (p.fillTrie(filename) != null) {
-				files.add(filename);
+				if (p.fillTrie(filename) != null) {
+					files.add(filename);
+				}
 			}
 		}
 	}

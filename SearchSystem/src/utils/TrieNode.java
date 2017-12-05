@@ -19,7 +19,7 @@ public class TrieNode {
 	private boolean info; // true if a node form a word
 	private HashMap<String, HashMap<Integer, Integer>> value; // Contains the file name (String), line number and the
 																// occurrence number in line.
-	private TrieNode darthVader;
+	private TrieNode darthVader; // father of this node
 
 	/**
 	 * Constructor
@@ -40,12 +40,30 @@ public class TrieNode {
 				children.put(key.charAt(1), new TrieNode(this, key.substring(1), values));
 				info = false;
 				value = null;
-			}
-			if (key.length() == 1) {
+			} else {
 				info = true;
 				value = values;
 			}
 		}
+	}
+
+	/**
+	 * Give a child to this node
+	 * 
+	 * @param key
+	 *            the string to store
+	 * @param values
+	 *            the info of the key
+	 */
+	public TrieNode insertChild(String key, HashMap<String, HashMap<Integer, Integer>> values) {
+		if (!key.isEmpty() && this.key == key.charAt(0) && key.length() > 1) {
+			TrieNode child = new TrieNode(this, key.substring(1), values);
+			children.put(key.charAt(1), child);
+		} else if (key.length() == 1) {
+			info = true;
+			addValue(values);
+		}
+		return null;
 	}
 
 	/**
@@ -80,7 +98,8 @@ public class TrieNode {
 	}
 
 	/**
-	 * @param father the father to set
+	 * @param father
+	 *            the father to set
 	 */
 	public void setFather(TrieNode father) {
 		this.darthVader = father;
@@ -99,9 +118,8 @@ public class TrieNode {
 	 * @return a node to the child within the key
 	 */
 	public TrieNode getChild(char key) {
-		for (Character child : children.keySet())
-			if (children.get(child) != null && children.get(child).getKey() == key)
-				return children.get(child);
+		if (children.containsKey(key))
+			return children.get(key);
 		return null;
 	}
 
@@ -117,7 +135,9 @@ public class TrieNode {
 	/**
 	 * Add values to this node
 	 * 
-	 * @param value a collection to add to value using addAll metod in Collection class
+	 * @param value
+	 *            a collection to add to value using addAll metod in Collection
+	 *            class
 	 */
 	public void addValue(HashMap<String, HashMap<Integer, Integer>> value) {
 		if (info)
@@ -129,7 +149,8 @@ public class TrieNode {
 	}
 
 	/**
-	 * @param value the value to set
+	 * @param value
+	 *            the value to set
 	 */
 	public void setValue(HashMap<String, HashMap<Integer, Integer>> value) {
 		this.value = value;

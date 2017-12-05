@@ -2,7 +2,7 @@ package index;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.text.Normalizer;
 
 import utils.Trie;
 
@@ -49,8 +49,8 @@ public class Parser {
 	 *            The file name
 	 * @return a list within the words of a line
 	 */
-	public ArrayList<String> gotToLine(int lineNumber, String filename) {
-		ArrayList<String> words = null;
+	public String[] gotToLine(int lineNumber, String filename) {
+		String[] words = null;
 		try {
 			reader.close();
 			open(filename);
@@ -61,6 +61,30 @@ public class Parser {
 			words = reader.readBreackedLine();
 		} while (words != null && lineNumber-- > 0);
 		return words;
+	}
+	
+	/**
+	 * 
+	 * Receives a line from the file and reads.
+	 * 
+	 * @param lineNumber
+	 *            the line that will be read
+	 * @param filename
+	 *            The file name
+	 * @return a list within the words of a line
+	 */
+	public String[] nextLine(String filename) {
+		if(reader.getFileName().equals(filename)) {
+			String line;
+			try {
+				if ((line = reader.readLine()) != null) {
+					return line.split(" ");
+				}
+			} catch (IOException e) {
+				System.out.println("Unable to read file: " + filename);
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -85,18 +109,20 @@ public class Parser {
 	 * 
 	 */
 	public Trie fillTrie(String filename) {
-		ArrayList<String> words = null;
+		String[] words = gotToLine(0, filename);
 		int line = 0;
 		do {
-			words = gotToLine(line, filename);
-			if (words != null) {
-				for (String word : words) {
-					if (word != null) {
-						tree.insert(word, filename, line);
-					}
+			for (String word : words) {
+				word = Normalizer.normalize(word, Normalizer.Form.NFD);
+				word = word.replaceAll("[^\\p{ASCII}]", "");
+				word = word.replaceAll("[^a-zA-Z0-9]", "");
+				word = word.toLowerCase();
+				if (word != null && !word.isEmpty()) {
+					tree.insert(word, filename, line);
 				}
-				line++;
 			}
+			line++;
+			words = nextLine(filename);
 		} while (words != null);
 		return tree;
 	}
@@ -111,17 +137,16 @@ public class Parser {
 	 * 
 	 */
 	public Trie removeFromTrie(String filename) {
-		ArrayList<String> words = null;
-		int line = 0;
+		String[] words = null;
+		words = gotToLine(0, filename);
 		do {
-			words = gotToLine(line++, filename);
 			if (words != null) {
 				for (String word : words) {
 					tree.removeFileOccurrence(word, filename);
 				}
 			}
+			words = nextLine(filename);
 		} while (words != null);
-
 		return tree;
 	}
 
@@ -135,18 +160,17 @@ public class Parser {
 	 * 
 	 */
 	public int contWords(String filename) {
-		ArrayList<String> words = null;
-		int line = 0, cont = 0;
+		String[] words = gotToLine(0, filename);
+		int cont = 0;
 		do {
-			words = gotToLine(line, filename);
 			if (words != null) {
 				for (String word : words) {
 					if (word != null) {
 						cont++;
 					}
 				}
-				line++;
 			}
+			words = nextLine(filename);
 		} while (words != null);
 		return cont;
 	}

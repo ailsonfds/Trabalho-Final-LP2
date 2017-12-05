@@ -54,11 +54,6 @@ public class Window extends JFrame {
 	 */
 	private final ImageIcon imageIcon = new ImageIcon();
 
-	public static void main(String args[]) {
-		Window teste = new Window();
-		teste.setVisible(true);
-	}
-
 	/**
 	 * Default builder for initializing interface components
 	 */
@@ -156,9 +151,13 @@ public class Window extends JFrame {
 			ArrayList<TrieNode> nodes = new ArrayList<>();
 			for (String keySearch : result.keySet()) {
 				TrieNode node = result.get(keySearch);
-				if (node.getValue() == null)
+				if (node == null) {
+					JOptionPane.showMessageDialog(null, new EmptySearchException("Não encontrado " + keySearch));
+				} else if (node.getValue() == null) {
 					JOptionPane.showMessageDialog(null, new TrieInsertionException("Valor nulo inserido..."));
-				nodes.add(node);
+				} else {
+					nodes.add(node);
+				}
 			}
 			if (!nodes.isEmpty()) {
 				filesName.addAll(nodes.get(0).getValue().keySet());

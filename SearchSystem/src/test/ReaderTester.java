@@ -4,7 +4,6 @@
 package test;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ public class ReaderTester {
 		Reader reader;
 		try {
 			reader = new Reader("t.txt");
-			ArrayList<String> line = reader.readBreackedLine();
+			String[] line = reader.readBreackedLine();
 			for (String word : line) {
 				System.out.println(word);
 			}

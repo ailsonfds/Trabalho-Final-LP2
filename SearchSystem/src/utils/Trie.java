@@ -15,13 +15,13 @@ import java.util.HashMap;
  */
 public class Trie {
 
-	private ArrayList<TrieNode> root; // contains all sub-trees within the first value
+	private HashMap<Character, TrieNode> root; // contains all sub-trees within the first value
 
 	/**
 	 * Constructor of this class objects
 	 */
 	public Trie() {
-		root = new ArrayList<>();
+		root = new HashMap<>();
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class Trie {
 			search(key).addValue(fileInfo);
 
 		if (current == null) {
-			root.add(new TrieNode(current, key, fileInfo));
+			root.put(key.charAt(0), new TrieNode(current, key, fileInfo));
 		} else {
 			boolean inserted = false;
 			int index = 1; // Serve to know where to begin the substring to add
@@ -96,7 +96,7 @@ public class Trie {
 		fileInfo.put(fileName, occurence);
 
 		if (current == null) {
-			root.add(new TrieNode(current, key, fileInfo));
+			root.put(key.charAt(0),new TrieNode(current, key, fileInfo));
 		} else {
 			boolean inserted = false;
 			int index = 1; // Serve to know where to begin the substring to add
@@ -104,8 +104,9 @@ public class Trie {
 				// if ch not present create a new node and enter the character in the current
 				// node;
 				if (current.getChild(ch) == null) {
-					TrieNode next = new TrieNode(current, key.substring(index), fileInfo);
-					current.getChildrens().put(ch, next);
+//					TrieNode next = new TrieNode(current, key.substring(index), fileInfo);
+//					current.getChildrens().put(ch, next);
+					current.insertChild(key.substring(index-1), fileInfo);
 					inserted = true;
 					break;
 				}
@@ -166,10 +167,10 @@ public class Trie {
 			}
 			if (current == null && getRoot(key) != null && getRoot(key).getChildrens() != null
 					&& getRoot(key).getChildrens().isEmpty()) {
-				root.remove(getRoot(key));
+				root.remove(key.charAt(0));
 			}
 		} else if (search(key) != null) {
-			root.remove(search(key));
+			root.remove(key.charAt(0));
 		}
 	}
 
@@ -199,14 +200,14 @@ public class Trie {
 					}
 					if (current == null && getRoot(key) != null && getRoot(key).getChildrens() != null
 							&& getRoot(key).getChildrens().isEmpty()) {
-						root.remove(getRoot(key));
+						root.remove(key.charAt(0));
 					}
 				}
 			}
 		} else if (search(key) != null && search(key).getValue().containsKey(fileName)) {
 			search(key).getValue().remove(fileName);
 			if (search(key).getValue().isEmpty()) {
-				root.remove(search(key));
+				root.remove(key.charAt(0));
 			}
 		}
 	}
@@ -217,7 +218,7 @@ public class Trie {
 	 * @param key
 	 *            the word to seek
 	 * @return the last node containing the last letter on the key and containing
-	 *         the info of the file
+	 *         the info of the file if it exists in the tree, null otherwise.
 	 */
 	public TrieNode search(String key) {
 		if (key.isEmpty())
@@ -245,21 +246,17 @@ public class Trie {
 	 * @return a node containing the path of a (sub-)tree
 	 */
 	public TrieNode getRoot(String key) {
-		TrieNode root = null;
-		for (TrieNode current : this.root) {
-			if (!key.isEmpty() && current.getKey() == key.charAt(0)) {
-				root = current;
-				return root;
-			}
+		if (!key.isEmpty() && this.root.containsKey(key.charAt(0))) {
+			return root.get(key.charAt(0));
 		}
-		return root;
+		return null;
 	}
 
 	/**
 	 * Print all roots in this Trie
 	 */
 	public void printRoots() {
-		for (TrieNode node : root)
+		for (TrieNode node : root.values())
 			System.out.println(node.getKey());
 	}
 
@@ -269,7 +266,7 @@ public class Trie {
 	 * @return all nodes root
 	 */
 	public ArrayList<TrieNode> getAllRoots() {
-		return root;
+		return new ArrayList<TrieNode>(root.values());
 	}
 
 	/**
