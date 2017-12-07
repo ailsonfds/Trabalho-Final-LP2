@@ -180,7 +180,7 @@ public class Window extends JFrame {
 					if(filesName.contains(file)) {
 						HashMap<Integer, Integer> occr = node.getValue().get(file);
 						for (Integer line : occr.keySet()) {
-							String printout = file + ": " + occr.get(line) / 2  + " ocorrência da palavra '" + keySearch + "' na linha " + line;
+							String printout = file + ": " + occr.get(line)  + " ocorrência da palavra '" + keySearch + "' na linha " + line;
 							model.add(printout);
 						}
 					}
@@ -214,7 +214,7 @@ public class Window extends JFrame {
 				for (String file : node.getValue().keySet()) {
 					HashMap<Integer, Integer> occr = node.getValue().get(file);
 					for (Integer line : occr.keySet()) {
-						String printout = file + ": " + occr.get(line) / 2  + " ocorrência da palavra '" + keySearch + "' na linha " + line;
+						String printout = file + ": " + occr.get(line) + " ocorrência da palavra '" + keySearch + "' na linha " + line;
 						model.add(printout);
 					}
 				}
